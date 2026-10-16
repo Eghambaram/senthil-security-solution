@@ -74,7 +74,7 @@ export const privacyPolicy: { title: string; intro: string; sections: LegalSecti
     {
       heading: "Grievances and contact",
       paragraphs: [
-        "If you have a question or complaint about how we handle your personal data, call us on +91 44 4380 6837 or write to us at the office address above. We will respond as soon as possible. If you are not satisfied with our response, you may complain to the Data Protection Board of India.",
+        "If you have a question or complaint about how we handle your personal data, email info@senthilsecuritysolutions.com, call us on +91 44 4380 6837, or write to us at the office address above. We will respond as soon as possible. If you are not satisfied with our response, you may complain to the Data Protection Board of India.",
       ],
     },
     {
@@ -135,7 +135,7 @@ export const terms: { title: string; intro: string; sections: LegalSection[] } =
     },
     {
       heading: "Contact",
-      paragraphs: ["Questions about these terms: call +91 44 4380 6837 or write to us at the address above."],
+      paragraphs: ["Questions about these terms: email info@senthilsecuritysolutions.com, call +91 44 4380 6837 or write to us at the address above."],
     },
   ],
 };

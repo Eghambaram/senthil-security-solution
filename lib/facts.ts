@@ -3,12 +3,22 @@ export type FactStatus = "verified" | "pending" | "missing" | "conflict";
 export type Gated = { status: FactStatus };
 
 /**
- * Whether gated content may render. Verified always; pending only outside
- * production (with a dev badge); missing/conflict never.
+ * Client review mode (NEXT_PUBLIC_REVIEW_MODE=1): a deployed preview that
+ * shows pending content with its yellow badge so the client can approve it,
+ * and is kept out of search engines. Never set it on the live site.
+ */
+export const REVIEW_MODE = process.env.NEXT_PUBLIC_REVIEW_MODE === "1";
+
+/** Whether pending content (and its dev badge) is shown in this build. */
+export const SHOW_PENDING = process.env.NODE_ENV !== "production" || REVIEW_MODE;
+
+/**
+ * Whether gated content may render. Verified always; pending only in
+ * development or review mode (with a badge); missing/conflict never.
  */
 export function isVisible(item: Gated): boolean {
   if (item.status === "verified") return true;
-  if (item.status === "pending") return process.env.NODE_ENV !== "production";
+  if (item.status === "pending") return SHOW_PENDING;
   return false;
 }
 

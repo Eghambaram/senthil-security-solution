@@ -1,10 +1,10 @@
-import { Phone } from "lucide-react";
+import { Mail, MessageCircle, Phone } from "lucide-react";
 import { company } from "@/content/company";
 import { services } from "@/content/services";
 import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { EnquirySteps } from "@/components/sections/EnquirySteps";
 import { PageHero } from "@/components/sections/PageHero";
-import { visible } from "@/lib/facts";
+import { isVisible, visible } from "@/lib/facts";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -17,6 +17,7 @@ export const metadata = buildMetadata({
 export default function SiteAssessmentPage() {
   const serviceOptions = visible(services).map((s) => s.title);
   const phone = company.phone.value;
+  const { mobile, email } = company;
 
   return (
     <>
@@ -51,6 +52,27 @@ export default function SiteAssessmentPage() {
                   <Phone aria-hidden="true" strokeWidth={1.5} className="size-5" />
                   {phone.display}
                 </a>
+                {isVisible(mobile) ? (
+                  <a
+                    href={`https://wa.me/${mobile.value.whatsapp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 flex items-center gap-2 text-[15px] font-semibold text-white hover:text-gold-300"
+                  >
+                    <MessageCircle aria-hidden="true" strokeWidth={1.5} className="size-5 text-gold-500" />
+                    WhatsApp {mobile.value.display}
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                ) : null}
+                {isVisible(email) && email.value ? (
+                  <a
+                    href={`mailto:${email.value}`}
+                    className="mt-2 flex items-center gap-2 text-[15px] [overflow-wrap:anywhere] font-semibold text-white hover:text-gold-300"
+                  >
+                    <Mail aria-hidden="true" strokeWidth={1.5} className="size-5 shrink-0 text-gold-500" />
+                    {email.value}
+                  </a>
+                ) : null}
               </div>
             </div>
           </aside>

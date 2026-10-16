@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { MapPin, Phone } from "lucide-react";
+import { MapPin, MessageCircle, Phone } from "lucide-react";
 import { company } from "@/content/company";
 import { Icon } from "@/components/ui/Icon";
+import { isVisible } from "@/lib/facts";
 
 /** Navy 40px strip above the header. Only the phone shows below 768px. */
 export function UtilityBar() {
@@ -25,6 +26,20 @@ export function UtilityBar() {
               <span>{phone.display}</span>
             </a>
           </li>
+          {isVisible(company.mobile) ? (
+            <li className="hidden border-l border-white/20 px-4 lg:block">
+              <a
+                href={`https://wa.me/${company.mobile.value.whatsapp}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-sm hover:text-gold-300"
+              >
+                <Icon icon={MessageCircle} size={20} className="size-4 text-gold-500" />
+                <span>WhatsApp {company.mobile.value.display}</span>
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            </li>
+          ) : null}
           <li className="hidden border-l border-white/20 px-4 md:block">
             <Link href="/careers" className="rounded-sm hover:text-gold-300">
               Careers

@@ -41,7 +41,7 @@ const FIELD_ORDER = [
   "consent",
 ] as const;
 
-type Status = { kind: "idle" } | { kind: "error"; message: string } | { kind: "success"; reference: string };
+type Status = { kind: "idle" } | { kind: "error"; message: string } | { kind: "success"; reference: string; demo: boolean };
 
 export function EnquiryForm({ variant, serviceOptions = [] }: Props) {
   const isAssessment = variant === "assessment";
@@ -98,7 +98,7 @@ export function EnquiryForm({ variant, serviceOptions = [] }: Props) {
     setStatus({ kind: "idle" });
     const result = await submitForm("/api/enquiry", values);
     if (result.ok) {
-      setStatus({ kind: "success", reference: result.reference });
+      setStatus({ kind: "success", reference: result.reference, demo: result.demo });
       return;
     }
     // Turnstile tokens are single-use: get a fresh one for the retry.
@@ -120,6 +120,7 @@ export function EnquiryForm({ variant, serviceOptions = [] }: Props) {
         title="Thank you. We have your enquiry."
         body="Our team will contact you to discuss your requirements. Please keep your reference handy if you call us."
         reference={status.reference}
+        demo={status.demo}
       />
     );
   }

@@ -105,8 +105,38 @@ export default async function ServicePage({ params }: Props) {
         </div>
       </section>
 
+      {service.procedures ? (
+        <section aria-labelledby="procedures-title" className="section-y">
+          <div className="container-site">
+            <Reveal>
+              <SectionHeading
+                id="procedures-title"
+                eyebrow="How we work"
+                title={service.procedures.title}
+                description={service.procedures.intro}
+              />
+            </Reveal>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {service.procedures.groups.map((group, index) => (
+                <Reveal key={group.title} delay={index * 0.05} className="rounded-lg border border-border p-6">
+                  <h3 className="font-display text-lg font-bold text-navy-900">{group.title}</h3>
+                  <ul className="mt-4 space-y-2.5">
+                    {group.items.map((item) => (
+                      <li key={item} className="flex gap-2.5 text-[15px] text-ink">
+                        <Icon icon={Check} className="mt-0.5 text-gold-ink" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       {/* Benefits + facilities */}
-      <section aria-labelledby="benefits-title" className="section-y">
+      <section aria-labelledby="benefits-title" className={service.procedures ? "section-y border-t border-border" : "section-y"}>
         <div className="container-site grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">
             <Reveal>

@@ -1,40 +1,54 @@
 # Content gaps
 
-Open items that block or limit what the site can show. Updated at the end of Phase 1 (16 Oct 2026).
+Open items that block or limit what the site can show. Last updated 16 Oct 2026, after the project owner supplied the company's legacy website content and Google Business Profile details.
 
 Owner: **Client** = Senthil Security Solutions · **Dev** = build team.
+
+## Resolved from the legacy content (16 Oct 2026)
+
+| Item | Now on the site |
+|---|---|
+| Public email | info@senthilsecuritysolutions.com (contact page, footer, site assessment, privacy policy, JSON-LD) |
+| Mobile / WhatsApp | +91 90943 31333: WhatsApp buttons (floating, mobile bar, utility bar, contact, footer) |
+| Office hours | Mon–Sat 9:00 AM – 6:00 PM, Sunday closed (Google Business Profile) |
+| Personnel strength | "500+" in the hero with footnote "Company-reported figure, as of October 2026" |
+| Ex-forces background, management (GM and ED from CISF / Air Force) | About, homepage, FAQ, careers |
+| Training topics, background verification, PF & ESI | About, careers, FAQ |
+| Managing Director | Mr. K. Senthil Raja, leadership section `/about#leadership` (legacy `/company.php` redirects there) |
+| Confirmed services | Industrial, corporate & commercial (incl. IT sector, ATMs), residential; garment and automobile factories added |
+| Gate / front-desk / patrol procedures | "How we work" sections on the three service pages, rewritten from the legacy "Our Programme" |
+| Vision | About page, rewritten without superlatives |
 
 ## Blocking
 
 | # | Item | Owner | Impact if unresolved |
 |---|---|---|---|
-| 1 | Business email for enquiries and careers. The live site lists `info@` and `support@senthilsecuritysolutions.com`: which inbox is monitored? | Client | Form notifications cannot be sent; no email shown on site |
+| 1 | **Which inbox receives form notifications** (`ENQUIRY_TO_EMAIL`, `CAREERS_TO_EMAIL`), and verifying senthilsecuritysolutions.com in Resend (SPF/DKIM) | Client / Dev | Forms cannot send live; the review preview says "not sent" |
 | 2 | PSARA licence number and validity | Client | No compliance strip; no "licensed" claim anywhere |
-| 3 | Arms-licence status | Client | Armed & Ex-Servicemen page and card stay hidden; "Gunman" role hidden on careers form |
-| 4 | Legal entity (Proprietorship / Partnership / LLP / Pvt Ltd); show GSTIN? | Client | Entity type and GSTIN not printed |
+| 3 | Arms-licence status | Client | Armed & Ex-Servicemen page and card stay hidden; "Gunman" role hidden; "armed guards" never mentioned |
+| 4 | Legal entity: legacy site says "Companies Act 1956" but the GSTIN indicates a firm/LLP. Show GSTIN? | Client | Entity type and GSTIN not printed |
+| 19 | **Legal review of `/privacy-policy` and `/terms`** (drafts in `content/legal.ts`), including a named grievance officer | Client / lawyer | Must be signed off before launch |
 
 ## Important
 
 | # | Item | Owner | Impact if unresolved |
 |---|---|---|---|
-| 5 | Mobile / WhatsApp number. The live site shows 90940 25252, 95511 25252 and 90943 31333; its tel: links dial 044 4850 9111 | Client | No WhatsApp button; mobile bar shows Call + Enquire only |
-| 6 | Personnel strength (site says ~500; third party says 185) and active site count | Client | Hero shows "Ex-forces leadership" instead of a counter |
-| 7 | Confirmed service list (industrial, corporate/commercial, IT, ATM, residential, event, personal protection, religious facilities, armed, housekeeping?) and sectors served | Client | **Production currently shows no service or industry links at all**; homepage service cards will be empty |
-| 8 | Areas served (live site says "Chennai or across India") | Client | Copy says "based in Tambaram, serving Chennai" only |
-| 9 | Office hours (Sulekha: Mon–Sat 9–7) | Client | Hours hidden; no `openingHours` in JSON-LD |
-| 10 | Training topics, PF/ESI benefits, staff verification, ex-forces backgrounds | Client | About/Careers use generic wording without these specifics |
+| 5 | Are +91 90940 25252 and +91 95511 25252 still in use? | Client | Not shown |
+| 6 | Reconfirm "500+" (a third-party estimate said 185) and number of active sites | Client | Shown with "company-reported" footnote |
+| 7 | Still unconfirmed services: event / personal protection, religious venues, warehouses & logistics, housekeeping | Client | Event Security page and the warehouse/event industry pages show only in the review preview |
+| 8 | Areas served (legacy site says "Chennai or all over India") | Client | Copy says "based in Tambaram, serving Chennai" only (FAQ answer pending) |
 | 11 | Approved client names/logos and written testimonials | Client | No client strip; "Company at a glance" used instead |
-| 12 | Leadership names, titles, bios, photos (Senthil Raja per Sulekha) | Client | No leadership section; `/company.php` redirects to `/about` |
-| 13 | Authentic photography or approval for a shoot / illustrative imagery | Client | Neutral navy placeholder frames (see shot list below); site looks unfinished without photos |
+| 12 | MD photo; names of the General Manager and Executive Director (optional) | Client | Initials monogram shown for the MD |
+| 13 | Authentic photography or approval for a shoot | Client | Neutral navy placeholder frames (see shot list below) |
 | 14 | Careers data handler and retention period | Client | Default 6 months, stated in privacy policy as provisional |
 | 15 | Domain/DNS registrar access | Client | Blocks Phase 7 cut-over |
-| 16 | Vector logo (SVG/AI); approval of crest colours (maroon/peach) next to the navy/gold site palette | Client | 200 px raster crest used; may look soft on high-density screens |
-| 17 | Confirm the 4-step approach matches real practice | Client | Process section held back |
+| 16 | Vector logo (SVG/AI); approval of crest colours (maroon/peach) next to the navy/gold palette | Client | 200 px raster crest used |
+| 17 | Confirm the 4-step approach matches real practice | Client | Process section shows only in the review preview |
 | 18 | LinkedIn / Twitter URLs | Client | Facebook only in footer |
-| 19 | **Legal review of `/privacy-policy` and `/terms`** (drafts in `content/legal.ts`), including a named grievance contact | Client / lawyer | Must be signed off before launch |
-| 20 | Careers eligibility: minimum age, education, physical fitness, documents required | Client | Eligibility section not shown |
-| 21 | Response-time commitment for enquiries (e.g. "we reply within one working day") | Client | No promise shown on `/site-assessment` |
+| 20 | Careers eligibility: minimum age, education, physical fitness, documents required | Client | Eligibility section not shown (careers asks applicants to keep ID and address proof ready) |
+| 21 | Response-time commitment for enquiries | Client | No promise shown |
 | 22 | Authentic, approved photos for a gallery | Client | `/gallery` not built; omitted from nav and sitemap |
+| 23 | Google rating (legacy notes "4.1, 9 Google reviews") | Client | Not shown; optional "Rated on Google" link only with approval, never as testimonials |
 
 ## Photography shot list
 
@@ -55,9 +69,8 @@ Every image slot is in `content/images.ts`. Until approved photos exist, these r
 
 ## Copy needing client review
 
-- Why-choose-us one-line support text and the four "Our approach" step descriptions (`content/home.ts`).
-- Homepage FAQ answers (`content/faqs.ts`).
-- All service page copy and FAQs (`content/services.ts`) — each service goes live only when switched to `verified`.
-- All industry page copy (`content/industries.ts`).
-- About page story and values (`content/about.ts`), careers copy (`content/careers.ts`).
+- Why-choose-us support lines and "Our approach" steps (`content/home.ts`).
+- FAQ answers (`content/faqs.ts`).
+- Service and industry page copy, including the "How we work" procedures (`content/services.ts`, `content/industries.ts`).
+- About page story, vision, leadership bio and values (`content/about.ts`); careers copy (`content/careers.ts`).
 - "How an enquiry works" steps (`enquirySteps` in `content/services.ts`).

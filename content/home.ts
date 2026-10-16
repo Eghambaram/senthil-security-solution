@@ -36,7 +36,7 @@ export const trustRow: TrustItem[] = [
     label: "Security personnel*",
     value: "500+",
     footnote: "*Company-reported figure, as of October 2026.",
-    status: "pending",
+    status: "verified",
   },
   { id: "teams", label: "Teams that are", value: "Trained & disciplined", status: "verified" },
   { id: "location", label: "Based in", value: "Tambaram, Chennai", status: "verified" },
@@ -67,12 +67,12 @@ export const about = {
   /** Shown only once the ex-forces background is confirmed. */
   forcesSentence: {
     text: "Our teams are built on the discipline of people who have served in India’s armed and disciplined forces, and on a simple commitment: show up, stay vigilant and keep you informed.",
-    status: "pending" as FactStatus,
+    status: "verified" as FactStatus,
   },
   commitmentSentence: "Our teams are built on a simple commitment: show up, stay vigilant and keep you informed.",
   indicators: [
-    { id: "management", label: "Experienced management", status: "pending" as FactStatus },
-    { id: "trained", label: "Trained personnel", status: "pending" as FactStatus },
+    { id: "management", label: "Experienced management", status: "verified" as FactStatus },
+    { id: "trained", label: "Trained personnel", status: "verified" as FactStatus },
     { id: "client", label: "Client-focused approach", status: "verified" as FactStatus },
   ],
   cta: { label: "Know More About Us", href: "/about" },
@@ -89,7 +89,7 @@ export const whyChooseUs = {
   title: "More than security. A long‑term partner.",
   description: "We focus on people, process and consistent service to create safer workplaces and communities.",
   items: [
-    { id: "trained", title: "Trained, disciplined personnel", body: "Officers who follow site procedures and keep proper records." },
+    { id: "trained", title: "Trained, disciplined personnel", body: "Background-verified officers, trained for the site before deployment." },
     { id: "plans", title: "Plans built around your site", body: "Deployment shaped by your layout, shifts and risks." },
     { id: "safety", title: "Safety and discipline first", body: "Clear conduct standards on every shift." },
     { id: "sectors", title: "Experience across sectors", body: "Factories, offices and residential communities since 2012." },

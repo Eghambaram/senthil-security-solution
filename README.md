@@ -41,6 +41,10 @@ Business facts live in `content/` with a `status` per item (`lib/facts.ts`):
 
 Because every service and industry is still `pending`, a production build currently shows no service or industry links. That is intended until the client confirms them (`docs/CONTENT-GAPS.md`).
 
+## Client review preview
+
+Build with `NEXT_PUBLIC_REVIEW_MODE=1` to deploy a preview for client approval: pending content is shown with yellow **PENDING** badges and photo briefs, search engines are blocked (`noindex`, `robots.txt Disallow: /`), and forms work without backends but clearly say the submission was **not sent**. Never set this flag on the live site.
+
 ## Styleguide
 
 `/styleguide` shows every token and component. It returns 404 in production.

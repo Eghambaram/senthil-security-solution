@@ -1,10 +1,12 @@
 /**
  * Business facts register — mirrors CLAUDE.md §3.
- * Only `verified` facts may render in production. `pending` facts render
- * nothing in production and a yellow dev badge in development. `missing`
- * and `conflict` facts never render.
+ * Only `verified` facts render on the live site. `pending` facts render
+ * only in development and client review mode (with a yellow badge).
+ * `missing` and `conflict` facts never render.
  *
- * Re-audited 16 Oct 2026 (live site + public listings).
+ * Re-audited 16 Oct 2026 (live site + public listings). Updated the same day
+ * with content from the company’s own legacy website and Google Business
+ * Profile, supplied by the project owner for the client-approval build.
  */
 
 import type { FactStatus } from "@/lib/facts";
@@ -26,13 +28,13 @@ export const company = {
   foundingDate: {
     value: "2012-05-26",
     status: "verified",
-    source: "Facebook, Sulekha, live site ('registered on 26-05-2012')",
+    source: "Company legacy website (‘26-05-2012’), Facebook, Sulekha",
   },
   legalEntity: {
     value: null,
     status: "conflict",
-    source: "Facebook vs Justdial GSTIN",
-    note: "Facebook says Companies Act 1956; GSTIN PAN segment indicates Firm/LLP. Do not print.",
+    source: "Legacy website / Facebook vs Justdial GSTIN",
+    note: "Legacy site and Facebook say ‘registered as per Companies Act 1956’; the GSTIN PAN segment indicates a Firm/LLP. Do not print.",
   },
   gstin: {
     value: "33ACDFS1683A1ZJ",
@@ -51,8 +53,7 @@ export const company = {
       landmark: "Near G K Restaurant",
     },
     status: "verified",
-    source: "Justdial, Sulekha, Facebook; live site shows '2 Station Road'",
-    note: "Confirm exact formatting with client.",
+    source: "Legacy website, Google Business Profile (‘2, Station Rd, Kamaraj Nagar’), Justdial",
   },
   geo: {
     value: { lat: 12.937477, lng: 80.1287727 },
@@ -62,46 +63,46 @@ export const company = {
   phone: {
     value: { display: "+91 44 4380 6837", tel: "+914443806837" },
     status: "verified",
-    source: "Facebook, ZoomInfo, live site",
+    source: "Legacy website, Facebook, ZoomInfo",
   },
   mobile: {
-    value: null,
-    status: "pending",
-    source: "Live site (16 Oct 2026)",
-    note: "Live site shows +91 90940 25252, +91 95511 25252 and +91 90943 31333; tel: links point to +91 44 4850 9111. Client to confirm which is the WhatsApp business number.",
+    value: { display: "+91 90943 31333", tel: "+919094331333", whatsapp: "919094331333" },
+    status: "verified",
+    source: "Project owner (16 Oct 2026): active for calls and WhatsApp; Google Business Profile",
+    note: "Legacy site also lists +91 90940 25252 and +91 95511 25252; not shown until confirmed.",
   },
   email: {
-    value: null,
-    status: "pending",
-    source: "Live site (16 Oct 2026)",
-    note: "Live site lists info@ and support@senthilsecuritysolutions.com. Confirm which inbox is monitored for enquiries and careers.",
+    value: "info@senthilsecuritysolutions.com",
+    status: "verified",
+    source: "Company legacy website (supplied by project owner)",
+    note: "Legacy site also lists support@senthilsecuritysolutions.com. Form notifications go to ENQUIRY_TO_EMAIL / CAREERS_TO_EMAIL.",
   },
   hours: {
-    value: { days: "Mon–Sat", opens: "09:00", closes: "19:00" },
-    status: "pending",
-    source: "Sulekha",
+    value: { days: "Mon–Sat", opens: "09:00", closes: "18:00", closed: "Sunday" },
+    status: "verified",
+    source: "Google Business Profile (supplied by project owner); replaces Sulekha’s 9–7",
   },
-  contactPerson: {
-    value: "Senthil Raja",
-    status: "pending",
-    source: "Sulekha",
-    note: "Name and title needed before any leadership section.",
+  managingDirector: {
+    value: { name: "Mr. K. Senthil Raja", title: "Managing Director", qualification: "MCA graduate" },
+    status: "verified",
+    source: "Company legacy website, ‘The Team’ page",
+    note: "No photo yet; an initials monogram is shown.",
   },
   personnelStrength: {
     value: 500,
-    status: "pending",
-    source: "Facebook, live site (self-reported, undated)",
-    note: "Third-party estimate: 185 employees. Show '500+' only with client confirmation and a dated footnote.",
+    status: "verified",
+    source: "Company legacy website and Facebook (company-reported)",
+    note: "Shown as ‘500+’ with the footnote ‘Company-reported figure, as of October 2026’. A third-party estimate was 185 employees: confirm at client review.",
   },
   personnelBackground: {
     value: ["CISF", "Air Force", "Navy", "Army"],
-    status: "pending",
-    source: "Facebook, live site",
+    status: "verified",
+    source: "Company legacy website, Facebook",
   },
   managementBackground: {
-    value: "Two managerial staff from CISF / Air Force",
-    status: "pending",
-    source: "Facebook",
+    value: "The General Manager and the Executive Director come from the CISF and the Air Force",
+    status: "verified",
+    source: "Company legacy website, Facebook",
   },
   training: {
     value: [
@@ -110,35 +111,35 @@ export const company = {
       "First aid",
       "Bomb-threat response",
       "Crime detection",
+      "Intelligence collection and vigilance",
+      "Disaster management and mock drills",
     ],
-    status: "pending",
-    source: "Sulekha, live site",
+    status: "verified",
+    source: "Company legacy website",
   },
   staffWelfare: {
-    value: ["Staff verification", "PF and ESI benefits"],
-    status: "pending",
-    source: "Live site (16 Oct 2026)",
+    value: ["Antecedent (background) verification before induction", "PF and ESI benefits"],
+    status: "verified",
+    source: "Company legacy website",
   },
   servicesListed: {
     value: [
-      "Industrial / factory",
-      "Commercial",
-      "IT",
-      "ATM",
-      "Residential",
-      "Personal bodyguards",
-      "Event",
-      "Religious facilities",
-      "Armed guards",
+      "Major industrial units",
+      "Commercial establishments",
+      "Garment factories",
+      "Automobile industries",
+      "IT sector",
+      "ATMs",
+      "Residential apartments",
     ],
-    status: "pending",
-    source: "Sulekha, Justdial, ZoomInfo, live site",
-    note: "Confirm per service. Armed guards gated on PSARA + arms licence.",
+    status: "verified",
+    source: "Company legacy website, About Us",
+    note: "Event, religious-venue and personal-bodyguard services appear only in third-party listings (still pending). Armed guards gated on PSARA + arms licence.",
   },
   serviceArea: {
     value: null,
     status: "missing",
-    source: "Live site mentions 'Chennai or across India'",
+    source: "Legacy site says ‘Chennai or all over India’",
     note: "Confirm actual coverage before claiming beyond Chennai.",
   },
   psaraLicence: { value: null, status: "missing", source: "Not found" },
@@ -146,14 +147,14 @@ export const company = {
   clients: {
     value: null,
     status: "missing",
-    source: "Not on live site",
+    source: "Legacy ‘Clients’ page is image-only",
     note: "Need written permission per logo.",
   },
   justdialRating: {
     value: { rating: 4.5, count: 28, asOf: "2026-10" },
     status: "pending",
     source: "Justdial",
-    note: "Optional 'Rated on Justdial' link only; never as testimonials.",
+    note: "Optional ‘Rated on Justdial’ link only; never as testimonials.",
   },
   social: {
     value: { facebook: "https://www.facebook.com/ssschennaicity" },

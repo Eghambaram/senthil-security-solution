@@ -1,4 +1,4 @@
-import { Clock, ExternalLink, Mail, MapPin, Phone, type LucideIcon } from "lucide-react";
+import { Clock, ExternalLink, Mail, MapPin, MessageCircle, Phone, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { company } from "@/content/company";
@@ -25,7 +25,7 @@ function ContactItem({ icon, label, children }: { icon: LucideIcon; label: strin
       <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-navy-900 text-gold-500">
         <Icon icon={icon} />
       </span>
-      <div>
+      <div className="min-w-0">
         <h3 className="text-sm font-semibold uppercase tracking-[0.08em] text-ink-muted">{label}</h3>
         <div className="mt-1 text-[16px] text-ink">{children}</div>
       </div>
@@ -34,7 +34,7 @@ function ContactItem({ icon, label, children }: { icon: LucideIcon; label: strin
 }
 
 export default function ContactPage() {
-  const { address, phone, email, hours, geo } = company;
+  const { address, phone, mobile, email, hours, geo } = company;
   const a = address.value;
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${geo.value.lat},${geo.value.lng}`;
 
@@ -56,10 +56,31 @@ export default function ContactPage() {
                 <a href={`tel:${phone.value.tel}`} className="font-semibold text-navy-900 underline-offset-4 hover:underline">
                   {phone.value.display}
                 </a>
+                {isVisible(mobile) ? (
+                  <>
+                    <br />
+                    <a href={`tel:${mobile.value.tel}`} className="font-semibold text-navy-900 underline-offset-4 hover:underline">
+                      {mobile.value.display}
+                    </a>
+                  </>
+                ) : null}
               </ContactItem>
+              {isVisible(mobile) ? (
+                <ContactItem icon={MessageCircle} label="WhatsApp">
+                  <a
+                    href={`https://wa.me/${mobile.value.whatsapp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-navy-900 underline-offset-4 hover:underline"
+                  >
+                    Chat on WhatsApp: {mobile.value.display}
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                </ContactItem>
+              ) : null}
               {isVisible(email) && email.value ? (
                 <ContactItem icon={Mail} label="Email">
-                  <a href={`mailto:${email.value}`} className="font-semibold text-navy-900 underline-offset-4 hover:underline">
+                  <a href={`mailto:${email.value}`} className="font-semibold text-navy-900 underline-offset-4 [overflow-wrap:anywhere] hover:underline">
                     {email.value}
                   </a>
                   {isPending(email) ? <PendingBadge /> : null}
@@ -80,6 +101,8 @@ export default function ContactPage() {
               {isVisible(hours) ? (
                 <ContactItem icon={Clock} label="Office hours">
                   {hours.value.days}, {formatTime(hours.value.opens)} – {formatTime(hours.value.closes)}
+                  <br />
+                  <span className="text-ink-muted">{hours.value.closed}: closed</span>
                   {isPending(hours) ? <PendingBadge /> : null}
                 </ContactItem>
               ) : null}
@@ -112,6 +135,25 @@ export default function ContactPage() {
                 <EnquiryForm variant="contact" />
               </div>
             </div>
+            {isVisible(email) && email.value ? (
+              <div className="mt-6 flex flex-col gap-4 rounded-lg border border-border bg-surface p-6">
+                <div className="flex items-center gap-4">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-navy-900 text-gold-500">
+                    <Icon icon={Mail} />
+                  </span>
+                  <div>
+                    <p className="font-display text-lg font-bold text-navy-900">Prefer email?</p>
+                    <p className="text-[15px] text-ink-muted">Drop us a line and we will reply from our office.</p>
+                  </div>
+                </div>
+                <a
+                  href={`mailto:${email.value}`}
+                  className="font-semibold text-gold-ink underline underline-offset-4 [overflow-wrap:anywhere]"
+                >
+                  {email.value}
+                </a>
+              </div>
+            ) : null}
           </div>
         </div>
       </section>

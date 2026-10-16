@@ -17,21 +17,22 @@ test.describe("site assessment form", () => {
     await expect(page.locator('[aria-invalid="true"]')).toHaveCount(7);
   });
 
-  test("submits successfully and shows a reference", async ({ page }) => {
+  test("submits and shows a reference, saying plainly that a preview did not send", async ({ page }) => {
     await page.goto("/site-assessment");
     await page.getByLabel("Full name").fill("Priya Raman");
     await page.getByLabel("Organisation").fill("Raman Textiles");
     await page.getByLabel("Phone").fill("98765 43210");
     await page.getByLabel("Email").fill("priya@example.com");
-    await page.getByLabel("Service required").selectOption("Not sure / need advice");
+    await page.getByLabel("Service required").selectOption("Industrial Security");
     await page.getByLabel("Type of premises").selectOption("Factory");
     await page.getByLabel("Site location").fill("Guindy, Chennai");
     await page.locator("#enq-assessment-consent").check();
     await waitForHumanTiming(page);
     await page.getByRole("button", { name: "Request a Site Assessment" }).last().click();
 
+    // E2E runs on in-memory backends, so the panel must say nothing was sent.
     const success = page.getByRole("status");
-    await expect(success).toContainText("We have your enquiry");
+    await expect(success).toContainText("not sent");
     await expect(success).toContainText(/SSS-ENQ-\d{6}-[2-9A-Z]{4}/);
   });
 
@@ -106,6 +107,7 @@ test.describe("careers form", () => {
     await waitForHumanTiming(page);
     await page.getByRole("button", { name: "Submit Application" }).click();
     await expect(page.getByRole("status")).toContainText(/SSS-APP-\d{6}-[2-9A-Z]{4}/);
+    await expect(page.getByRole("status")).toContainText("not sent");
   });
 
   test("rejects a disguised file on the server and explains why", async ({ page }) => {

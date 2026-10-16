@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Clock, ExternalLink, MapPin, Phone } from "lucide-react";
+import { Clock, ExternalLink, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { company } from "@/content/company";
 import { industries } from "@/content/industries";
 import { legalLinks } from "@/content/navigation";
@@ -19,14 +19,14 @@ const quickLinks = [
   { label: "Request a Site Assessment", href: "/site-assessment" },
 ] as const;
 
-const linkClass ="rounded-sm text-white/75 transition-colors hover:text-gold-300";
+const linkClass = "rounded-sm text-white/75 transition-colors hover:text-gold-300";
 
 function FooterHeading({ children }: { children: React.ReactNode }) {
   return <h2 className="font-display text-sm font-bold uppercase tracking-[0.12em] text-white">{children}</h2>;
 }
 
 export function Footer() {
-  const { address, phone, hours, geo, social, gstin } = company;
+  const { address, phone, mobile, email, hours, geo, social, gstin } = company;
   const a = address.value;
   const mapHref = `https://www.google.com/maps/search/?api=1&query=${geo.value.lat},${geo.value.lng}`;
   const year = new Date().getFullYear();
@@ -111,15 +111,43 @@ export function Footer() {
             </p>
             <p className="flex gap-3">
               <Icon icon={Phone} className="mt-0.5 text-gold-500" />
-              <a href={`tel:${phone.value.tel}`} className={linkClass}>
-                {phone.value.display}
-              </a>
+              <span>
+                <a href={`tel:${phone.value.tel}`} className={linkClass}>
+                  {phone.value.display}
+                </a>
+                {isVisible(mobile) ? (
+                  <>
+                    <br />
+                    <a href={`tel:${mobile.value.tel}`} className={linkClass}>
+                      {mobile.value.display}
+                    </a>
+                  </>
+                ) : null}
+              </span>
             </p>
+            {isVisible(mobile) ? (
+              <p className="flex gap-3">
+                <Icon icon={MessageCircle} className="mt-0.5 text-gold-500" />
+                <a href={`https://wa.me/${mobile.value.whatsapp}`} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                  WhatsApp us<span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              </p>
+            ) : null}
+            {isVisible(email) && email.value ? (
+              <p className="flex gap-3">
+                <Icon icon={Mail} className="mt-0.5 text-gold-500" />
+                <a href={`mailto:${email.value}`} className={`${linkClass} [overflow-wrap:anywhere]`}>
+                  {email.value}
+                </a>
+              </p>
+            ) : null}
             {isVisible(hours) ? (
               <p className="flex gap-3">
                 <Icon icon={Clock} className="mt-0.5 text-gold-500" />
                 <span>
                   {hours.value.days}, {formatTime(hours.value.opens)} – {formatTime(hours.value.closes)}
+                  <br />
+                  {hours.value.closed}: closed
                   {isPending(hours) ? <PendingBadge /> : null}
                 </span>
               </p>

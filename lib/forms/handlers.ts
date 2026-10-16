@@ -2,7 +2,7 @@ import type { z } from "zod";
 import { careersPage } from "@/content/careers";
 import { company } from "@/content/company";
 import { services } from "@/content/services";
-import { ConfigError, getBackends, type Backends } from "@/lib/config";
+import { ConfigError, getBackends, isDemo, type Backends } from "@/lib/config";
 import { createStore, type FormStore } from "@/lib/db/store";
 import { applicationEmail, enquiryEmail } from "@/lib/email/templates";
 import { createMailer, recipients, type Mailer } from "@/lib/email/send";
@@ -187,7 +187,7 @@ export async function handleEnquiry(request: Request, getDeps: () => Deps = crea
     console.error("enquiry notification failed", reference, sent.error);
     return fail(502, MESSAGES.notifyFailed);
   }
-  return json(200, { ok: true, reference });
+  return json(200, { ok: true, reference, ...(isDemo(deps.backends) ? { demo: true } : {}) });
 }
 
 /** POST /api/careers — multipart application with optional CV. */
@@ -316,5 +316,5 @@ export async function handleCareers(request: Request, getDeps: () => Deps = crea
     console.error("application notification failed", reference, sent.error);
     return fail(502, MESSAGES.notifyFailed);
   }
-  return json(200, { ok: true, reference });
+  return json(200, { ok: true, reference, ...(isDemo(deps.backends) ? { demo: true } : {}) });
 }

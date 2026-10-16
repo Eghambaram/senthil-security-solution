@@ -4,7 +4,7 @@
  * else — network failure, non-2xx, malformed body — is an error.
  */
 export type SubmitResult =
-  | { ok: true; reference: string }
+  | { ok: true; reference: string; demo: boolean }
   | { ok: false; message: string; fieldErrors?: Record<string, string> };
 
 const GENERIC_ERROR = "We couldn’t send your details just now. Please try again, or call us instead.";
@@ -29,7 +29,9 @@ export async function submitForm(url: string, body: FormData | Record<string, un
     // Non-JSON body (e.g. a 404 page) — treated as a failure below.
   }
 
-  if (response.ok && isSuccess(data)) return { ok: true, reference: data.reference };
+  if (response.ok && isSuccess(data)) {
+    return { ok: true, reference: data.reference, demo: (data as { demo?: unknown }).demo === true };
+  }
 
   const err = (data ?? {}) as { error?: unknown; fieldErrors?: unknown };
   return {

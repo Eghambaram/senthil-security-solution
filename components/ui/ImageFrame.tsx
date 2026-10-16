@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { images, type ImageKey } from "@/content/images";
 import { cn } from "@/lib/cn";
+import { SHOW_PENDING } from "@/lib/facts";
 
 type Props = {
   image: ImageKey;
@@ -21,8 +22,8 @@ export function hasPhoto(key: ImageKey): boolean {
 /**
  * Fills its (positioned, sized) parent with the approved photo, or with a
  * neutral navy frame until one exists. In development the frame carries a
- * "Photo pending" label with the shot brief; in production it is a plain,
- * decorative panel.
+ * "Photo pending" label with the shot brief (also in client review mode);
+ * on the live site it is a plain, decorative panel.
  */
 export function ImageFrame({ image, sizes, priority = false, className, imgClassName }: Props) {
   const entry = images[image];
@@ -42,7 +43,7 @@ export function ImageFrame({ image, sizes, priority = false, className, imgClass
     );
   }
 
-  const showLabel = process.env.NODE_ENV !== "production";
+  const showLabel = SHOW_PENDING;
 
   return (
     <div

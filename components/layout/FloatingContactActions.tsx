@@ -22,7 +22,7 @@ export function FloatingContactActions() {
 
   const phone = company.phone.value;
   const mobile = company.mobile;
-  const whatsapp = isVisible(mobile) && mobile.value ? `https://wa.me/${String(mobile.value).replace(/\D/g, "")}` : null;
+  const whatsapp = isVisible(mobile) ? `https://wa.me/${mobile.value.whatsapp}` : null;
 
   useEffect(() => {
     let lastY = window.scrollY;

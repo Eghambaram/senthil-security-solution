@@ -23,13 +23,13 @@ export const careersPage = {
       },
       {
         title: "Training",
-        body: "Training in security procedures, fire safety and first aid.",
-        status: "pending" as FactStatus,
+        body: "Training in security procedures, fire safety, first aid and emergency drills before you are posted.",
+        status: "verified" as FactStatus,
       },
       {
         title: "Statutory benefits",
-        body: "PF and ESI as applicable.",
-        status: "pending" as FactStatus,
+        body: "PF and ESI for our security staff.",
+        status: "verified" as FactStatus,
       },
     ],
   },
@@ -60,8 +60,10 @@ export const careersPage = {
   exServicemen: {
     title: "Ex-servicemen welcome",
     body: "If you have served in the Army, Navy, Air Force or a central armed police force, your experience is valued here. Mention your service in the application.",
-    status: "pending" as FactStatus,
+    status: "verified" as FactStatus,
   },
+  verificationNote:
+    "All our security personnel are inducted only after a thorough antecedent (background) verification. Please keep your ID and address proof ready.",
   privacyNote:
     "We use your details only to assess your application and contact you about it. Read our privacy policy for how long we keep applications and how to ask us to delete them.",
 } as const;

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Manrope } from "next/font/google";
+import { REVIEW_MODE } from "@/lib/facts";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: `${SITE_NAME}, Chennai`, template: `%s | ${SITE_NAME}, Chennai` },
   applicationName: SITE_NAME,
+  ...(REVIEW_MODE ? { robots: { index: false, follow: false } } : {}),
 };
 
 export const viewport: Viewport = {

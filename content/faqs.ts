@@ -27,20 +27,32 @@ export const homeFaqs: readonly Faq[] = [
   {
     question: "What kind of premises do you secure?",
     answer:
-      "Factories and warehouses, offices and IT parks, commercial buildings, and residential communities such as apartments and gated layouts.",
-    status: "pending",
+      "Industrial units, garment and automobile factories, commercial establishments, IT offices, ATMs and residential apartments.",
+    status: "verified",
   },
   {
     question: "Are your security personnel trained?",
     answer:
-      "Yes. Training covers security systems, fire prevention and firefighting, first aid, bomb-threat response and crime detection.",
-    status: "pending",
+      "Yes. Training covers security systems, fire prevention and firefighting, first aid, bomb-threat response, crime detection, intelligence and vigilance, and disaster management with mock drills. Guards are also briefed on the needs of each site before deployment.",
+    status: "verified",
   },
   {
     question: "Do you employ ex-servicemen?",
     answer:
-      "Yes. Our personnel include people who have served in the CISF, Army, Navy and Air Force. We also welcome applications from ex-servicemen.",
-    status: "pending",
+      "Yes. Our personnel include people who have served in the CISF, Army, Navy and Air Force, and our General Manager and Executive Director come from the CISF and the Air Force. We welcome applications from ex-servicemen.",
+    status: "verified",
+  },
+  {
+    question: "Do you check your guards’ backgrounds?",
+    answer:
+      "Yes. Every officer is inducted only after a thorough antecedent (background) verification. Our staff also receive PF and ESI benefits.",
+    status: "verified",
+  },
+  {
+    question: "What are your office hours?",
+    answer:
+      "Our office in Tambaram Sanatorium is open Monday to Saturday, 9:00 AM to 6:00 PM, and closed on Sunday. You can call or WhatsApp us on +91 90943 31333.",
+    status: "verified",
   },
   {
     question: "Are you licensed under PSARA?",

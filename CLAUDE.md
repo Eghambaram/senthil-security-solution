@@ -15,7 +15,7 @@ North star: **looks like GardaWorld / Securitas / SIS India in polish, reads lik
 ## 2. Non-negotiable rules
 
 1. **No invented facts.** Never fabricate certifications, licences, client names/logos, testimonials, awards, statistics, leadership bios, or service capabilities. If a fact is not in §3 with status `VERIFIED`, it does not ship.
-2. **`NEEDS CONFIRMATION` facts** may appear in code only behind the `content/` layer with `status: "pending"`; pending items render nothing in production (`NODE_ENV=production`) and render a visible yellow dev badge in development.
+2. **`NEEDS CONFIRMATION` facts** may appear in code only behind the `content/` layer with `status: "pending"`; pending items render nothing on the live site and render a visible yellow badge in development and in **client review mode** (`NEXT_PUBLIC_REVIEW_MODE=1`, a noindexed preview for approval — never set on the live site).
 3. **No lorem ipsum, no `href="#"`, no dead buttons.** Every link resolves; every CTA does something real.
 4. **No AI-generated or stock images presented as company staff.** Stock/AI imagery must not show a "SENTHIL" logo on uniforms, firearms, CCTV control rooms, or equipment the company has not confirmed. Prefer authentic photos supplied by the client; otherwise use neutral, unbranded imagery and label it as illustrative in the image manifest.
 5. **Armed security is a regulated claim.** The "Armed Security & Ex-Servicemen" page and card ship only after the client confirms the PSARA licence and arms-licence status (§3). Until then, ex-servicemen personnel may be described only as "personnel with backgrounds in the armed and disciplined forces" if confirmed.
@@ -40,15 +40,16 @@ Audit date: 16 Oct 2026. Live site pages (`/aboutus.php`, `/service.php`, `/comp
 | Address | No. 2, Railway Station Road, Kamaraj Nagar, Tambaram Sanatorium, Chennai, Tamil Nadu 600047 (near G K Restaurant) | Justdial, Sulekha, Facebook | VERIFIED (confirm exact formatting) |
 | Map coordinates | 12.937477, 80.1287727 | Existing site's Google Maps embed | VERIFIED |
 | Phone | +91 44 4380 6837 | Facebook, ZoomInfo, mockup | VERIFIED |
-| Mobile / WhatsApp number | — | — | **MISSING — ask client** |
-| Email | — | — | **MISSING — ask client** (required for enquiry notifications) |
-| Office hours | Mon–Sat, 9:00 AM – 7:00 PM | Sulekha | NEEDS CONFIRMATION |
-| Contact person | Senthil Raja | Sulekha | NEEDS CONFIRMATION (name/title before any leadership section) |
-| Personnel strength | "around 500 Security Guards / Armed Guards / Ex-Servicemen on our rolls" (undated) | Facebook (self-reported) | **NEEDS CONFIRMATION** — third-party estimate says 185 employees; show "500+" only with client confirmation and a dated footnote |
-| Personnel background | Recruits from disciplined forces: CISF, Air Force, Navy, Army | Facebook | NEEDS CONFIRMATION |
-| Management background | Two managerial staff from CISF / Air Force | Facebook | NEEDS CONFIRMATION |
-| Training topics | Security systems, fire prevention & firefighting, first aid, bomb-threat response, crime detection | Sulekha | NEEDS CONFIRMATION |
-| Services (listed publicly) | Industrial/factory guarding, commercial, residential, personal bodyguards, event security, religious-facility security, armed guards | Sulekha, Justdial, ZoomInfo | NEEDS CONFIRMATION per service |
+| Mobile / WhatsApp number | +91 90943 31333 (calls and WhatsApp) | Project owner, 16 Oct 2026; Google Business Profile | VERIFIED (legacy site also lists +91 90940 25252 and +91 95511 25252: not shown until confirmed) |
+| Email | info@senthilsecuritysolutions.com (also support@) | Company legacy website | VERIFIED (shown on site; notification inbox set via ENQUIRY_TO_EMAIL) |
+| Office hours | Mon–Sat, 9:00 AM – 6:00 PM; Sunday closed | Google Business Profile | VERIFIED |
+| Managing Director | Mr. K. Senthil Raja, MCA graduate; runs day-to-day management | Company legacy website (‘The Team’) | VERIFIED (no photo yet) |
+| Personnel strength | "around 500 Security Guards / Armed Guards / Ex-Servicemen on our rolls" | Company legacy website, Facebook (company-reported) | VERIFIED for display as "500+" with footnote "Company-reported figure, as of October 2026" (third-party estimate was 185; reconfirm at client review). Never mention armed guards until licensed |
+| Personnel background | Recruits from disciplined forces: CISF, Air Force, Navy, Army | Company legacy website, Facebook | VERIFIED |
+| Management background | General Manager and Executive Director are from the CISF and the Air Force | Company legacy website, Facebook | VERIFIED |
+| Training topics | Security systems, fire prevention & firefighting, first aid, bomb-threat response, crime detection, intelligence & vigilance, disaster management (mock drills) | Company legacy website | VERIFIED |
+| Staff welfare | Antecedent (background) verification before induction; PF & ESI | Company legacy website | VERIFIED |
+| Services | Industrial units, commercial establishments, garment factories, automobile industries, IT sector, ATMs, residential apartments | Company legacy website | VERIFIED. Event, religious-facility and personal-bodyguard services appear only in third-party listings: NEEDS CONFIRMATION. Armed guards: gated |
 | PSARA licence | — | Not found anywhere | **MISSING — ask client** (legally required for private security agencies in India; display licence no. if provided) |
 | Arms licences | — | Not found | **MISSING — blocks Armed Security page** |
 | Clients | Existing site has a "Clients" page; names not machine-readable | Website nav | **MISSING — need written permission per logo** |
@@ -63,15 +64,15 @@ Keep this table mirrored in `content/company.ts` with a `status` field per fact.
 
 ## 4. Open questions for the client (blocking items in bold)
 
-1. **Business email for enquiries and careers.**
+1. ~~Business email~~: info@senthilsecuritysolutions.com shown on the site. Still needed: which inbox receives form notifications (ENQUIRY_TO_EMAIL / CAREERS_TO_EMAIL).
 2. **PSARA licence number and validity; arms-licence status for armed guards.**
 3. **Correct legal entity (Proprietorship / Partnership firm / LLP / Pvt Ltd) and whether to show GSTIN.**
-4. Current personnel strength and number of active sites (for any counters).
-5. Mobile/WhatsApp business number.
-6. Confirmed service list (which of: industrial, corporate/commercial, residential, event, personal protection, religious facilities, armed, ex-servicemen, housekeeping/facility staff?).
+4. Reconfirm "500+" personnel (company figure) and number of active sites.
+5. ~~Mobile/WhatsApp~~: +91 90943 31333. Are +91 90940 25252 and +91 95511 25252 still in use?
+6. Industrial, commercial and residential confirmed. Still to confirm: event/personal protection, religious facilities, warehouses/logistics, housekeeping.
 7. Areas served beyond Chennai (Chengalpattu, Kanchipuram, Tiruvallur, rest of Tamil Nadu?).
 8. Approved client names/logos and any written testimonials with permission.
-9. Leadership names, titles, short bios, photos.
+9. MD confirmed (Mr. K. Senthil Raja). Still needed: MD photo; names of the General Manager and Executive Director (optional).
 10. Authentic photography (guards on site, training, uniforms, office). If none: approval for a half-day photoshoot or for neutral illustrative imagery.
 11. Who receives and processes career applications; retention period for applicant data.
 12. Hosting/domain access (DNS registrar for senthilsecuritysolutions.com).

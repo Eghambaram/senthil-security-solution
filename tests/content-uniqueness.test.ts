@@ -18,6 +18,9 @@ function serviceTexts(s: (typeof services)[number]): string[] {
     ...s.capabilities.flatMap((c) => [c.title, c.body]),
     ...s.benefits.flatMap((b) => [b.title, b.body]),
     ...s.faqs.flatMap((f) => [f.question, f.answer]),
+    ...(s.procedures
+      ? [s.procedures.title, s.procedures.intro, ...s.procedures.groups.flatMap((g) => [g.title, ...g.items])]
+      : []),
   ];
 }
 

@@ -41,7 +41,7 @@ const FIELD_ORDER = [
 
 const ACCEPT = [...Object.keys(RESUME_TYPES), ...Object.values(RESUME_TYPES)].join(",");
 
-type Status = { kind: "idle" } | { kind: "error"; message: string } | { kind: "success"; reference: string };
+type Status = { kind: "idle" } | { kind: "error"; message: string } | { kind: "success"; reference: string; demo: boolean };
 
 export function CareerApplicationForm({ roleOptions }: Props) {
   const [status, setStatus] = useState<Status>({ kind: "idle" });
@@ -106,7 +106,7 @@ export function CareerApplicationForm({ roleOptions }: Props) {
 
     const result = await submitForm("/api/careers", data);
     if (result.ok) {
-      setStatus({ kind: "success", reference: result.reference });
+      setStatus({ kind: "success", reference: result.reference, demo: result.demo });
       return;
     }
     // Turnstile tokens are single-use: get a fresh one for the retry.
@@ -126,6 +126,7 @@ export function CareerApplicationForm({ roleOptions }: Props) {
         title="Thank you for applying."
         body="Our team will review your application and contact you if there is a suitable opening."
         reference={status.reference}
+        demo={status.demo}
       />
     );
   }

@@ -1,14 +1,14 @@
 import type { NextConfig } from "next";
 
 /**
- * 301 redirects from the legacy PHP site (CLAUDE.md §11). There is no
- * leadership section or client list yet, so /company.php → /about and
- * /projects.php → /industries.
+ * 301 redirects from the legacy PHP site (CLAUDE.md §11). The old "The
+ * Team" page maps to the About page's leadership section; there is no
+ * client list yet, so /projects.php → /industries.
  */
 const LEGACY_REDIRECTS: Record<string, string> = {
   "/index.php": "/",
   "/aboutus.php": "/about",
-  "/company.php": "/about",
+  "/company.php": "/about#leadership",
   "/service.php": "/services",
   "/projects.php": "/industries",
   "/contact_us.php": "/contact",

@@ -1,8 +1,10 @@
 /**
  * Server configuration for the form pipeline. Every external service is
  * read from env vars (CLAUDE.md §13). When a service is not configured:
- *  - in development (and in E2E runs with E2E_FAKE_BACKENDS=1) a local
- *    in-memory stand-in is used so the forms can be exercised end to end;
+ *  - in development, E2E runs (E2E_FAKE_BACKENDS=1) and client review
+ *    previews (NEXT_PUBLIC_REVIEW_MODE=1) a local in-memory stand-in is used,
+ *    and the success response is flagged `demo` so the visitor is told
+ *    nothing was sent;
  *  - in production the request fails closed with ConfigError → HTTP 503,
  *    so a misconfigured deployment can never show a false success.
  */
@@ -30,7 +32,17 @@ export type Backends = {
 };
 
 export function fakesAllowed(): boolean {
-  return process.env.NODE_ENV !== "production" || process.env.E2E_FAKE_BACKENDS === "1";
+  return (
+    process.env.NODE_ENV !== "production" ||
+    process.env.E2E_FAKE_BACKENDS === "1" ||
+    // Client review previews: forms work without real backends and say so (see isDemo).
+    process.env.NEXT_PUBLIC_REVIEW_MODE === "1"
+  );
+}
+
+/** True when submissions are not really stored or emailed (local stand-ins). */
+export function isDemo(b: Backends): boolean {
+  return b.store.kind === "memory" || b.mail.kind === "outbox";
 }
 
 function env(name: string): string | undefined {

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { company } from "@/content/company";
-import { isVerified } from "@/lib/facts";
+import { REVIEW_MODE, isVerified } from "@/lib/facts";
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://senthilsecuritysolutions.com";
 export const SITE_NAME = "Senthil Security Solutions";
@@ -28,7 +28,7 @@ export function buildMetadata({ title, description, path, noIndex = false }: Opt
       locale: "en_IN",
       type: "website",
     },
-    robots: noIndex ? { index: false, follow: false } : undefined,
+    robots: noIndex || REVIEW_MODE ? { index: false, follow: false } : undefined,
   };
 }
 
@@ -37,7 +37,7 @@ export function buildMetadata({ title, description, path, noIndex = false }: Opt
  * `verified` facts, in every environment, so it never leaks pending values.
  */
 export function localBusinessJsonLd() {
-  const { name, address, phone, geo, foundingDate, social, hours, logo } = company;
+  const { name, address, phone, email, geo, foundingDate, social, hours, logo } = company;
   const a = address.value;
 
   return {
@@ -50,6 +50,7 @@ export function localBusinessJsonLd() {
     url: SITE_URL,
     logo: logo.value,
     telephone: phone.value.tel,
+    ...(isVerified(email) && email.value ? { email: email.value } : {}),
     foundingDate: foundingDate.value,
     address: {
       "@type": "PostalAddress",

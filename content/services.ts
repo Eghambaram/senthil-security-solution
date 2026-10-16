@@ -27,6 +27,8 @@ export type ServiceDetail = ServiceSummary & {
   facilities: string[];
   faqs: { question: string; answer: string }[];
   related: string[];
+  /** On-site procedures, rewritten from the company’s own training programme (legacy website). */
+  procedures?: { title: string; intro: string; groups: { title: string; items: string[] }[] };
 };
 
 export const services: readonly ServiceDetail[] = [
@@ -36,7 +38,7 @@ export const services: readonly ServiceDetail[] = [
     summary: "Gate, material and visitor control for factories, plants and warehouses.",
     icon: "factory",
     image: "serviceIndustrial",
-    status: "pending",
+    status: "verified",
     metaTitle: "Factory & Industrial Security in Chennai",
     metaDescription:
       "Factory security guards in Chennai for gate control, material movement checks, contractor verification and night patrols. Request a site assessment.",
@@ -99,6 +101,8 @@ export const services: readonly ServiceDetail[] = [
     ],
     facilities: [
       "Manufacturing plants",
+      "Garment factories",
+      "Automobile and auto-component plants",
       "Engineering and fabrication units",
       "Warehouses and distribution centres",
       "Industrial estates and SIDCO units",
@@ -128,6 +132,64 @@ export const services: readonly ServiceDetail[] = [
       },
     ],
     related: ["corporate-commercial-security", "event-security"],
+    procedures: {
+      title: "Gate procedures we follow.",
+      intro: "Controlling men and material at the main gate solves most security problems. Our officers work to these written procedures.",
+      groups: [
+        {
+          title: "Material inward",
+          items: [
+            "Check the delivery challan and invoice",
+            "Check the driver’s licence, RC book, insurance and pollution certificate",
+            "Supervise unloading against the documents",
+            "Report shortages, damage or overloading",
+          ],
+        },
+        {
+          title: "Material outward",
+          items: [
+            "Load only as per the delivery challan",
+            "Record the loading in the witness register",
+            "Supervisor check before the load is covered",
+            "Exit only against a valid gate pass and outward-register entry",
+          ],
+        },
+        {
+          title: "Gate passes",
+          items: [
+            "Returnable gate pass (RMGP) for repairs, loans, samples, testing and job work, with a due-back date",
+            "Non-returnable gate pass (NRMGP) for sales, scrap and salvage",
+            "Out-passes for employees, casual and contract workers leaving mid-shift",
+          ],
+        },
+        {
+          title: "Registers kept at the gate",
+          items: [
+            "General diary and incident register",
+            "Visitor, key and telephone registers",
+            "Inward, outward and RMGP registers",
+            "Courier register, inward and outward",
+          ],
+        },
+        {
+          title: "Vehicles",
+          items: [
+            "No entry or exit until all security checks are complete",
+            "Entry and exit recorded in the vehicle registers",
+            "Designated routes, speed limits and parking inside the premises",
+            "Outgoing vehicles checked for concealed or unauthorised items",
+          ],
+        },
+        {
+          title: "Weighbridge",
+          items: [
+            "Vehicle centred on the bridge, engine off, driver out of the cab",
+            "Spare fuel, drums and tarpaulins noted before weighing",
+            "Surprise checks of the weighment register and calibration",
+          ],
+        },
+      ],
+    },
   },
   {
     slug: "corporate-commercial-security",
@@ -135,7 +197,7 @@ export const services: readonly ServiceDetail[] = [
     summary: "Front-of-house and access control for offices, IT parks and commercial buildings.",
     icon: "building",
     image: "serviceCorporate",
-    status: "pending",
+    status: "verified",
     metaTitle: "Corporate & Office Security Services in Chennai",
     metaDescription:
       "Office and commercial security in Chennai: reception security, visitor management, access-card discipline and after-hours patrols for offices and IT parks.",
@@ -201,7 +263,7 @@ export const services: readonly ServiceDetail[] = [
       "IT parks and tech campuses",
       "Co-working spaces",
       "Shopping malls and retail stores",
-      "Banks and financial offices",
+      "Banks, financial offices and ATMs",
       "Hospitals and clinics",
     ],
     faqs: [
@@ -231,6 +293,46 @@ export const services: readonly ServiceDetail[] = [
       },
     ],
     related: ["residential-security", "industrial-security"],
+    procedures: {
+      title: "Front-desk procedures.",
+      intro: "Polite in manner, smart in turnout, firm on the rules: this is how our officers run your reception and entrances.",
+      groups: [
+        {
+          title: "Visitor management",
+          items: [
+            "Greet every visitor and confirm with the host before entry",
+            "Record details in the visitor register; issue a pass and badge",
+            "Collect the pass and badge when the visitor leaves",
+            "Apply your agreed rules for visiting officials",
+          ],
+        },
+        {
+          title: "Key control",
+          items: [
+            "Every issue and return recorded in the key register",
+            "Keys released to a substitute only with written authority",
+            "Key counts checked against the register at each handover",
+            "Watch for duplicate or locally made keys",
+          ],
+        },
+        {
+          title: "Telephone etiquette",
+          items: [
+            "Answer with a greeting, name and post, never a bare ‘hello’",
+            "Log calls in the telephone register",
+            "Use the duty phone for duty only",
+          ],
+        },
+        {
+          title: "Screening",
+          items: [
+            "Bag checks and frisking at entry and exit where your policy requires",
+            "Hand-held and door-frame metal detectors where installed",
+            "Out-of-hours entry only with prior approval",
+          ],
+        },
+      ],
+    },
   },
   {
     slug: "residential-security",
@@ -238,7 +340,7 @@ export const services: readonly ServiceDetail[] = [
     summary: "Gate control and visitor logs for apartments and gated communities.",
     icon: "home",
     image: "serviceResidential",
-    status: "pending",
+    status: "verified",
     metaTitle: "Apartment & Gated Community Security in Chennai",
     metaDescription:
       "Apartment security in Chennai: gate control, visitor and delivery logs, domestic-staff registers and night rounds, coordinated with your association.",
@@ -330,6 +432,38 @@ export const services: readonly ServiceDetail[] = [
       },
     ],
     related: ["corporate-commercial-security", "event-security"],
+    procedures: {
+      title: "Rounds and emergencies.",
+      intro: "Night rounds are about more than intruders: officers also catch the small faults that become big problems by morning.",
+      groups: [
+        {
+          title: "On every patrol",
+          items: [
+            "Doors, windows, locks and seals",
+            "Water and electricity left running",
+            "Equipment or lights left switched on",
+            "Vehicles parked only in safe, permitted places",
+            "Anything suspicious, reported at once",
+          ],
+        },
+        {
+          title: "If there is a fire",
+          items: [
+            "Raise the alarm and tackle a small fire with the right extinguisher",
+            "Call the fire service and switch off the mains",
+            "Refill used extinguishers and put them back in place",
+          ],
+        },
+        {
+          title: "If residents must leave",
+          items: [
+            "Guide people down the stairs, never the lift",
+            "Keep exits and emergency lighting clear",
+            "Gather everyone at the assembly point for a head count",
+          ],
+        },
+      ],
+    },
   },
   {
     slug: "event-security",

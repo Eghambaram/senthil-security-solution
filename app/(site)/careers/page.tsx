@@ -19,7 +19,7 @@ export const metadata = buildMetadata({
 });
 
 export default function CareersPage() {
-  const { why, roles, exServicemen, privacyNote } = careersPage;
+  const { why, roles, exServicemen, verificationNote, privacyNote } = careersPage;
   const openRoles = visible(roles.items);
   const openRoleIds = new Set(openRoles.map((r) => r.id));
   // "Other" is always open; gated roles (e.g. gunman) only when their role is visible.
@@ -110,6 +110,7 @@ export default function CareersPage() {
         <div className="container-site grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-4">
             <SectionHeading id="apply-title" eyebrow="Apply" title="Send us your application." />
+            <p className="mt-5 text-ink-muted">{verificationNote}</p>
             <p className="mt-5 text-ink-muted">{privacyNote}</p>
             <p className="mt-5 text-ink-muted">
               You can also apply in person at our office in Tambaram Sanatorium, or call{" "}

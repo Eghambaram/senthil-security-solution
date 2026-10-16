@@ -1,4 +1,4 @@
-import { Check, Eye, HeartHandshake, Scale, ShieldCheck, type LucideIcon } from "lucide-react";
+import { Check, Eye, HeartHandshake, Scale, ShieldCheck, Target, TrendingUp, Handshake, type LucideIcon } from "lucide-react";
 import { aboutPage } from "@/content/about";
 import { company } from "@/content/company";
 import { CTASection } from "@/components/sections/CTASection";
@@ -11,6 +11,7 @@ import { PendingBadge } from "@/components/ui/PendingBadge";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { isPending, isVisible, visible, type FactStatus } from "@/lib/facts";
+import { formatTime } from "@/lib/format";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -26,8 +27,12 @@ const valueIcons: Record<string, LucideIcon> = {
   Respect: HeartHandshake,
 };
 
+const visionIcons: LucideIcon[] = [Target, Handshake, TrendingUp];
+
 export default function AboutPage() {
-  const { story, values, people, details } = aboutPage;
+  const { story, vision, values, leadership, people, details } = aboutPage;
+  const md = company.managingDirector;
+  const hours = company.hours.value;
   const a = company.address.value;
 
   const companyDetails: { label: string; value: string; status: FactStatus }[] = [
@@ -37,7 +42,15 @@ export default function AboutPage() {
       value: `${a.street}, ${a.locality}, ${a.city}, ${a.region} ${a.postalCode}`,
       status: company.address.status,
     },
-    { label: "Phone", value: company.phone.value.display, status: company.phone.status },
+    { label: "Managing Director", value: md.value.name, status: md.status },
+    { label: "Office phone", value: company.phone.value.display, status: company.phone.status },
+    { label: "Mobile & WhatsApp", value: company.mobile.value.display, status: company.mobile.status },
+    { label: "Email", value: company.email.value, status: company.email.status },
+    {
+      label: "Office hours",
+      value: `${hours.days}, ${formatTime(hours.opens)} – ${formatTime(hours.closes)}; ${hours.closed} closed`,
+      status: company.hours.status,
+    },
     { label: "GSTIN", value: company.gstin.value, status: company.gstin.status },
     { label: "PSARA licence", value: "", status: company.psaraLicence.status },
   ];
@@ -70,6 +83,25 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <section aria-labelledby="vision-title" className="on-dark bg-navy-900 py-16 lg:py-20">
+        <div className="container-site grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+          <Reveal className="lg:col-span-4">
+            <SectionHeading id="vision-title" tone="dark" eyebrow={vision.eyebrow} title={vision.title} />
+          </Reveal>
+          <ul className="grid gap-8 sm:grid-cols-3 lg:col-span-8">
+            {vision.items.map((v, index) => (
+              <li key={v.title}>
+                <Reveal delay={index * 0.06}>
+                  <Icon icon={visionIcons[index] ?? Target} size={24} className="text-gold-500" />
+                  <h3 className="mt-4 font-display text-lg font-bold text-white">{v.title}</h3>
+                  <p className="mt-1.5 text-[15px] text-white/75">{v.body}</p>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       <section aria-labelledby="values-title" className="section-y bg-surface">
         <div className="container-site">
           <Reveal>
@@ -88,6 +120,38 @@ export default function AboutPage() {
           </ul>
         </div>
       </section>
+
+      {isVisible(leadership) && isVisible(md) ? (
+        <section id="leadership" aria-labelledby="leadership-title" className="section-y scroll-mt-24">
+          <div className="container-site grid gap-12 lg:grid-cols-12 lg:gap-16">
+            <Reveal className="lg:col-span-4">
+              <SectionHeading id="leadership-title" eyebrow={leadership.eyebrow} title={leadership.title} />
+              <p className="mt-5 text-ink-muted">{leadership.team}</p>
+            </Reveal>
+            <Reveal delay={0.1} className="lg:col-span-8">
+              <article className="flex flex-col gap-6 rounded-lg border border-border p-6 shadow-card sm:flex-row sm:p-8">
+                <span
+                  aria-hidden="true"
+                  className="flex size-20 shrink-0 items-center justify-center rounded-full bg-navy-900 font-display text-2xl font-extrabold text-gold-500"
+                >
+                  KS
+                </span>
+                <div>
+                  <h3 className="text-h3">{md.value.name}</h3>
+                  <p className="mt-1 text-sm font-semibold uppercase tracking-[0.08em] text-gold-ink">
+                    {md.value.title}, Senthil Security Solutions
+                  </p>
+                  <div className="mt-4 space-y-3 text-ink-muted">
+                    {leadership.managingDirector.bio.map((p) => (
+                      <p key={p}>{p}</p>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            </Reveal>
+          </div>
+        </section>
+      ) : null}
 
       {isVisible(people) ? (
         <section aria-labelledby="people-title" className="section-y">

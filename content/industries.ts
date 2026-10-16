@@ -3,7 +3,8 @@ import type { FactStatus } from "@/lib/facts";
 
 /**
  * Sectors from PROMPT.md §6G with page copy (§7: sector pain points →
- * which services apply). Pending until the client confirms coverage.
+ * which services apply). Manufacturing, offices/IT, commercial and residential
+ * are confirmed by the company’s legacy website; warehouses and events are not.
  */
 export type IndustrySummary = {
   slug: string;
@@ -26,12 +27,12 @@ export const industries: readonly IndustryDetail[] = [
     slug: "manufacturing-industrial",
     title: "Manufacturing & Industrial",
     image: "industryManufacturing",
-    status: "pending",
+    status: "verified",
     metaTitle: "Security for Manufacturing Plants in Chennai",
     metaDescription:
       "Security for factories and industrial units in Chennai: material movement control, contract-labour checks, shift-change cover and night patrols.",
     intro:
-      "Plants run around the clock, with trucks, contract labour and valuable stock moving through a handful of gates.",
+      "Factories, garment units and automobile plants run around the clock, with trucks, contract labour and valuable stock moving through a handful of gates.",
     challenges: [
       {
         title: "Material leaving without a trail",
@@ -62,7 +63,7 @@ export const industries: readonly IndustryDetail[] = [
     slug: "corporate-offices-it-parks",
     title: "Corporate Offices & IT Parks",
     image: "industryCorporate",
-    status: "pending",
+    status: "verified",
     metaTitle: "Security for Corporate Offices & IT Parks in Chennai",
     metaDescription:
       "Security for offices and IT parks in Chennai: courteous reception security, visitor management, access-card discipline and after-hours patrols.",
@@ -97,7 +98,7 @@ export const industries: readonly IndustryDetail[] = [
     slug: "commercial-retail",
     title: "Commercial Buildings & Retail",
     image: "industryCommercial",
-    status: "pending",
+    status: "verified",
     metaTitle: "Security for Commercial Buildings & Retail in Chennai",
     metaDescription:
       "Security for malls, shops and multi-tenant commercial buildings in Chennai: floor coverage, parking control, opening and closing checks.",
@@ -133,7 +134,7 @@ export const industries: readonly IndustryDetail[] = [
     slug: "residential-communities",
     title: "Residential Communities",
     image: "industryResidential",
-    status: "pending",
+    status: "verified",
     metaTitle: "Security for Apartments & Gated Communities in Chennai",
     metaDescription:
       "Security for apartments and gated communities in Chennai: visitor confirmation, delivery logs, domestic-staff registers and night rounds.",
