@@ -19,6 +19,10 @@ const LEGACY_REDIRECTS: Record<string, string> = {
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  experimental: {
+    // ~11 KB of CSS inlined into the HTML removes a render-blocking request (Lighthouse, Phase 6).
+    inlineCss: true,
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [75, 85],

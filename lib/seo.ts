@@ -5,6 +5,14 @@ import { REVIEW_MODE, isVerified } from "@/lib/facts";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://senthilsecuritysolutions.com";
 export const SITE_NAME = "Senthil Security Solutions";
 
+/** Social-share image, built by scripts/make-og-image.mjs. */
+const OG_IMAGE = {
+  url: "/og-image.jpg",
+  width: 1200,
+  height: 630,
+  alt: "Senthil Security Solutions: protection that earns your trust. Security services in Chennai since 2012.",
+};
+
 type Options = {
   /** Page name; becomes "{title} | Senthil Security Solutions, Chennai". */
   title: string;
@@ -27,7 +35,9 @@ export function buildMetadata({ title, description, path, noIndex = false }: Opt
       siteName: SITE_NAME,
       locale: "en_IN",
       type: "website",
+      images: [OG_IMAGE],
     },
+    twitter: { card: "summary_large_image", title: fullTitle, description, images: [OG_IMAGE.url] },
     robots: noIndex || REVIEW_MODE ? { index: false, follow: false } : undefined,
   };
 }

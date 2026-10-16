@@ -39,6 +39,7 @@ export function ImageFrame({ image, sizes, priority = false, quality, className,
           fill
           sizes={sizes}
           priority={priority}
+          fetchPriority={priority ? "high" : undefined}
           quality={quality}
           className={cn("object-cover", imgClassName)}
           style={entry.position ? { objectPosition: entry.position } : undefined}

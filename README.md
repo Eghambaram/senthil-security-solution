@@ -20,7 +20,7 @@ pnpm dev                     # http://localhost:3000
 | `pnpm lint` | ESLint |
 | `pnpm typecheck` | `tsc --noEmit` |
 | `pnpm test` | Vitest: schemas, form handlers (success + failure paths), content uniqueness |
-| `pnpm test:e2e` | Playwright on a production build with in-memory backends (desktop + mobile) |
+| `pnpm test:e2e` | Playwright on a production build with in-memory backends (desktop + mobile): forms, navigation, redirects, and the Phase 6 QA suite (axe, link crawl, metadata, breakpoints, keyboard). Report: `docs/QA.md` |
 | `pnpm db:generate` / `pnpm db:migrate` | Drizzle migrations (`drizzle/`) against `DATABASE_URL` |
 | `pnpm cf:build` / `cf:preview` / `cf:deploy` | Cloudflare Workers via OpenNext (run the build on Linux/CI) |
 | `pnpm build && pnpm start` | Production build and server |

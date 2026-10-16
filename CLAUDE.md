@@ -147,7 +147,7 @@ app/
     careers/route.ts
   sitemap.ts
   robots.ts
-  opengraph-image.tsx
+  opengraph-image: static public/og-image.jpg (scripts/make-brand-assets.mjs), set in lib/seo.ts
   not-found.tsx
 components/
   layout/   UtilityBar, Header, NavigationMenu, MobileNavigation, Footer, FloatingContactActions, Breadcrumbs

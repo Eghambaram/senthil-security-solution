@@ -33,7 +33,8 @@ export function Logo({ tone = "light", compact = false, className }: Props) {
           height={196}
           sizes="48px"
           className="h-full w-auto"
-          priority
+          // Eager but not preloaded: the hero photo is the page's LCP and gets the bandwidth first.
+          loading="eager"
         />
       </span>
       <span className="flex flex-col leading-none">
