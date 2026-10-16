@@ -1,6 +1,7 @@
 import { Check, Eye, HeartHandshake, Scale, ShieldCheck, Target, TrendingUp, Handshake, type LucideIcon } from "lucide-react";
 import { aboutPage } from "@/content/about";
 import { company } from "@/content/company";
+import { ClientLogos } from "@/components/sections/ClientLogos";
 import { CTASection } from "@/components/sections/CTASection";
 import { PageHero } from "@/components/sections/PageHero";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
@@ -158,6 +159,8 @@ export default function AboutPage() {
           </div>
         </section>
       ) : null}
+
+      <ClientLogos id="clients" className="bg-surface" />
 
       {isVisible(people) ? (
         <section aria-labelledby="people-title" className="section-y">

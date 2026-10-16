@@ -1,16 +1,19 @@
 import type { NextConfig } from "next";
+import { clients } from "./content/clients";
+import { visible } from "./lib/facts";
 
 /**
  * 301 redirects from the legacy PHP site (CLAUDE.md §11). The old "The
- * Team" page maps to the About page's leadership section; there is no
- * client list yet, so /projects.php → /industries.
+ * Team" page maps to the About page's leadership section; the old
+ * "Clients" page maps to /about#clients once any client logo is cleared
+ * for this build, otherwise to /industries.
  */
 const LEGACY_REDIRECTS: Record<string, string> = {
   "/index.php": "/",
   "/aboutus.php": "/about",
   "/company.php": "/about#leadership",
   "/service.php": "/services",
-  "/projects.php": "/industries",
+  "/projects.php": visible(clients).length > 0 ? "/about#clients" : "/industries",
   "/contact_us.php": "/contact",
 };
 

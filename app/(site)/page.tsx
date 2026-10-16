@@ -1,5 +1,6 @@
 import { homeFaqs } from "@/content/faqs";
 import { AboutFeature } from "@/components/sections/AboutFeature";
+import { ClientLogos } from "@/components/sections/ClientLogos";
 import { CompanyAtAGlance } from "@/components/sections/CompanyAtAGlance";
 import { ConsultationBanner } from "@/components/sections/ConsultationBanner";
 import { CTASection } from "@/components/sections/CTASection";
@@ -29,6 +30,7 @@ export default function HomePage() {
       <ServicesGrid />
       <ConsultationBanner flushTop={hasServices} />
       <AboutFeature />
+      <ClientLogos className="bg-surface" />
       <IndustriesGrid />
       <WhyChooseUs />
       <ProcessSteps />
