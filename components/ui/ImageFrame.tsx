@@ -38,6 +38,7 @@ export function ImageFrame({ image, sizes, priority = false, className, imgClass
           sizes={sizes}
           priority={priority}
           className={cn("object-cover", imgClassName)}
+          style={entry.position ? { objectPosition: entry.position } : undefined}
         />
       </div>
     );

@@ -39,7 +39,8 @@ Owner: **Client** = Senthil Security Solutions · **Dev** = build team.
 | 8 | Areas served (legacy site says "Chennai or all over India") | Client | Copy says "based in Tambaram, serving Chennai" only (FAQ answer pending) |
 | 11 | Approved client names/logos and written testimonials | Client | No client strip; "Company at a glance" used instead |
 | 12 | MD photo; names of the General Manager and Executive Director (optional) | Client | Initials monogram shown for the MD |
-| 13 | Authentic photography or approval for a shoot | Client | Neutral navy placeholder frames (see shot list below) |
+| 13 | Authentic photography (a shoot) to replace the illustrative AI/stock images | Client | Illustrative images in use; the armed-security slot still uses a placeholder |
+| 24 | **Licences for the two real stock photos** (event screening, retail entrance) | Client | Replace them with AI/authentic images if the licence cannot be confirmed |
 | 14 | Careers data handler and retention period | Client | Default 6 months, stated in privacy policy as provisional |
 | 15 | Domain/DNS registrar access | Client | Blocks Phase 7 cut-over |
 | 16 | Vector logo (SVG/AI); approval of crest colours (maroon/peach) next to the navy/gold palette | Client | 200 px raster crest used |
@@ -52,7 +53,7 @@ Owner: **Client** = Senthil Security Solutions · **Dev** = build team.
 
 ## Photography shot list
 
-Every image slot is in `content/images.ts`. Until approved photos exist, these render as neutral navy frames. Rules: authentic photos preferred; no "SENTHIL" branding on stock/AI images; no firearms or control rooms unless real (CLAUDE.md §2.4).
+Every image slot is in `content/images.ts`. Illustrative images supplied by the project owner now fill all slots except armed security; these are the authentic shots to replace them with. Rules: authentic photos preferred; no "SENTHIL" branding on stock/AI images; no firearms or control rooms unless real (CLAUDE.md §2.4).
 
 | Slot | Shot |
 |---|---|

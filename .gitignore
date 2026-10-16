@@ -14,3 +14,6 @@ next-env.d.ts
 .open-next/
 .wrangler/
 .dev.vars
+
+# Original supplied images (large, not published; web versions are in public/images/site)
+assets/source-images/

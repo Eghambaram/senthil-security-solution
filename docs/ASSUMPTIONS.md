@@ -72,3 +72,12 @@ Decisions made without client input. Each can be reversed.
 51. **Only the confirmed WhatsApp number is shown.** The legacy site's other mobiles (+91 90940 25252, +91 95511 25252) are held back until the client says they are in use.
 52. **Client review mode** (`NEXT_PUBLIC_REVIEW_MODE=1`): a production build that shows pending content with yellow badges and photo-brief labels, is `noindex` + `robots.txt Disallow: /`, and lets forms run on in-memory stand-ins. A preview submission shows "Preview: the form works … not sent" with a reference — never the normal "we have your enquiry" message — so the client is not misled. The live site must be built without this flag.
 53. **Success panel is honest about stand-ins everywhere**: any submission handled by the in-memory store or console outbox (dev, E2E, review) returns `demo: true` and shows the preview message.
+
+## Supplied images (16 Oct 2026)
+
+54. **Supplied images are used as illustrative, unbranded imagery** (`isAuthentic: false`, credit noted per image in `content/images.ts`). They are AI-generated or stock and show no company staff; replace them with authentic photos when available.
+55. **Crops applied** by `scripts/process-images.mjs` so nothing misleads visitors: the "Chakan Industrial Area – MIDC" sign (Pune) and AI watermark (industrial), a Maharashtra number plate and watermark (residential), US/Texas flags (event, a US stock photo), and a retailer's store sign (retail, which would imply a client).
+56. **Not used:** `011-WarehousesLogistics` (German "Sicherheitsdienst" guard, European skyline) and `012-FestiveEntranceSecurityCheckpoint` ("SENTHIL Security Solutions" printed on AI-generated uniforms and holstered firearms; forbidden by CLAUDE.md §2.4).
+57. **Originals moved out of `public/`** to `assets/source-images/` (git-ignored) so they are never published, in particular image 012. Web versions are ~1.1 MB in total (WebP, ≤ 1600 px) versus ~13 MB originals.
+58. **Some images repeat** (residential, industrial truck check, event screening, hero at 20 % behind the consultation band) because ten usable images cover fifteen slots. More authentic photos would remove the repeats.
+59. **Image optimisation on Cloudflare** (Phase 7): `next/image` resizing needs the Cloudflare Images binding under OpenNext; otherwise set `images.unoptimized`. The source WebPs are already compressed, so either option works.
