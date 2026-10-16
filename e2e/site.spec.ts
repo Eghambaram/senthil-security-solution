@@ -5,7 +5,7 @@ const LEGACY: [string, string][] = [
   ["/aboutus.php", "/about"],
   ["/company.php", "/about"],
   ["/service.php", "/services"],
-  ["/projects.php", "/industries"],
+  ["/projects.php", "/about"],
   ["/contact_us.php", "/contact"],
 ];
 

@@ -52,7 +52,7 @@ Audit date: 16 Oct 2026. Live site pages (`/aboutus.php`, `/service.php`, `/comp
 | Services | Industrial units, commercial establishments, garment factories, automobile industries, IT sector, ATMs, residential apartments | Company legacy website | VERIFIED. Event, religious-facility and personal-bodyguard services appear only in third-party listings: NEEDS CONFIRMATION. Armed guards: gated |
 | PSARA licence | — | Not found anywhere | **MISSING — ask client** (legally required for private security agencies in India; display licence no. if provided) |
 | Arms licences | — | Not found | **MISSING — blocks Armed Security page** |
-| Clients | Existing site has a "Clients" page; names not machine-readable | Website nav | **MISSING — need written permission per logo** |
+| Clients | 15 named logos from the legacy "Clients" page (list in `content/clients.ts`) | Project owner, 16 Oct 2026 | VERIFIED: owner confirmed client permission. Unidentified logo `5.jpg` not shown; new logos need permission first |
 | Ratings | Justdial lists 4.5 from 28 ratings (Oct 2026) | Justdial | Do not display as testimonials; optional "Rated on Justdial" link only with client approval |
 | Social | Facebook: facebook.com/ssschennaicity | Facebook | VERIFIED (LinkedIn/Twitter exist per ZoomInfo — need URLs) |
 | Logo | `https://senthilsecuritysolutions.com/image/logo-1.png` (raster) | Website | VERIFIED — request vector (SVG/AI) original |

@@ -4,10 +4,10 @@ import type { FactStatus } from "@/lib/facts";
  * Client logos from the legacy site's "Clients" page, supplied by the project
  * owner (16 Oct 2026). Web versions are made by `scripts/process-logos.mjs`.
  *
- * CLAUDE.md §3: a client logo needs that organisation's written permission.
- * Every entry stays `pending` (shown only in development and client review
- * mode) until permission is recorded; then set its status to "verified".
- * `missing` entries never render.
+ * CLAUDE.md §3: a client logo needs that organisation’s written permission.
+ * The project owner confirmed on 16 Oct 2026 that all 15 named clients have
+ * given permission, so they are `verified`. Add new logos as "pending" until
+ * permission is confirmed. `missing` entries never render.
  */
 export type ClientLogo = {
   name: string;
@@ -18,7 +18,7 @@ export type ClientLogo = {
   note?: string;
 };
 
-const logo = (name: string, file: string, width: number, height: number, status: FactStatus = "pending"): ClientLogo => ({
+const logo = (name: string, file: string, width: number, height: number, status: FactStatus = "verified"): ClientLogo => ({
   name,
   logo: `/images/clients/${file}`,
   width,

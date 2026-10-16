@@ -18,6 +18,7 @@ Owner: **Client** = Senthil Security Solutions · **Dev** = build team.
 | Confirmed services | Industrial, corporate & commercial (incl. IT sector, ATMs), residential; garment and automobile factories added |
 | Gate / front-desk / patrol procedures | "How we work" sections on the three service pages, rewritten from the legacy "Our Programme" |
 | Vision | About page, rewritten without superlatives |
+| Client logos | 15 clients, permission confirmed by the project owner: homepage after "About" and `/about#clients` (legacy `/projects.php` redirects there) |
 
 ## Blocking
 
@@ -37,7 +38,7 @@ Owner: **Client** = Senthil Security Solutions · **Dev** = build team.
 | 6 | Reconfirm "500+" (a third-party estimate said 185) and number of active sites | Client | Shown with "company-reported" footnote |
 | 7 | Still unconfirmed services: event / personal protection, religious venues, warehouses & logistics, housekeeping | Client | Event Security page and the warehouse/event industry pages show only in the review preview |
 | 8 | Areas served (legacy site says "Chennai or all over India") | Client | Copy says "based in Tambaram, serving Chennai" only (FAQ answer pending) |
-| 11 | **Written permission for each client logo** (15 supplied, listed in `content/clients.ts`); name of the unidentified logo `5.jpg` (red emblem on blue); written testimonials | Client | Client grid (homepage after "About", and `/about#clients`) shows only in the review preview; on the live site it is hidden and `/projects.php` → `/industries`. Set a logo's status to `verified` once its permission is on file |
+| 11 | Name of the unidentified client logo `5.jpg` (red emblem on blue); written testimonials. Keep the 15 clients' written permissions on file | Client | `5.jpg` not shown; no testimonials |
 | 12 | MD to approve the studio portrait; names of the General Manager and Executive Director (optional) | Client | Portrait shown in `/about#leadership`; GM/ED not named |
 | 13 | Authentic photography (a shoot) to replace the illustrative AI/stock images | Client | Illustrative images in use; the armed-security slot still uses a placeholder |
 | 24 | **Licences for the two real stock photos** (event screening, retail entrance) | Client | Replace them with AI/authentic images if the licence cannot be confirmed |

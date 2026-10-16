@@ -146,9 +146,9 @@ export const company = {
   armsLicence: { value: null, status: "missing", source: "Not found" },
   clients: {
     value: null,
-    status: "pending",
+    status: "verified",
     source: "Legacy ‘Clients’ page logos, supplied by the project owner (16 Oct 2026)",
-    note: "15 named logos in content/clients.ts, each pending written permission; one logo (5.jpg) unidentified.",
+    note: "15 named logos in content/clients.ts; project owner confirmed client permission on 16 Oct 2026. One logo (5.jpg) unidentified, not shown.",
   },
   justdialRating: {
     value: { rating: 4.5, count: 28, asOf: "2026-10" },
