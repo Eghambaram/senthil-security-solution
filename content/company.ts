@@ -7,7 +7,7 @@
  * Re-audited 16 Oct 2026 (live site + public listings).
  */
 
-export type FactStatus = "verified" | "pending" | "missing" | "conflict";
+import type { FactStatus } from "@/lib/facts";
 
 export type Fact<T> = {
   value: T | null;
@@ -168,10 +168,3 @@ export const company = {
     note: "Raster only; request vector original.",
   },
 } satisfies Record<string, Fact<unknown>>;
-
-/** True when a fact may be shown to visitors in the current environment. */
-export function isVisible(fact: Fact<unknown>): boolean {
-  if (fact.status === "verified") return true;
-  if (fact.status === "pending") return process.env.NODE_ENV !== "production";
-  return false;
-}
