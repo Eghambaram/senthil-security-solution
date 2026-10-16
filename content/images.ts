@@ -138,7 +138,7 @@ export const images = {
   // replaces an earlier photo whose background sign showed a logo that is not
   // the company's crest. The MD should approve it before launch.
   managingDirector: {
-    src: "/images/site/managing-director.webp",
+    src: "/images/site/managing-director-studio.webp",
     width: 800,
     height: 1000,
     alt: "Mr. K. Senthil Raja, Managing Director of Senthil Security Solutions",

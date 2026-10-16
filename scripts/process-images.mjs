@@ -32,10 +32,10 @@ const JOBS = [
   { src: "09-CommercialBuildingsRetail.jpg", out: "retail-entrance.webp", crop: { left: 0, top: 245, width: 1034, height: 475 } },
   // Studio portrait (replaces ManagingDirector.png, whose background sign showed a
   // logo that is not the company's crest). 4:5 crop of the square original.
-  { src: "ManagingDirector-studio.png", out: "managing-director.webp", crop: { left: 100, top: 0, width: 1003, height: 1254 }, width: 800, quality: 84 },
+  { src: "ManagingDirector-studio.png", out: "managing-director-studio.webp", crop: { left: 100, top: 0, width: 1003, height: 1254 }, width: 800, quality: 84 },
 ];
 
-// `node scripts/process-images.mjs managing-director.webp` processes only the named outputs.
+// `node scripts/process-images.mjs managing-director-studio.webp` processes only the named outputs.
 const only = process.argv.slice(2);
 
 await mkdir(OUT, { recursive: true });
