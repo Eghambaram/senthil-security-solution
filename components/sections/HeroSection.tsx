@@ -1,4 +1,4 @@
-import { CalendarCheck, MapPin, ShieldCheck, Users, type LucideIcon } from "lucide-react";
+import { CalendarCheck, MapPin, ShieldCheck, UserCheck, Users, type LucideIcon } from "lucide-react";
 import { hero, trustRow, type TrustItem } from "@/content/home";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -11,7 +11,7 @@ import { isPending, visible } from "@/lib/facts";
 const trustIcons: Record<TrustItem["id"], LucideIcon> = {
   since: CalendarCheck,
   personnel: Users,
-  teams: ShieldCheck,
+  vetted: UserCheck,
   location: MapPin,
 };
 
@@ -77,19 +77,16 @@ export function HeroSection({ showServicesLink }: Props) {
             ) : null}
           </div>
 
-          <ul className="mt-10 grid animate-rise grid-cols-2 gap-x-4 gap-y-5 border-t border-border pt-8 [animation-delay:400ms] sm:flex sm:flex-wrap sm:gap-x-0">
-            {items.map((item, index) => (
-              <li
-                key={item.id}
-                className={cn(
-                  "flex items-center gap-3 sm:pr-6",
-                  index > 0 && "sm:border-l sm:border-border sm:pl-6",
-                )}
-              >
-                <Icon icon={trustIcons[item.id]} size={24} className="text-gold-ink" />
-                <span className="text-sm leading-tight">
+          {/* 2×2 at every width: four items never fit one row beside the image. */}
+          <ul className="mt-10 grid max-w-xl animate-rise grid-cols-2 gap-x-6 gap-y-6 border-t border-border pt-8 [animation-delay:400ms] sm:gap-x-10">
+            {items.map((item) => (
+              <li key={item.id} className="flex flex-col items-start gap-2.5 sm:flex-row sm:gap-3">
+                <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gold-500/15 text-gold-ink sm:size-10">
+                  <Icon icon={trustIcons[item.id]} size={20} />
+                </span>
+                <span className="min-w-0 text-sm leading-snug">
                   <span className="block text-ink-muted">{item.label}</span>
-                  <span className="block font-display text-base font-bold text-navy-900">
+                  <span className="mt-0.5 block font-display text-[15px] font-bold leading-tight text-navy-900 sm:text-lg">
                     {item.value}
                     {isPending(item) ? <PendingBadge /> : null}
                   </span>

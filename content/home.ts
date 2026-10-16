@@ -21,7 +21,7 @@ export const hero = {
 };
 
 export type TrustItem = {
-  id: "since" | "personnel" | "teams" | "location";
+  id: "since" | "personnel" | "vetted" | "location";
   /** Small line above the value. */
   label: string;
   value: string;
@@ -33,12 +33,13 @@ export const trustRow: TrustItem[] = [
   { id: "since", label: "Established", value: "2012", status: "verified" },
   {
     id: "personnel",
-    label: "Security personnel*",
+    label: "Security staff*",
     value: "500+",
     footnote: "*Company-reported figure, as of October 2026.",
     status: "verified",
   },
-  { id: "teams", label: "Teams that are", value: "Trained & disciplined", status: "verified" },
+  // Antecedent verification before induction (legacy site, CLAUDE.md §3).
+  { id: "vetted", label: "Every officer", value: "Background-checked", status: "verified" },
   { id: "location", label: "Based in", value: "Tambaram, Chennai", status: "verified" },
 ];
 
