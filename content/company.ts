@@ -86,7 +86,7 @@ export const company = {
     value: { name: "Mr. K. Senthil Raja", title: "Managing Director", qualification: "MCA graduate" },
     status: "verified",
     source: "Company legacy website, ‘The Team’ page",
-    note: "No photo yet; an initials monogram is shown.",
+    note: "Portrait supplied by the project owner (16 Oct 2026), cropped to remove a background sign; MD to approve the crop.",
   },
   personnelStrength: {
     value: 500,

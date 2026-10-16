@@ -30,11 +30,17 @@ const JOBS = [
   { src: "08-ITParkSecurityCheckpoint.png", out: "it-park-checkpoint.webp" },
   // Removes the retailer's store sign so it does not imply a client relationship.
   { src: "09-CommercialBuildingsRetail.jpg", out: "retail-entrance.webp", crop: { left: 0, top: 245, width: 1034, height: 475 } },
+  // Head-and-shoulders crop removes the background wall sign, whose shield logo
+  // is not the company's crest (and appears AI-generated).
+  { src: "ManagingDirector.png", out: "managing-director.webp", crop: { left: 80, top: 95, width: 536, height: 670 }, width: 800, enlarge: true, quality: 84 },
 ];
+
+// `node scripts/process-images.mjs managing-director.webp` processes only the named outputs.
+const only = process.argv.slice(2);
 
 await mkdir(OUT, { recursive: true });
 
-for (const job of JOBS) {
+for (const job of JOBS.filter((j) => only.length === 0 || only.includes(j.out))) {
   let img = sharp(path.join(SRC, job.src)).rotate();
   if (job.crop) img = img.extract(job.crop);
   img = img.resize({ width: job.width ?? 1600, withoutEnlargement: !job.enlarge, kernel: "lanczos3" });

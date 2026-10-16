@@ -14,7 +14,7 @@ Owner: **Client** = Senthil Security Solutions · **Dev** = build team.
 | Personnel strength | "500+" in the hero with footnote "Company-reported figure, as of October 2026" |
 | Ex-forces background, management (GM and ED from CISF / Air Force) | About, homepage, FAQ, careers |
 | Training topics, background verification, PF & ESI | About, careers, FAQ |
-| Managing Director | Mr. K. Senthil Raja, leadership section `/about#leadership` (legacy `/company.php` redirects there) |
+| Managing Director | Mr. K. Senthil Raja, with portrait, leadership section `/about#leadership` (legacy `/company.php` redirects there) |
 | Confirmed services | Industrial, corporate & commercial (incl. IT sector, ATMs), residential; garment and automobile factories added |
 | Gate / front-desk / patrol procedures | "How we work" sections on the three service pages, rewritten from the legacy "Our Programme" |
 | Vision | About page, rewritten without superlatives |
@@ -38,7 +38,7 @@ Owner: **Client** = Senthil Security Solutions · **Dev** = build team.
 | 7 | Still unconfirmed services: event / personal protection, religious venues, warehouses & logistics, housekeeping | Client | Event Security page and the warehouse/event industry pages show only in the review preview |
 | 8 | Areas served (legacy site says "Chennai or all over India") | Client | Copy says "based in Tambaram, serving Chennai" only (FAQ answer pending) |
 | 11 | Approved client names/logos and written testimonials | Client | No client strip; "Company at a glance" used instead |
-| 12 | MD photo; names of the General Manager and Executive Director (optional) | Client | Initials monogram shown for the MD |
+| 12 | MD to approve the cropped portrait; names of the General Manager and Executive Director (optional) | Client | Portrait shown in `/about#leadership`; GM/ED not named |
 | 13 | Authentic photography (a shoot) to replace the illustrative AI/stock images | Client | Illustrative images in use; the armed-security slot still uses a placeholder |
 | 24 | **Licences for the two real stock photos** (event screening, retail entrance) | Client | Replace them with AI/authentic images if the licence cannot be confirmed |
 | 14 | Careers data handler and retention period | Client | Default 6 months, stated in privacy policy as provisional |

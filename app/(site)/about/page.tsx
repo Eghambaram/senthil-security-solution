@@ -6,7 +6,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
-import { ImageFrame } from "@/components/ui/ImageFrame";
+import { hasPhoto, ImageFrame } from "@/components/ui/ImageFrame";
 import { PendingBadge } from "@/components/ui/PendingBadge";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -130,12 +130,18 @@ export default function AboutPage() {
             </Reveal>
             <Reveal delay={0.1} className="lg:col-span-8">
               <article className="flex flex-col gap-6 rounded-lg border border-border p-6 shadow-card sm:flex-row sm:p-8">
-                <span
-                  aria-hidden="true"
-                  className="flex size-20 shrink-0 items-center justify-center rounded-full bg-navy-900 font-display text-2xl font-extrabold text-gold-500"
-                >
-                  KS
-                </span>
+                {hasPhoto("managingDirector") ? (
+                  <div className="relative aspect-[4/5] w-full max-w-60 shrink-0 overflow-hidden rounded-md bg-navy-900 sm:w-44 lg:w-52">
+                    <ImageFrame image="managingDirector" sizes="(min-width: 1024px) 208px, (min-width: 640px) 176px, 240px" />
+                  </div>
+                ) : (
+                  <span
+                    aria-hidden="true"
+                    className="flex size-20 shrink-0 items-center justify-center rounded-full bg-navy-900 font-display text-2xl font-extrabold text-gold-500"
+                  >
+                    KS
+                  </span>
+                )}
                 <div>
                   <h3 className="text-h3">{md.value.name}</h3>
                   <p className="mt-1 text-sm font-semibold uppercase tracking-[0.08em] text-gold-ink">
