@@ -21,13 +21,16 @@ export const RESUME_TYPES = {
 } as const;
 
 const RESUME_EXTENSIONS = /\.(pdf|docx?)$/i;
+const GENERIC_TYPES = new Set(["", "application/octet-stream"]);
 
 /** Client/server check of name, declared type and size. Magic bytes are checked server-side (Phase 5). */
 export const resume = z
   .instanceof(File)
   .refine((f) => f.size > 0, { error: "The selected file is empty." })
   .refine((f) => f.size <= RESUME_MAX_BYTES, { error: "Please upload a file smaller than 5 MB." })
-  .refine((f) => RESUME_EXTENSIONS.test(f.name) && (f.type === "" || f.type in RESUME_TYPES), {
+  // Some browsers/OSes send no type or a generic one (e.g. for .doc); the real
+  // type is confirmed server-side from the file's magic bytes.
+  .refine((f) => RESUME_EXTENSIONS.test(f.name) && (GENERIC_TYPES.has(f.type) || f.type in RESUME_TYPES), {
     error: "Please upload a PDF, DOC or DOCX file.",
   });
 

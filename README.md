@@ -19,10 +19,17 @@ pnpm dev                     # http://localhost:3000
 | `pnpm dev` | Local dev server |
 | `pnpm lint` | ESLint |
 | `pnpm typecheck` | `tsc --noEmit` |
-| `pnpm test` | Vitest: form schemas and content-uniqueness checks |
+| `pnpm test` | Vitest: schemas, form handlers (success + failure paths), content uniqueness |
+| `pnpm test:e2e` | Playwright on a production build with in-memory backends (desktop + mobile) |
+| `pnpm db:generate` / `pnpm db:migrate` | Drizzle migrations (`drizzle/`) against `DATABASE_URL` |
+| `pnpm cf:build` / `cf:preview` / `cf:deploy` | Cloudflare Workers via OpenNext (run the build on Linux/CI) |
 | `pnpm build && pnpm start` | Production build and server |
 
 Before marking work done: `pnpm lint && pnpm typecheck && pnpm test && pnpm build`.
+
+## Forms
+
+`/api/enquiry` and `/api/careers` validate with the same zod schemas as the browser, then check the honeypot, minimum fill time, rate limit (Postgres) and Turnstile, store the submission (Neon), upload CVs privately (R2) and email the team (Resend). With no backend env vars, `pnpm dev` uses in-memory stand-ins and logs emails to the console; a production build without them returns 503. See `.env.example`.
 
 ## Content gating
 

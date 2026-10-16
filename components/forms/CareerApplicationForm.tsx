@@ -18,6 +18,7 @@ import { FormErrorSummary } from "./FormErrorSummary";
 import { FormField, describedBy, inputClass } from "./FormField";
 import { FormSuccess } from "./FormSuccess";
 import { SubmitButton } from "./SubmitButton";
+import { TURNSTILE_SITE_KEY, TurnstileWidget } from "./TurnstileWidget";
 
 type Props = {
   /** Roles open for applications; gated roles are filtered out by the page. */
@@ -45,6 +46,7 @@ type Status = { kind: "idle" } | { kind: "error"; message: string } | { kind: "s
 export function CareerApplicationForm({ roleOptions }: Props) {
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [summaryFields, setSummaryFields] = useState<{ id: string; message: string }[]>([]);
+  const [turnstileReset, setTurnstileReset] = useState(0);
 
   const {
     register,
@@ -90,6 +92,10 @@ export function CareerApplicationForm({ roleOptions }: Props) {
 
   const onValid = async (values: Career) => {
     setSummaryFields([]);
+    if (TURNSTILE_SITE_KEY && !values.turnstileToken) {
+      setStatus({ kind: "error", message: "Please wait for the security check to finish, then submit again." });
+      return;
+    }
     setStatus({ kind: "idle" });
 
     const data = new FormData();
@@ -103,6 +109,8 @@ export function CareerApplicationForm({ roleOptions }: Props) {
       setStatus({ kind: "success", reference: result.reference });
       return;
     }
+    // Turnstile tokens are single-use: get a fresh one for the retry.
+    setTurnstileReset((n) => n + 1);
     if (result.fieldErrors) {
       for (const [name, message] of Object.entries(result.fieldErrors)) {
         setError(name as keyof CareerInput, { type: "server", message });
@@ -261,6 +269,8 @@ export function CareerApplicationForm({ roleOptions }: Props) {
           </p>
         ) : null}
       </div>
+
+      <TurnstileWidget onToken={(token) => setValue("turnstileToken", token)} resetKey={turnstileReset} />
 
       <SubmitButton pending={isSubmitting}>Submit Application</SubmitButton>
     </form>

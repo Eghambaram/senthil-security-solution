@@ -1,9 +1,43 @@
 import type { NextConfig } from "next";
 
+/**
+ * 301 redirects from the legacy PHP site (CLAUDE.md §11). There is no
+ * leadership section or client list yet, so /company.php → /about and
+ * /projects.php → /industries.
+ */
+const LEGACY_REDIRECTS: Record<string, string> = {
+  "/index.php": "/",
+  "/aboutus.php": "/about",
+  "/company.php": "/about",
+  "/service.php": "/services",
+  "/projects.php": "/industries",
+  "/contact_us.php": "/contact",
+};
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+  },
+  async redirects() {
+    return Object.entries(LEGACY_REDIRECTS).map(([source, destination]) => ({
+      source,
+      destination,
+      statusCode: 301,
+    }));
+  },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+        ],
+      },
+    ];
   },
 };
 

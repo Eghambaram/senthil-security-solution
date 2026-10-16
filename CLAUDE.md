@@ -82,22 +82,22 @@ Keep this table mirrored in `content/company.ts` with a `status` field per fact.
 
 | Layer | Choice | Notes |
 |---|---|---|
-| Framework | Next.js 15+ App Router, React 19, TypeScript `strict` | Server Components by default; `"use client"` only for interactivity |
+| Framework | Next.js 16 App Router, React 19, TypeScript `strict` | Server Components by default; `"use client"` only for interactivity |
 | Styling | Tailwind CSS v4 with design tokens in `app/globals.css` (`@theme`) | No CSS-in-JS |
-| Motion | `motion` (Framer Motion) — lazy, `LazyMotion` + `domAnimation` | Respect `prefers-reduced-motion` |
+| Motion | CSS only: `Reveal` (one shared IntersectionObserver) + CSS keyframes for the hero | `motion` was removed in Phase 3 (~107 KB for scroll reveals). Respect `prefers-reduced-motion` |
 | Icons | `lucide-react` | 1.5px stroke, consistent 20/24px sizes |
 | Forms | `react-hook-form` + `zod` (shared schema client + server) | |
-| Server | Route Handlers / Server Actions | Validate with the same zod schema |
-| Email | Resend (`resend` SDK) + React Email templates | Server-only |
+| Server | Route Handlers | Validate with the same zod schema |
+| Email | Resend REST API via `fetch` + plain, escaped HTML templates | Server-only. No SDK/React Email, to keep the Worker small |
 | Spam | Cloudflare Turnstile + honeypot field + min-submit-time check | |
-| Rate limit | Upstash Redis `@upstash/ratelimit` (5 req / 10 min / IP per form) | Fallback: in-memory in dev |
-| Database | Postgres (Neon or Supabase) via Drizzle ORM | Tables: `enquiries`, `applications` |
-| File uploads | Private bucket (Vercel Blob private / Supabase Storage private / S3) | Signed URLs only, never public |
-| CMS | **Phase 2 optional:** Payload CMS 3 (embeds in Next.js, same Postgres). Phase 1 ships with typed content files in `content/`. | Add CMS only if client will edit content |
-| Hosting | Vercel (region `bom1` Mumbai) | |
-| Analytics | Vercel Analytics or Plausible (cookieless) | No third-party ad trackers |
+| Rate limit | Postgres table `submission_attempts` (5 req / 10 min / hashed IP per form) | No Upstash. Fallback: in-memory in dev |
+| Database | Neon Postgres (free plan) via Drizzle ORM + `@neondatabase/serverless` (HTTP) | Tables: `enquiries`, `applications`, `submission_attempts`. Not Supabase: free projects pause after 1 week idle |
+| File uploads | Cloudflare R2 private bucket via S3 API (`aws4fetch`) | Presigned URLs only, never public |
+| CMS | **Optional, later:** Payload CMS 3 (same Postgres). Ships with typed content files in `content/`. | Add CMS only if client will edit content |
+| Hosting | Cloudflare Workers (free plan) via `@opennextjs/cloudflare` | Free plan allows commercial use; Worker must stay < 3 MiB gzip (was 1.43 MiB in Phase 5). Not Vercel Hobby: non-commercial only. Fallback: Vercel Pro |
+| Analytics | Cloudflare Web Analytics (cookieless) | No third-party ad trackers |
 
-Do not add a CMS, database or library "for appearance". Each dependency needs a reason in the PR/commit message.
+Do not add a CMS, database or library "for appearance". Each dependency needs a reason in the PR/commit message. Pin dependency versions at least one week old (pnpm `minimumReleaseAge` is enforced).
 
 ---
 
@@ -113,9 +113,12 @@ pnpm test:e2e         # playwright (nav, forms, mobile viewport)
 pnpm build && pnpm start
 pnpm db:generate      # drizzle-kit generate
 pnpm db:migrate       # drizzle-kit migrate
+pnpm cf:build         # OpenNext build for Cloudflare (Linux/CI; on Windows needs Developer Mode or WSL)
+pnpm cf:preview       # run the built Worker locally with wrangler
+pnpm cf:deploy        # deploy to Cloudflare
 ```
 
-Before declaring any task done: `pnpm lint && pnpm typecheck && pnpm build` must pass with zero errors.
+Before declaring any task done: `pnpm lint && pnpm typecheck && pnpm test && pnpm build` must pass with zero errors.
 
 ---
 
@@ -161,9 +164,12 @@ content/
   images.ts         # image manifest: src, alt, credit, isAuthentic, approved
 lib/
   schemas/ enquiry.ts, career.ts
-  email/   send.ts, templates/
-  db/      schema.ts, client.ts
-  rate-limit.ts
+  email/   send.ts, templates.ts
+  db/      schema.ts, store.ts (Neon + in-memory dev store)
+  forms/   submit.ts (client), handlers.ts, reference.ts, files.ts (server)
+  config.ts         # env → backends; fails closed in production
+  rate-limit.ts     # Postgres-backed
+  storage.ts        # R2 via S3 API, presigned URLs
   turnstile.ts
   seo.ts            # buildMetadata(), jsonLd helpers
 public/images/      # optimised AVIF/WebP originals
@@ -280,7 +286,7 @@ Data protection: applicants' data and files never exposed via public routes; res
 - [ ] Images: alt text, correct crop, `sizes`, lazy below fold
 - [ ] Lighthouse mobile: Performance ≥ 90, Accessibility ≥ 95, SEO ≥ 95, Best Practices ≥ 95
 - [ ] No placeholder links, text or images
-- [ ] `pnpm lint && pnpm typecheck && pnpm build` pass
+- [ ] `pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass
 
 ---
 
@@ -295,11 +301,17 @@ ENQUIRY_FROM_EMAIL=noreply@senthilsecuritysolutions.com
 CAREERS_TO_EMAIL=
 NEXT_PUBLIC_TURNSTILE_SITE_KEY=
 TURNSTILE_SECRET_KEY=
-UPSTASH_REDIS_REST_URL=
-UPSTASH_REDIS_REST_TOKEN=
-BLOB_READ_WRITE_TOKEN=
-# Payload (phase 2 only)
-PAYLOAD_SECRET=
+# Cloudflare R2 (S3 API credentials for the private CV bucket)
+R2_ACCOUNT_ID=
+R2_ACCESS_KEY_ID=
+R2_SECRET_ACCESS_KEY=
+R2_BUCKET=
+# Salt for hashing IPs in submission_attempts (long random string)
+IP_HASH_SALT=
+# Protects /api/cron/retention (long random string)
+CRON_SECRET=
+# Optional: Cloudflare Web Analytics beacon token
+NEXT_PUBLIC_CF_ANALYTICS_TOKEN=
 ```
 
 ---

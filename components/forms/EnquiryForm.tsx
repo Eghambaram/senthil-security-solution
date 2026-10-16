@@ -19,6 +19,7 @@ import { FormErrorSummary } from "./FormErrorSummary";
 import { FormField, describedBy, inputClass } from "./FormField";
 import { FormSuccess } from "./FormSuccess";
 import { SubmitButton } from "./SubmitButton";
+import { TURNSTILE_SITE_KEY, TurnstileWidget } from "./TurnstileWidget";
 
 type Props = {
   variant: "assessment" | "contact";
@@ -47,6 +48,7 @@ export function EnquiryForm({ variant, serviceOptions = [] }: Props) {
   const prefix = `enq-${variant}`;
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [summaryFields, setSummaryFields] = useState<{ id: string; message: string }[]>([]);
+  const [turnstileReset, setTurnstileReset] = useState(0);
 
   const {
     register,
@@ -89,12 +91,18 @@ export function EnquiryForm({ variant, serviceOptions = [] }: Props) {
 
   const onValid = async (values: Enquiry) => {
     setSummaryFields([]);
+    if (TURNSTILE_SITE_KEY && !values.turnstileToken) {
+      setStatus({ kind: "error", message: "Please wait for the security check to finish, then submit again." });
+      return;
+    }
     setStatus({ kind: "idle" });
     const result = await submitForm("/api/enquiry", values);
     if (result.ok) {
       setStatus({ kind: "success", reference: result.reference });
       return;
     }
+    // Turnstile tokens are single-use: get a fresh one for the retry.
+    setTurnstileReset((n) => n + 1);
     if (result.fieldErrors) {
       for (const [name, message] of Object.entries(result.fieldErrors)) {
         setError(name as keyof EnquiryInput, { type: "server", message });
@@ -270,6 +278,8 @@ export function EnquiryForm({ variant, serviceOptions = [] }: Props) {
           </p>
         ) : null}
       </div>
+
+      <TurnstileWidget onToken={(token) => setValue("turnstileToken", token)} resetKey={turnstileReset} />
 
       <SubmitButton pending={isSubmitting}>{isAssessment ? "Request a Site Assessment" : "Send Enquiry"}</SubmitButton>
     </form>

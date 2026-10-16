@@ -10,14 +10,24 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:preview": "opennextjs-cloudflare preview",
+    "cf:deploy": "opennextjs-cloudflare deploy"
   },
   "engines": {
     "node": ">=20.9.0"
   },
   "dependencies": {
     "@hookform/resolvers": "5.9.1",
+    "@neondatabase/serverless": "1.2.0",
+    "@opennextjs/cloudflare": "1.20.8",
+    "aws4fetch": "1.0.20",
     "clsx": "2.1.1",
+    "drizzle-orm": "0.45.4",
     "lucide-react": "1.53.0",
     "next": "16.4.0",
     "react": "19.3.1",
@@ -33,11 +43,13 @@
     "@types/node": "22.20.5",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "drizzle-kit": "0.31.11",
     "eslint": "9.39.5",
     "eslint-config-next": "16.4.0",
     "lighthouse": "13.5.0",
     "tailwindcss": "4.3.3",
     "typescript": "5.9.3",
-    "vitest": "5.0.3"
+    "vitest": "5.0.3",
+    "wrangler": "4.149.0"
   }
 }

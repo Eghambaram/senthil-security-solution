@@ -49,3 +49,17 @@ Decisions made without client input. Each can be reversed.
 34. **Map is click-to-load** (no Google request until the visitor asks), with a note that Google may set cookies.
 35. **Privacy policy and terms are plain-language drafts** covering the DPDP Act 2023 (notice, purpose, consent, retention 12/6 months, rights, grievance route, Data Protection Board). The grievance contact is phone + postal address because no monitored email is confirmed. **Legal review required before launch.**
 36. **Performance tuning deferred to Phase 6 on a deployed preview.** Local Lighthouse varies by more than 20 points between consecutive runs of the same page on this machine (benchmark index ≈ 850, another dev server running), so it cannot validate small changes. Known lever: the shared forms chunk (react-hook-form + zod v4, ~143 KiB uncompressed) is prefetched from header links; `zod/mini` would shrink it. A `next/dynamic` split was tried and reverted because it did not reduce what was downloaded.
+
+## Phase 5 — Functionality (16 Oct 2026)
+
+37. **Free hosting stack (approved by project owner):** Cloudflare Workers via OpenNext (hosting), Neon Postgres (database), Cloudflare R2 (CVs), Cloudflare Turnstile (spam), Resend (email). Vercel Hobby forbids commercial use; Supabase free pauses after a week idle; Upstash replaced by a Postgres `submission_attempts` table. CLAUDE.md §5/§6/§13 updated. Worker size measured at **1.43 MiB gzip** (limit 3 MiB on the free plan).
+38. **OpenNext 1.20.8** (not the latest 1.20.12): newer versions require Next ≥ 16.4.1, which is under a week old. `pnpm cf:build` must run on Linux (Cloudflare Workers Builds / CI) or Windows with Developer Mode — the adapter creates symlinks.
+39. **Allowed install scripts:** `esbuild` and `workerd` (wrangler's bundler and local runtime) in `pnpm-workspace.yaml`.
+40. **Email via Resend REST API, plain escaped HTML templates** — no `resend` SDK / React Email, to keep the Worker small. All user input is HTML-escaped (tested).
+41. **Success requires both the database write and the email.** If the email fails after the row is saved, the visitor gets an error asking them to call (HTTP 502) and the row is flagged `notify_error`; a retry may create a duplicate, which is preferable to a silently missed enquiry. No auto-reply is sent to visitors (saves the 100/day Resend cap).
+42. **Bots are rejected, not fooled:** a filled honeypot or a submission under 3 s returns an error, never a fake success.
+43. **Rate limiting counts every attempt** (including failed Turnstile checks), 5 per 10 min per salted-SHA-256 IP per form. Raw IPs are never stored.
+44. **CVs:** type confirmed from magic bytes (PDF / OLE2 DOC / ZIP+`word/` DOCX) and must match the extension; stored at `resumes/YYYY-MM/<reference>-<random>.<ext>` in a private R2 bucket; the careers email carries a presigned link valid 7 days (SigV4 maximum). If the DB write fails, the uploaded file is deleted.
+45. **Retention job** `POST /api/cron/retention` (Bearer `CRON_SECRET`) deletes enquiries > 12 months, applications + CVs > 6 months and rate-limit rows > 24 h. Scheduling is part of Phase 7.
+46. **Legacy redirects** (301): `/company.php → /about` and `/projects.php → /industries` because there is no leadership section or client list.
+47. **Fake backends** (memory store, console outbox, memory files, Turnstile skipped) are used only when `NODE_ENV !== "production"` or `E2E_FAKE_BACKENDS=1`; otherwise missing config returns 503 with the phone number.
