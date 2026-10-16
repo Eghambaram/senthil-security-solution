@@ -1,6 +1,6 @@
 import { MessageSquare } from "lucide-react";
 import { servicesIntro } from "@/content/home";
-import { services, type ServiceSummary } from "@/content/services";
+import { services, type ServiceDetail } from "@/content/services";
 import { ServiceCard } from "@/components/cards/ServiceCard";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
@@ -14,9 +14,9 @@ const CORE = ["industrial-security", "corporate-commercial-security", "residenti
  * Three core services plus a fourth card: armed (if licensed), else event
  * (if confirmed), else a "talk to us" tile (PROMPT.md §6D).
  */
-export function getHomeServices(): { cards: ServiceSummary[]; showFallback: boolean } {
+export function getHomeServices(): { cards: ServiceDetail[]; showFallback: boolean } {
   const bySlug = (slug: string) => services.find((s) => s.slug === slug);
-  const core = CORE.map(bySlug).filter((s): s is ServiceSummary => !!s && isVisible(s));
+  const core = CORE.map(bySlug).filter((s): s is ServiceDetail => !!s && isVisible(s));
   const fourth = [bySlug("armed-ex-servicemen"), bySlug("event-security")].find((s) => s && isVisible(s));
   const cards = fourth ? [...core, fourth] : core;
   return { cards, showFallback: cards.length > 0 && cards.length < 4 };

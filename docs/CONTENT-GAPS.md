@@ -31,6 +31,10 @@ Owner: **Client** = Senthil Security Solutions · **Dev** = build team.
 | 16 | Vector logo (SVG/AI); approval of crest colours (maroon/peach) next to the navy/gold site palette | Client | 200 px raster crest used; may look soft on high-density screens |
 | 17 | Confirm the 4-step approach matches real practice | Client | Process section held back |
 | 18 | LinkedIn / Twitter URLs | Client | Facebook only in footer |
+| 19 | **Legal review of `/privacy-policy` and `/terms`** (drafts in `content/legal.ts`), including a named grievance contact | Client / lawyer | Must be signed off before launch |
+| 20 | Careers eligibility: minimum age, education, physical fitness, documents required | Client | Eligibility section not shown |
+| 21 | Response-time commitment for enquiries (e.g. "we reply within one working day") | Client | No promise shown on `/site-assessment` |
+| 22 | Authentic, approved photos for a gallery | Client | `/gallery` not built; omitted from nav and sitemap |
 
 ## Photography shot list
 
@@ -53,3 +57,7 @@ Every image slot is in `content/images.ts`. Until approved photos exist, these r
 
 - Why-choose-us one-line support text and the four "Our approach" step descriptions (`content/home.ts`).
 - Homepage FAQ answers (`content/faqs.ts`).
+- All service page copy and FAQs (`content/services.ts`) — each service goes live only when switched to `verified`.
+- All industry page copy (`content/industries.ts`).
+- About page story and values (`content/about.ts`), careers copy (`content/careers.ts`).
+- "How an enquiry works" steps (`enquirySteps` in `content/services.ts`).

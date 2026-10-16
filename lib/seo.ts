@@ -86,3 +86,31 @@ export function faqJsonLd(faqs: readonly { question: string; answer: string }[])
     })),
   };
 }
+
+export type Crumb = { label: string; href: string };
+
+export function breadcrumbJsonLd(crumbs: Crumb[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.label,
+      item: `${SITE_URL}${c.href === "/" ? "" : c.href}`,
+    })),
+  };
+}
+
+export function serviceJsonLd(service: { title: string; metaDescription: string; slug: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    description: service.metaDescription,
+    url: `${SITE_URL}/services/${service.slug}`,
+    serviceType: service.title,
+    areaServed: { "@type": "City", name: "Chennai" },
+    provider: { "@id": `${SITE_URL}/#business` },
+  };
+}

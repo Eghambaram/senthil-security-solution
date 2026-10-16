@@ -19,9 +19,10 @@ pnpm dev                     # http://localhost:3000
 | `pnpm dev` | Local dev server |
 | `pnpm lint` | ESLint |
 | `pnpm typecheck` | `tsc --noEmit` |
+| `pnpm test` | Vitest: form schemas and content-uniqueness checks |
 | `pnpm build && pnpm start` | Production build and server |
 
-Before marking work done: `pnpm lint && pnpm typecheck && pnpm build`.
+Before marking work done: `pnpm lint && pnpm typecheck && pnpm test && pnpm build`.
 
 ## Content gating
 

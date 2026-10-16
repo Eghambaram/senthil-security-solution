@@ -7,6 +7,7 @@ import { services } from "@/content/services";
 import { Icon } from "@/components/ui/Icon";
 import { PendingBadge } from "@/components/ui/PendingBadge";
 import { isPending, isVisible, visible } from "@/lib/facts";
+import { formatTime } from "@/lib/format";
 import { Logo } from "./Logo";
 
 const quickLinks = [
@@ -17,12 +18,6 @@ const quickLinks = [
   { label: "Contact", href: "/contact" },
   { label: "Request a Site Assessment", href: "/site-assessment" },
 ] as const;
-
-/** "19:00" → "7:00 PM" */
-function formatTime(hhmm: string): string {
-  const [h = 0, m = 0] = hhmm.split(":").map(Number);
-  return `${h % 12 || 12}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
-}
 
 const linkClass ="rounded-sm text-white/75 transition-colors hover:text-gold-300";
 
