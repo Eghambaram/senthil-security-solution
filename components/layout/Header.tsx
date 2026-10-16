@@ -33,14 +33,14 @@ export function Header({ nav, cta }: Props) {
     >
       <div
         className={cn(
-          "container-site flex items-center justify-between gap-6 transition-[height] duration-200 ease-brand",
+          "container-site flex items-center justify-between gap-4 xl:gap-6 transition-[height] duration-200 ease-brand",
           scrolled ? "h-16" : "h-[76px]",
         )}
       >
         <Logo compact={scrolled} />
         <NavigationMenu items={nav} className="hidden lg:flex" />
         <div className="flex items-center gap-2">
-          <Button href={cta.href} arrow className="hidden h-11 px-5 text-sm lg:inline-flex">
+          <Button href={cta.href} arrow className="hidden h-11 px-4 text-sm lg:inline-flex xl:px-5">
             {cta.label}
           </Button>
           <MobileNavigation items={nav} cta={cta} />

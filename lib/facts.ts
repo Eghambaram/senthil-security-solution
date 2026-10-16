@@ -19,3 +19,8 @@ export function isPending(item: Gated): boolean {
 export function visible<T extends Gated>(items: readonly T[]): T[] {
   return items.filter(isVisible);
 }
+
+/** Strictly verified, in every environment (structured data, legal text). */
+export function isVerified(item: Gated): boolean {
+  return item.status === "verified";
+}

@@ -67,6 +67,51 @@
 
   /* Motion */
   --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Hero entrance (CSS so it runs before hydration; PROMPT.md §6C). */
+  --animate-rise: rise 0.7s var(--ease-brand) both;
+  --animate-slide-up: slide-up 0.7s var(--ease-brand) both;
+  --animate-settle: settle 0.9s var(--ease-brand) both;
+  --animate-fade-in: fade-in 0.5s var(--ease-brand) both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Transform only, so the LCP headline is painted immediately. */
+  @keyframes slide-up {
+    from {
+      transform: translateY(16px);
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  @keyframes settle {
+    from {
+      transform: scale(1.04);
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 }
 
 @layer base {
@@ -116,6 +161,21 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+  }
+}
+
+/* Scroll reveal (components/ui/Reveal.tsx). Hidden only once JS has marked
+   <html class="js">, so content is never lost without JavaScript. */
+@layer components {
+  [data-reveal] {
+    transition:
+      opacity 0.6s var(--ease-brand) var(--reveal-delay, 0s),
+      transform 0.6s var(--ease-brand) var(--reveal-delay, 0s);
+  }
+
+  .js [data-reveal]:not([data-revealed]) {
+    opacity: 0;
+    transform: translateY(var(--reveal-y, 16px));
   }
 }
 

@@ -1,5 +1,7 @@
+import { FloatingContactActions } from "@/components/layout/FloatingContactActions";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { RevealObserver } from "@/components/layout/RevealObserver";
 import { UtilityBar } from "@/components/layout/UtilityBar";
 import { getMainNav, primaryCta } from "@/content/navigation";
 
@@ -18,6 +20,10 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         {children}
       </main>
       <Footer />
+      {/* Keeps the footer clear of the mobile action bar. */}
+      <div aria-hidden="true" className="h-[calc(3.5rem+env(safe-area-inset-bottom))] bg-navy-900 lg:hidden" />
+      <FloatingContactActions />
+      <RevealObserver />
     </>
   );
 }

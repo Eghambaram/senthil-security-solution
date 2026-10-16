@@ -19,14 +19,14 @@ export function isActive(pathname: string, href: string): boolean {
 }
 
 const linkBase =
-  "relative inline-flex h-10 items-center gap-1 rounded-sm px-3 text-[15px] font-medium text-navy-900 transition-colors hover:text-gold-ink";
+  "relative inline-flex h-10 items-center gap-1 rounded-sm px-2.5 text-[15px] xl:px-3 font-medium text-navy-900 transition-colors hover:text-gold-ink";
 
 function ActiveRule({ active }: { active: boolean }) {
   return (
     <span
       aria-hidden="true"
       className={cn(
-        "absolute inset-x-3 -bottom-0.5 h-0.5 origin-left bg-gold-500 transition-transform duration-200 ease-brand",
+        "absolute inset-x-2.5 -bottom-0.5 xl:inset-x-3 h-0.5 origin-left bg-gold-500 transition-transform duration-200 ease-brand",
         active ? "scale-x-100" : "scale-x-0",
       )}
     />
@@ -38,7 +38,7 @@ export function NavigationMenu({ items, className }: Props) {
 
   return (
     <nav aria-label="Main" className={className}>
-      <ul className="flex items-center gap-1">
+      <ul className="flex items-center xl:gap-1">
         {items.map((item) =>
           item.children ? (
             <li key={item.href}>

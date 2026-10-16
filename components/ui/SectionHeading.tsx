@@ -4,6 +4,8 @@ import { Eyebrow } from "./Eyebrow";
 
 type Props = {
   eyebrow: string;
+  /** id for the heading, used by aria-labelledby on the section. */
+  id?: string;
   title: ReactNode;
   description?: ReactNode;
   /** Pages own their single h1, so sections default to h2. */
@@ -15,6 +17,7 @@ type Props = {
 
 export function SectionHeading({
   eyebrow,
+  id,
   title,
   description,
   as: Heading = "h2",
@@ -27,7 +30,7 @@ export function SectionHeading({
       <Eyebrow tone={tone} className={cn(align === "center" && "justify-center")}>
         {eyebrow}
       </Eyebrow>
-      <Heading className={cn("mt-4", Heading === "h1" ? "text-h1" : "text-h2", tone === "dark" && "text-white")}>
+      <Heading id={id} className={cn("mt-4", Heading === "h1" ? "text-h1" : "text-h2", tone === "dark" && "text-white")}>
         {title}
       </Heading>
       {description ? (

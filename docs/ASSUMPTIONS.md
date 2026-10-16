@@ -20,3 +20,16 @@ Decisions made without client input. Each can be reversed.
 11. **Mobile menu uses a native modal `<dialog>`** for focus containment and Esc handling instead of a custom focus trap.
 12. **Added `tailwind-merge`** so component `className` overrides (e.g. `hidden lg:inline-flex` on a Button) win over base classes; the custom type scale is registered with it.
 13. **Added `@playwright/test`** early to verify layouts at real 320/375 px viewports via the installed Edge (headless Edge screenshots on Windows cannot go below ~500 px). Full E2E suite remains Phase 6.
+
+## Phase 3 — Homepage (16 Oct 2026)
+
+14. **Neutral navy placeholder frames instead of photos** (agreed with the project owner). Every image slot is listed in `content/images.ts` with a shot brief; a slot renders a real photo only when `src` is set and `approved: true`. In development each frame shows a yellow "Photo pending: …" label; in production it is a plain, decorative navy panel (`aria-hidden`).
+15. **Mobile hero crop.** With a placeholder the mobile hero frame is 16:10 instead of the specified 4:5, so a large empty block does not push the headline below the fold. It switches to 4:5 automatically once an approved photo exists.
+16. **Sections that depend on pending facts disappear in production** rather than render empty: Services grid (all services pending), Industries mosaic (all sectors pending), Our approach (practice not confirmed). The hero's "Explore Our Services" button is dropped when the Services section is hidden, so it never points at a missing anchor.
+17. **Hero trust row.** Production shows Established 2012 · Trained & disciplined · Based in Tambaram, Chennai. "500+ security personnel" (with dated footnote) is pending; "Ex-forces leadership" is not shown separately because it depends on the same unconfirmed background facts.
+18. **About body copy has two versions.** The ex-forces sentence (PROMPT.md §6F ⚑) only renders when confirmed; otherwise the approved commitment line is used alone.
+19. **Why-choose-us support lines and the approach steps were written by us** (PROMPT.md gave titles only). They avoid superlatives and unverified specifics, but the client should review them.
+20. **FAQ.** Six visible questions in development; production shows only the two backed by verified facts (how to request an assessment; when the company was established). The PSARA question is `missing` and never renders.
+21. **Removed the `motion` library.** It added a ~107 KB chunk solely for scroll reveals. `Reveal` is now markup + one shared `IntersectionObserver` (`RevealObserver`) + CSS transitions, with the same props, reduced-motion support and the CLAUDE.md §9 easing/offset rules. Content stays visible without JavaScript. Re-add `motion` only if a later interaction genuinely needs it.
+22. **Hero entrance uses CSS keyframes**, not JS, so it runs before hydration; the headline animates transform only so it counts as painted for LCP.
+23. **Lighthouse numbers were measured locally** on a machine with a Lighthouse benchmark index of 851 (below the ~1000+ reference used for the default 4× CPU throttle), so local Performance scores understate a typical mid-range phone. Re-measure on PageSpeed Insights after deployment (Phase 7).

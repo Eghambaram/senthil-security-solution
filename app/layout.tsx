@@ -28,7 +28,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${manrope.variable} ${inter.variable}`}>
+    // suppressHydrationWarning: the inline script adds the "js" class before hydration.
+    <html lang="en-IN" className={`${manrope.variable} ${inter.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body>{children}</body>
     </html>
   );

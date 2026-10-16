@@ -1,36 +1,40 @@
-import { Button } from "@/components/ui/Button";
-import { Eyebrow } from "@/components/ui/Eyebrow";
-import { buildMetadata } from "@/lib/seo";
+import { homeFaqs } from "@/content/faqs";
+import { AboutFeature } from "@/components/sections/AboutFeature";
+import { CompanyAtAGlance } from "@/components/sections/CompanyAtAGlance";
+import { ConsultationBanner } from "@/components/sections/ConsultationBanner";
+import { CTASection } from "@/components/sections/CTASection";
+import { FAQAccordion } from "@/components/sections/FAQAccordion";
+import { HeroSection } from "@/components/sections/HeroSection";
+import { IndustriesGrid } from "@/components/sections/IndustriesGrid";
+import { ProcessSteps } from "@/components/sections/ProcessSteps";
+import { ServicesGrid, getHomeServices } from "@/components/sections/ServicesGrid";
+import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
+import { JsonLd } from "@/components/ui/JsonLd";
+import { buildMetadata, localBusinessJsonLd } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Security Services in Chennai",
   description:
-    "Professional security solutions for industrial, commercial and residential environments in Chennai, built around discipline, vigilance and people.",
+    "Trained security guards for factories, offices and residential communities across Chennai. Based in Tambaram since 2012. Request a site assessment.",
   path: "/",
 });
 
-/** Provisional hero using approved copy (PROMPT.md §6C). Full homepage lands in Phase 3. */
 export default function HomePage() {
+  const hasServices = getHomeServices().cards.length > 0;
+
   return (
-    <section className="section-y">
-      <div className="container-site max-w-3xl">
-        <Eyebrow>People. Process. Protection.</Eyebrow>
-        <h1 className="mt-5 text-display">
-          Protection that earns <span className="text-gold-ink">your trust.</span>
-        </h1>
-        <p className="mt-6 max-w-xl text-body-lg text-ink-muted">
-          Professional security solutions for industrial, commercial and residential environments—built around
-          discipline, vigilance and people.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Button href="/site-assessment" arrow>
-            Discuss Your Security Needs
-          </Button>
-          <Button href="/services" variant="secondary">
-            Explore Our Services
-          </Button>
-        </div>
-      </div>
-    </section>
+    <>
+      <JsonLd data={localBusinessJsonLd()} />
+      <HeroSection showServicesLink={hasServices} />
+      <ServicesGrid />
+      <ConsultationBanner flushTop={hasServices} />
+      <AboutFeature />
+      <IndustriesGrid />
+      <WhyChooseUs />
+      <ProcessSteps />
+      <CompanyAtAGlance />
+      <FAQAccordion faqs={homeFaqs} />
+      <CTASection />
+    </>
   );
 }

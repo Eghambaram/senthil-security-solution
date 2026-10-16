@@ -17,7 +17,6 @@ export function Logo({ tone = "light", compact = false, className }: Props) {
   return (
     <Link
       href="/"
-      aria-label="Senthil Security Solutions, home"
       className={cn("inline-flex items-center gap-3 rounded-sm", className)}
     >
       <span
@@ -45,10 +44,10 @@ export function Logo({ tone = "light", compact = false, className }: Props) {
           )}
         >
           Senthil
-        </span>
+        </span>{" "}
         <span
           className={cn(
-            "mt-1 font-display text-[10.5px] font-bold uppercase tracking-[0.16em]",
+            "mt-1 whitespace-nowrap font-display text-[10.5px] font-bold uppercase tracking-[0.16em]",
             tone === "light" ? "text-navy-900/80" : "text-white/80",
           )}
         >

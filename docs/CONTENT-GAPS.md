@@ -25,9 +25,31 @@ Owner: **Client** = Senthil Security Solutions · **Dev** = build team.
 | 10 | Training topics, PF/ESI benefits, staff verification, ex-forces backgrounds | Client | About/Careers use generic wording without these specifics |
 | 11 | Approved client names/logos and written testimonials | Client | No client strip; "Company at a glance" used instead |
 | 12 | Leadership names, titles, bios, photos (Senthil Raja per Sulekha) | Client | No leadership section; `/company.php` redirects to `/about` |
-| 13 | Authentic photography or approval for a shoot / illustrative imagery | Client | Neutral, unbranded illustrative images, labelled in `content/images.ts` |
+| 13 | Authentic photography or approval for a shoot / illustrative imagery | Client | Neutral navy placeholder frames (see shot list below); site looks unfinished without photos |
 | 14 | Careers data handler and retention period | Client | Default 6 months, stated in privacy policy as provisional |
 | 15 | Domain/DNS registrar access | Client | Blocks Phase 7 cut-over |
 | 16 | Vector logo (SVG/AI); approval of crest colours (maroon/peach) next to the navy/gold site palette | Client | 200 px raster crest used; may look soft on high-density screens |
 | 17 | Confirm the 4-step approach matches real practice | Client | Process section held back |
 | 18 | LinkedIn / Twitter URLs | Client | Facebook only in footer |
+
+## Photography shot list
+
+Every image slot is in `content/images.ts`. Until approved photos exist, these render as neutral navy frames. Rules: authentic photos preferred; no "SENTHIL" branding on stock/AI images; no firearms or control rooms unless real (CLAUDE.md §2.4).
+
+| Slot | Shot |
+|---|---|
+| hero (4:5 mobile, wide desktop) | Guard at a factory or IT-park gate, daylight, eye level, purposeful not posing |
+| serviceIndustrial | Factory gate with vehicle/material check |
+| serviceCorporate | Office or IT-park lobby, front-of-house desk |
+| serviceResidential | Apartment / gated community gate |
+| serviceEvent | Event entry screening, daylight |
+| serviceArmed | Only authentic, licensed armed personnel (gated) |
+| consultation | Site perimeter or gate at dusk (shown at 20% opacity) |
+| aboutPrimary | Supervisor briefing at shift start |
+| aboutSecondary | Site patrol round (not a control room) |
+| industry × 6 | Factory, office/IT park, commercial building, gated community, warehouse yard, event/religious venue exteriors |
+
+## Copy needing client review
+
+- Why-choose-us one-line support text and the four "Our approach" step descriptions (`content/home.ts`).
+- Homepage FAQ answers (`content/faqs.ts`).

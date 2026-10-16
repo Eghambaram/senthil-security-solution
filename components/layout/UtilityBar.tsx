@@ -8,7 +8,7 @@ export function UtilityBar() {
   const phone = company.phone.value;
 
   return (
-    <div className="on-dark bg-navy-900 text-[13px] text-white/85">
+    <section aria-label="Contact information" className="on-dark bg-navy-900 text-[13px] text-white/85">
       <div className="container-site flex h-10 items-center justify-center md:justify-between">
         <p className="hidden items-center gap-2 md:flex">
           <Icon icon={MapPin} size={20} className="size-4 text-gold-500" />
@@ -37,6 +37,6 @@ export function UtilityBar() {
           </li>
         </ul>
       </div>
-    </div>
+    </section>
   );
 }

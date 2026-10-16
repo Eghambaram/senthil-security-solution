@@ -1,7 +1,4 @@
-"use client";
-
-import { LazyMotion, domAnimation, m, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
@@ -12,23 +9,20 @@ type Props = {
   className?: string;
 };
 
-const EASE = [0.22, 1, 0.36, 1] as const;
-
-/** Fades content up once when it enters the viewport. */
+/**
+ * Fades content up once when it enters the viewport. Pure markup: one
+ * shared observer (`RevealObserver`) flips `data-revealed`, and CSS in
+ * globals.css does the motion. Content stays visible without JavaScript.
+ */
 export function Reveal({ children, delay = 0, y = 16, className }: Props) {
-  const reduce = useReducedMotion();
+  const style = {
+    "--reveal-delay": `${delay}s`,
+    "--reveal-y": `${Math.min(y, 24)}px`,
+  } as CSSProperties;
 
   return (
-    <LazyMotion features={domAnimation} strict>
-      <m.div
-        className={className}
-        initial={reduce ? false : { opacity: 0, y: Math.min(y, 24) }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-        transition={{ duration: 0.6, ease: EASE, delay }}
-      >
-        {children}
-      </m.div>
-    </LazyMotion>
+    <div data-reveal="" style={style} className={className}>
+      {children}
+    </div>
   );
 }

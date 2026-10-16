@@ -23,7 +23,7 @@ type NativeButtonProps = StyleProps & { href?: undefined } & Omit<ComponentProps
 type Props = AnchorProps | NativeButtonProps;
 
 const base =
-  "group inline-flex items-center justify-center gap-2 font-sans font-semibold transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-60";
+  "group inline-flex items-center justify-center gap-2 whitespace-nowrap font-sans font-semibold transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-60";
 
 const solid = "h-12 rounded-md px-6 text-[15px]";
 const link = "text-[15px] underline decoration-transparent decoration-1 underline-offset-4 hover:decoration-current";
