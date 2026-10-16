@@ -134,16 +134,16 @@ export const images = {
   industryResidential: { ...photo(residentialGate, "Gated community exterior"), position: "70% 50%" },
   industryWarehouse: photo(truckCheck, "Warehouse yard / loading bay"),
   industryEvents: photo(eventScreening, "Event or religious venue entrance"),
-  // Supplied by the project owner (16 Oct 2026) as a photo of the MD. Cropped to
-  // head and shoulders: the original's background sign shows a logo that is not
-  // the company's crest. The MD should approve the final crop before launch.
+  // Studio portrait of the MD supplied by the project owner (16 Oct 2026). It
+  // replaces an earlier photo whose background sign showed a logo that is not
+  // the company's crest. The MD should approve it before launch.
   managingDirector: {
     src: "/images/site/managing-director.webp",
     width: 800,
     height: 1000,
     alt: "Mr. K. Senthil Raja, Managing Director of Senthil Security Solutions",
     brief: "Head-and-shoulders portrait of the Managing Director, plain or office background",
-    position: "60% 30%",
+    position: "50% 20%",
     isAuthentic: true,
     approved: true,
     credit: "Portrait supplied by the project owner.",

@@ -30,9 +30,9 @@ const JOBS = [
   { src: "08-ITParkSecurityCheckpoint.png", out: "it-park-checkpoint.webp" },
   // Removes the retailer's store sign so it does not imply a client relationship.
   { src: "09-CommercialBuildingsRetail.jpg", out: "retail-entrance.webp", crop: { left: 0, top: 245, width: 1034, height: 475 } },
-  // Head-and-shoulders crop removes the background wall sign, whose shield logo
-  // is not the company's crest (and appears AI-generated).
-  { src: "ManagingDirector.png", out: "managing-director.webp", crop: { left: 80, top: 95, width: 536, height: 670 }, width: 800, enlarge: true, quality: 84 },
+  // Studio portrait (replaces ManagingDirector.png, whose background sign showed a
+  // logo that is not the company's crest). 4:5 crop of the square original.
+  { src: "ManagingDirector-studio.png", out: "managing-director.webp", crop: { left: 100, top: 0, width: 1003, height: 1254 }, width: 800, quality: 84 },
 ];
 
 // `node scripts/process-images.mjs managing-director.webp` processes only the named outputs.
