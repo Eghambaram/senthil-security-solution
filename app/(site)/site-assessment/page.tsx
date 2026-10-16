@@ -1,9 +1,10 @@
-import { Mail, MessageCircle, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { company } from "@/content/company";
 import { services } from "@/content/services";
 import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { EnquirySteps } from "@/components/sections/EnquirySteps";
 import { PageHero } from "@/components/sections/PageHero";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { isVisible, visible } from "@/lib/facts";
 import { buildMetadata } from "@/lib/seo";
 
@@ -59,7 +60,7 @@ export default function SiteAssessmentPage() {
                     rel="noopener noreferrer"
                     className="mt-2 flex items-center gap-2 text-[15px] font-semibold text-white hover:text-gold-300"
                   >
-                    <MessageCircle aria-hidden="true" strokeWidth={1.5} className="size-5 text-gold-500" />
+                    <WhatsAppIcon className="size-5 text-whatsapp" />
                     WhatsApp {mobile.value.display}
                     <span className="sr-only"> (opens in a new tab)</span>
                   </a>

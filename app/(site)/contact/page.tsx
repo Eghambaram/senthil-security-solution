@@ -1,4 +1,4 @@
-import { Clock, ExternalLink, Mail, MapPin, MessageCircle, Phone, type LucideIcon } from "lucide-react";
+import { Clock, ExternalLink, Mail, MapPin, Phone, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { company } from "@/content/company";
@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { MapEmbed } from "@/components/ui/MapEmbed";
 import { PendingBadge } from "@/components/ui/PendingBadge";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { isPending, isVisible } from "@/lib/facts";
 import { formatTime } from "@/lib/format";
 import { buildMetadata } from "@/lib/seo";
@@ -19,11 +20,27 @@ export const metadata = buildMetadata({
   path: "/contact",
 });
 
-function ContactItem({ icon, label, children }: { icon: LucideIcon; label: string; children: ReactNode }) {
+function ContactItem({
+  icon,
+  label,
+  whatsapp = false,
+  children,
+}: {
+  icon?: LucideIcon;
+  label: string;
+  whatsapp?: boolean;
+  children: ReactNode;
+}) {
   return (
     <div className="flex gap-4 py-5">
-      <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-navy-900 text-gold-500">
-        <Icon icon={icon} />
+      <span
+        className={
+          whatsapp
+            ? "flex size-11 shrink-0 items-center justify-center rounded-full bg-whatsapp-dark text-white"
+            : "flex size-11 shrink-0 items-center justify-center rounded-full bg-navy-900 text-gold-500"
+        }
+      >
+        {whatsapp ? <WhatsAppIcon className="size-5" /> : icon ? <Icon icon={icon} /> : null}
       </span>
       <div className="min-w-0">
         <h3 className="text-sm font-semibold uppercase tracking-[0.08em] text-ink-muted">{label}</h3>
@@ -66,7 +83,7 @@ export default function ContactPage() {
                 ) : null}
               </ContactItem>
               {isVisible(mobile) ? (
-                <ContactItem icon={MessageCircle} label="WhatsApp">
+                <ContactItem whatsapp label="WhatsApp">
                   <a
                     href={`https://wa.me/${mobile.value.whatsapp}`}
                     target="_blank"

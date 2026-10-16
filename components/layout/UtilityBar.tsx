@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { MapPin, MessageCircle, Phone } from "lucide-react";
+import { MapPin, Phone } from "lucide-react";
 import { company } from "@/content/company";
 import { Icon } from "@/components/ui/Icon";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { isVisible } from "@/lib/facts";
 
 /** Navy 40px strip above the header. Only the phone shows below 768px. */
@@ -34,7 +35,7 @@ export function UtilityBar() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-sm hover:text-gold-300"
               >
-                <Icon icon={MessageCircle} size={20} className="size-4 text-gold-500" />
+                <WhatsAppIcon className="size-4 text-whatsapp" />
                 <span>WhatsApp {company.mobile.value.display}</span>
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>

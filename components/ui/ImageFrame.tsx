@@ -9,6 +9,8 @@ type Props = {
   /** Required `sizes` for next/image (CLAUDE.md §9). */
   sizes: string;
   priority?: boolean;
+  /** next/image quality; must be listed in images.qualities (next.config.ts). */
+  quality?: 75 | 85;
   className?: string;
   imgClassName?: string;
 };
@@ -25,7 +27,7 @@ export function hasPhoto(key: ImageKey): boolean {
  * "Photo pending" label with the shot brief (also in client review mode);
  * on the live site it is a plain, decorative panel.
  */
-export function ImageFrame({ image, sizes, priority = false, className, imgClassName }: Props) {
+export function ImageFrame({ image, sizes, priority = false, quality, className, imgClassName }: Props) {
   const entry = images[image];
 
   if (entry.src !== null && entry.approved) {
@@ -37,6 +39,7 @@ export function ImageFrame({ image, sizes, priority = false, className, imgClass
           fill
           sizes={sizes}
           priority={priority}
+          quality={quality}
           className={cn("object-cover", imgClassName)}
           style={entry.position ? { objectPosition: entry.position } : undefined}
         />

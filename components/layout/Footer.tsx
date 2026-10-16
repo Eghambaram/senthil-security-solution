@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { Clock, ExternalLink, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Clock, ExternalLink, Mail, MapPin, Phone } from "lucide-react";
 import { company } from "@/content/company";
 import { industries } from "@/content/industries";
 import { legalLinks } from "@/content/navigation";
 import { services } from "@/content/services";
 import { Icon } from "@/components/ui/Icon";
 import { PendingBadge } from "@/components/ui/PendingBadge";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { isPending, isVisible, visible } from "@/lib/facts";
 import { formatTime } from "@/lib/format";
 import { Logo } from "./Logo";
@@ -127,7 +128,7 @@ export function Footer() {
             </p>
             {isVisible(mobile) ? (
               <p className="flex gap-3">
-                <Icon icon={MessageCircle} className="mt-0.5 text-gold-500" />
+                <WhatsAppIcon className="mt-0.5 size-5 shrink-0 text-whatsapp" />
                 <a href={`https://wa.me/${mobile.value.whatsapp}`} target="_blank" rel="noopener noreferrer" className={linkClass}>
                   WhatsApp us<span className="sr-only"> (opens in a new tab)</span>
                 </a>

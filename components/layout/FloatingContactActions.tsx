@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ClipboardCheck, MessageCircle, Phone } from "lucide-react";
+import { ClipboardCheck, Phone } from "lucide-react";
 import { useEffect, useState } from "react";
 import { company } from "@/content/company";
 import { primaryCta } from "@/content/navigation";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { cn } from "@/lib/cn";
 import { isVisible } from "@/lib/facts";
 
@@ -72,9 +73,9 @@ export function FloatingContactActions() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Chat on WhatsApp (opens in a new tab)"
-            className="flex size-12 items-center justify-center rounded-full bg-white text-navy-900 shadow-float ring-1 ring-border transition-colors hover:bg-surface"
+            className="flex size-12 items-center justify-center rounded-full bg-whatsapp-dark text-white shadow-float transition-[background-color,transform] duration-200 hover:scale-105 hover:bg-[#178f45]"
           >
-            <MessageCircle aria-hidden="true" strokeWidth={1.5} className="size-6" />
+            <WhatsAppIcon className="size-6" />
           </a>
         ) : null}
         <a
@@ -109,8 +110,9 @@ export function FloatingContactActions() {
                 rel="noopener noreferrer"
                 className="flex h-full items-center justify-center gap-2 border-l border-white/10 text-[15px] font-semibold text-white"
               >
-                <MessageCircle aria-hidden="true" strokeWidth={1.5} className="size-5 text-gold-500" />
+                <WhatsAppIcon className="size-5 text-whatsapp" />
                 WhatsApp
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </li>
           ) : null}

@@ -36,7 +36,7 @@ export function HeroSection({ showServicesLink }: Props) {
           )}
         >
           <div className="absolute inset-0 animate-settle">
-            <ImageFrame image="hero" sizes="(min-width: 1024px) 47vw, 100vw" priority />
+            <ImageFrame image="hero" sizes="(min-width: 1024px) 100vw, 230vw" quality={85} priority />
           </div>
         </div>
 

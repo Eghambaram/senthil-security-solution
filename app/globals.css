@@ -17,6 +17,11 @@
   --color-ink-muted: #647184;
   --color-border: #e2e7ed;
 
+  /* WhatsApp brand: bright green for the glyph on navy (≈8.5:1);
+     deeper green as a fill behind a white glyph (≈3.1:1, WCAG 1.4.11). */
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #1da851;
+
   /* Feedback */
   --color-success: #1f7a4d;
   --color-danger: #b42318;

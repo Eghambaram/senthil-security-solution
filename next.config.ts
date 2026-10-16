@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    qualities: [75, 85],
   },
   async redirects() {
     return Object.entries(LEGACY_REDIRECTS).map(([source, destination]) => ({

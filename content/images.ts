@@ -39,8 +39,8 @@ function slot(alt: string, brief: string, width = 1600, height = 1200): ImageEnt
 
 const heroGate: Supplied = {
   src: "hero-gate.webp",
-  width: 1600,
-  height: 900,
+  width: 2400,
+  height: 1351,
   alt: "Security officer in uniform standing watch at an industrial site entrance at sunrise",
   credit: AI,
   position: "68% 30%",
