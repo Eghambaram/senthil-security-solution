@@ -122,6 +122,35 @@ export function memoryStore(state: MemoryState = memoryState()): FormStore {
   };
 }
 
+/**
+ * No database: submissions are not kept (the notification email is the
+ * record). Only rate-limit attempts are counted, in this instance's memory.
+ */
+export function mailOnlyStore(attempts: MemoryState["attempts"] = memoryState().attempts): FormStore {
+  return {
+    async countAttempts(form, ipHash, since) {
+      return attempts.filter((a) => a.form === form && a.ipHash === ipHash && a.at >= since).length;
+    },
+    async recordAttempt(form, ipHash, at) {
+      // Drop entries older than an hour so memory stays bounded.
+      const cutoff = at.getTime() - 60 * 60 * 1000;
+      for (let i = attempts.length - 1; i >= 0; i--) if (attempts[i]!.at.getTime() < cutoff) attempts.splice(i, 1);
+      attempts.push({ form, ipHash, at });
+    },
+    async insertEnquiry() {
+      return { id: crypto.randomUUID() };
+    },
+    async insertApplication() {
+      return { id: crypto.randomUUID() };
+    },
+    async markNotified() {},
+    async purge() {
+      return { enquiries: 0, applications: 0, attempts: 0, resumeKeys: [] };
+    },
+  };
+}
+
 export function createStore(config: Backends["store"]): FormStore {
-  return config.kind === "neon" ? neonStore(config.url) : memoryStore();
+  if (config.kind === "neon") return neonStore(config.url);
+  return config.kind === "mail-only" ? mailOnlyStore() : memoryStore();
 }

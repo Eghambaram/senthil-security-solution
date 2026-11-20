@@ -8,10 +8,12 @@ Owner: **Client** = Senthil Security Solutions · **Dev** = build team.
 
 | Item | Now on the site |
 |---|---|
-| Public email | info@senthilsecuritysolutions.com (contact page, footer, site assessment, privacy policy, JSON-LD) |
-| Mobile / WhatsApp | +91 90943 31333: WhatsApp buttons (floating, mobile bar, utility bar, contact, footer) |
+| Public email | senthilsolutions.sss@gmail.com (20 Nov 2026; replaced info@): contact page, footer, site assessment, privacy policy, JSON-LD |
+| Phone numbers (20 Nov 2026) | Office +91 98842 96146 (main number everywhere); WhatsApp +91 90940 25252 (floating, mobile bar, utility bar, contact, footer); Managing Director +91 90943 31333 (contact, About leadership and company details) |
+| Office landmark | Near Sukkubhai Biryani (20 Nov 2026) |
+| Careers roles | Local Security Guard (LSG) and Assistant Security Officer (ASO) added (20 Nov 2026) |
 | Office hours | Mon–Sat 9:00 AM – 6:00 PM, Sunday closed (Google Business Profile) |
-| Personnel strength | "500+" in the hero with footnote "Company-reported figure, as of October 2026" |
+| Personnel strength | "1000+" in the hero (20 Nov 2026) with footnote "Company-reported figure, as of November 2026"; About: "More than 1,000" |
 | Ex-forces background, management (GM and ED from CISF / Air Force) | About, homepage, FAQ, careers |
 | Training topics, background verification, PF & ESI | About, careers, FAQ |
 | Managing Director | Mr. K. Senthil Raja, with portrait, leadership section `/about#leadership` (legacy `/company.php` redirects there) |
@@ -24,7 +26,7 @@ Owner: **Client** = Senthil Security Solutions · **Dev** = build team.
 
 | # | Item | Owner | Impact if unresolved |
 |---|---|---|---|
-| 1 | **Which inbox receives form notifications** (`ENQUIRY_TO_EMAIL`, `CAREERS_TO_EMAIL`), and verifying senthilsecuritysolutions.com in Resend (SPF/DKIM) | Client / Dev | Forms cannot send live; the review preview says "not sent" |
+| 1 | **A Google App Password for senthilsolutions.sss@gmail.com** (turn on 2-Step Verification, then Google Account → Security → App passwords) so the website can send form notifications from the company Gmail (settings pre-filled in `.env.example`: smtp.gmail.com, port 465). Confirm the receiving inbox(es) for enquiries and job applications (default: the same Gmail). Check with `pnpm mail:test`. No third-party email service needed | Client / Dev | Forms return "temporarily unavailable, please call" on the live site; the review preview says "not sent" |
 | 2 | PSARA licence number and validity | Client | No compliance strip; no "licensed" claim anywhere |
 | 3 | Arms-licence status | Client | Armed & Ex-Servicemen page and card stay hidden; "Gunman" role hidden; "armed guards" never mentioned |
 | 4 | Legal entity: legacy site says "Companies Act 1956" but the GSTIN indicates a firm/LLP. Show GSTIN? | Client | Entity type and GSTIN not printed |
@@ -34,8 +36,8 @@ Owner: **Client** = Senthil Security Solutions · **Dev** = build team.
 
 | # | Item | Owner | Impact if unresolved |
 |---|---|---|---|
-| 5 | Are +91 90940 25252 and +91 95511 25252 still in use? | Client | Not shown |
-| 6 | Reconfirm "500+" (a third-party estimate said 185) and number of active sites | Client | Shown with "company-reported" footnote |
+| 5 | Is the legacy number +91 95511 25252 still in use? (+91 90940 25252 is now the WhatsApp number) | Client | Not shown |
+| 6 | Number of active sites (optional, for the "at a glance" section) | Client | Not shown |
 | 7 | Still unconfirmed services: event / personal protection, religious venues, warehouses & logistics, housekeeping | Client | Event Security page and the warehouse/event industry pages show only in the review preview |
 | 8 | Areas served (legacy site says "Chennai or all over India") | Client | Copy says "based in Tambaram, serving Chennai" only (FAQ answer pending) |
 | 11 | Name of the unidentified client logo `5.jpg` (red emblem on blue); written testimonials. Keep the 15 clients' written permissions on file | Client | `5.jpg` not shown; no testimonials |

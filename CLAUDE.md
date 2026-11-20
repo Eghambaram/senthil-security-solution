@@ -37,14 +37,15 @@ Audit date: 16 Oct 2026. Live site pages (`/aboutus.php`, `/service.php`, `/comp
 | Established | 26 May 2012 | Facebook page, Sulekha | VERIFIED (date) |
 | Legal entity type | Facebook says "registered as per Companies Act 1956", but the GSTIN's PAN segment indicates a Firm/LLP | Facebook vs Justdial GSTIN | **CONFLICT — ask client; do not print entity type** |
 | GSTIN | 33ACDFS1683A1ZJ | Justdial | NEEDS CONFIRMATION (footer only if client approves) |
-| Address | No. 2, Railway Station Road, Kamaraj Nagar, Tambaram Sanatorium, Chennai, Tamil Nadu 600047 (near G K Restaurant) | Justdial, Sulekha, Facebook | VERIFIED (confirm exact formatting) |
+| Address | No. 2, Railway Station Road, Kamaraj Nagar, Tambaram Sanatorium, Chennai, Tamil Nadu 600047 (near Sukkubhai Biryani) | Justdial, Sulekha, Facebook; landmark from project owner, 20 Nov 2026 | VERIFIED |
 | Map coordinates | 12.937477, 80.1287727 | Existing site's Google Maps embed | VERIFIED |
-| Phone | +91 44 4380 6837 | Facebook, ZoomInfo, mockup | VERIFIED |
-| Mobile / WhatsApp number | +91 90943 31333 (calls and WhatsApp) | Project owner, 16 Oct 2026; Google Business Profile | VERIFIED (legacy site also lists +91 90940 25252 and +91 95511 25252: not shown until confirmed) |
-| Email | info@senthilsecuritysolutions.com (also support@) | Company legacy website | VERIFIED (shown on site; notification inbox set via ENQUIRY_TO_EMAIL) |
+| Office phone | +91 98842 96146 (main number for calls) | Project owner, 20 Nov 2026 | VERIFIED (replaces legacy landline +91 44 4380 6837) |
+| WhatsApp number | +91 90940 25252 | Project owner, 20 Nov 2026 | VERIFIED (legacy +91 95511 25252: not shown until confirmed) |
+| Managing Director's mobile | +91 90943 31333 | Project owner, 20 Nov 2026 | VERIFIED (shown with his name on Contact and About) |
+| Email | senthilsolutions.sss@gmail.com | Project owner, 20 Nov 2026 | VERIFIED (replaces legacy info@senthilsecuritysolutions.com; also the SMTP sender for form notifications) |
 | Office hours | Mon–Sat, 9:00 AM – 6:00 PM; Sunday closed | Google Business Profile | VERIFIED |
-| Managing Director | Mr. K. Senthil Raja, MCA graduate; runs day-to-day management | Company legacy website (‘The Team’) | VERIFIED (no photo yet) |
-| Personnel strength | "around 500 Security Guards / Armed Guards / Ex-Servicemen on our rolls" | Company legacy website, Facebook (company-reported) | VERIFIED for display as "500+" with footnote "Company-reported figure, as of October 2026" (third-party estimate was 185; reconfirm at client review). Never mention armed guards until licensed |
+| Managing Director | Mr. K. Senthil Raja, MCA graduate; runs day-to-day management | Company legacy website (‘The Team’) | VERIFIED (studio portrait supplied; MD to approve) |
+| Personnel strength | 1000+ security personnel | Project owner, 20 Nov 2026 (company-reported; legacy site said "around 500") | VERIFIED for display as "1000+" with footnote "Company-reported figure, as of November 2026". Never mention armed guards until licensed |
 | Personnel background | Recruits from disciplined forces: CISF, Air Force, Navy, Army | Company legacy website, Facebook | VERIFIED |
 | Management background | General Manager and Executive Director are from the CISF and the Air Force | Company legacy website, Facebook | VERIFIED |
 | Training topics | Security systems, fire prevention & firefighting, first aid, bomb-threat response, crime detection, intelligence & vigilance, disaster management (mock drills) | Company legacy website | VERIFIED |
@@ -64,11 +65,11 @@ Keep this table mirrored in `content/company.ts` with a `status` field per fact.
 
 ## 4. Open questions for the client (blocking items in bold)
 
-1. ~~Business email~~: info@senthilsecuritysolutions.com shown on the site. Still needed: which inbox receives form notifications (ENQUIRY_TO_EMAIL / CAREERS_TO_EMAIL).
+1. ~~Business email~~: senthilsolutions.sss@gmail.com. **Still needed: a Google App Password for it (SMTP sending), and confirmation of the inbox(es) for form notifications.**
 2. **PSARA licence number and validity; arms-licence status for armed guards.**
 3. **Correct legal entity (Proprietorship / Partnership firm / LLP / Pvt Ltd) and whether to show GSTIN.**
-4. Reconfirm "500+" personnel (company figure) and number of active sites.
-5. ~~Mobile/WhatsApp~~: +91 90943 31333. Are +91 90940 25252 and +91 95511 25252 still in use?
+4. ~~Personnel~~: 1000+ (company figure). Number of active sites (optional).
+5. ~~Phone/WhatsApp~~: office +91 98842 96146, WhatsApp +91 90940 25252, MD +91 90943 31333. Is +91 95511 25252 still in use?
 6. Industrial, commercial and residential confirmed. Still to confirm: event/personal protection, religious facilities, warehouses/logistics, housekeeping.
 7. Areas served beyond Chennai (Chengalpattu, Kanchipuram, Tiruvallur, rest of Tamil Nadu?).
 8. Approved client names/logos and any written testimonials with permission.
@@ -89,11 +90,11 @@ Keep this table mirrored in `content/company.ts` with a `status` field per fact.
 | Icons | `lucide-react` | 1.5px stroke, consistent 20/24px sizes |
 | Forms | `react-hook-form` + `zod` (shared schema client + server) | |
 | Server | Route Handlers | Validate with the same zod schema |
-| Email | Resend REST API via `fetch` + plain, escaped HTML templates | Server-only. No SDK/React Email, to keep the Worker small |
-| Spam | Cloudflare Turnstile + honeypot field + min-submit-time check | |
-| Rate limit | Postgres table `submission_attempts` (5 req / 10 min / hashed IP per form) | No Upstash. Fallback: in-memory in dev |
-| Database | Neon Postgres (free plan) via Drizzle ORM + `@neondatabase/serverless` (HTTP) | Tables: `enquiries`, `applications`, `submission_attempts`. Not Supabase: free projects pause after 1 week idle |
-| File uploads | Cloudflare R2 private bucket via S3 API (`aws4fetch`) | Presigned URLs only, never public |
+| Email | **Company mailbox over SMTP** (`lib/email/smtp.ts`: built-in client, `cloudflare:sockets` on Workers, `node:net`/`node:tls` on Node; TLS 465 or STARTTLS 587) + plain, escaped HTML templates. Resend REST API is the alternative | Server-only. No mail SDK/library and no third-party email service. The only service required for forms to work |
+| Spam | Cloudflare Turnstile (optional) + honeypot field + min-submit-time check | |
+| Rate limit | Postgres table `submission_attempts` (5 req / 10 min / hashed IP per form) | No Upstash. Without a database: in-memory per Worker instance |
+| Database | **Optional:** Neon Postgres (free plan) via Drizzle ORM + `@neondatabase/serverless` (HTTP) | Tables: `enquiries`, `applications`, `submission_attempts`. Without it ("mail-only"), nothing is stored and the email is the record. Not Supabase: free projects pause after 1 week idle |
+| File uploads | **Optional:** Cloudflare R2 private bucket via S3 API (`aws4fetch`) | Presigned URLs only, never public. Without it, CVs are attached to the careers email |
 | CMS | **Optional, later:** Payload CMS 3 (same Postgres). Ships with typed content files in `content/`. | Add CMS only if client will edit content |
 | Hosting | Cloudflare Workers (free plan) via `@opennextjs/cloudflare` | Free plan allows commercial use; Worker must stay < 3 MiB gzip (was 1.43 MiB in Phase 5). Not Vercel Hobby: non-commercial only. Fallback: Vercel Pro |
 | Analytics | Cloudflare Web Analytics (cookieless) | No third-party ad trackers |
@@ -114,6 +115,7 @@ pnpm test:e2e         # playwright (nav, forms, mobile viewport)
 pnpm build && pnpm start
 pnpm db:generate      # drizzle-kit generate
 pnpm db:migrate       # drizzle-kit migrate
+pnpm mail:test [to]   # check SMTP settings in .env.local; with an address, send a test email
 pnpm cf:build         # OpenNext build for Cloudflare (Linux/CI; on Windows needs Developer Mode or WSL)
 pnpm cf:preview       # run the built Worker locally with wrangler
 pnpm cf:deploy        # deploy to Cloudflare
@@ -247,7 +249,7 @@ Business content lives in `content/`, never hard-coded in JSX.
 - Images: `next/image` always, explicit `sizes`, `priority` only on the hero image.
 - Fonts: `next/font/google` (Manrope, Inter), `display: swap`, subset latin.
 - Links: `next/link`; external links get `rel="noopener noreferrer"`.
-- Phone links: `tel:+914443806837`. WhatsApp: `https://wa.me/<number>` only once the mobile number is confirmed.
+- Phone links: `tel:+919884296146` (office). WhatsApp: `https://wa.me/919094025252`. Always read numbers from `content/company.ts`, never hard-code them.
 - Motion: wrap in `<Reveal>`; durations 0.4–0.7s, ease `[0.22, 1, 0.36, 1]`, y-offset ≤ 24px; no infinite/decorative loops; no parallax beyond 8%.
 - Every interactive element: visible `:focus-visible` ring (2px gold-500 + 2px offset on dark; 2px navy-900 on light).
 - Heading order: exactly one `h1` per page; no skipped levels.
@@ -295,11 +297,18 @@ Data protection: applicants' data and files never exposed via public routes; res
 
 ```
 NEXT_PUBLIC_SITE_URL=https://senthilsecuritysolutions.com
+# Email (required): company mailbox over SMTP
+SMTP_HOST=
+SMTP_PORT=465
+SMTP_SECURE=            # tls | starttls (default by port)
+SMTP_USER=senthilsolutions.sss@gmail.com   # company Gmail; SMTP_HOST=smtp.gmail.com, SMTP_PASS = Google App Password
+SMTP_PASS=
+ENQUIRY_FROM_EMAIL=     # defaults to SMTP_USER
+ENQUIRY_TO_EMAIL=       # comma-separated allowed
+CAREERS_TO_EMAIL=       # defaults to ENQUIRY_TO_EMAIL
+RESEND_API_KEY=         # alternative to SMTP
+# Optional
 DATABASE_URL=
-RESEND_API_KEY=
-ENQUIRY_TO_EMAIL=
-ENQUIRY_FROM_EMAIL=noreply@senthilsecuritysolutions.com
-CAREERS_TO_EMAIL=
 NEXT_PUBLIC_TURNSTILE_SITE_KEY=
 TURNSTILE_SECRET_KEY=
 # Cloudflare R2 (S3 API credentials for the private CV bucket)

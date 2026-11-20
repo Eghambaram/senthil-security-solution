@@ -58,7 +58,7 @@ export const privacyPolicy: { title: string; intro: string; sections: LegalSecti
     {
       heading: "Who can see it",
       paragraphs: [
-        "Only our staff who handle enquiries or recruitment. We use trusted service providers to host the website, store form submissions and send email notifications; they process data only on our instructions. CVs are stored privately and are never available through a public link.",
+        "Only our staff who handle enquiries or recruitment. We use trusted service providers to host the website, store form submissions and send email notifications; they process data only on our instructions. CVs are kept privately (in our recruitment inbox or private storage) and are never available through a public link.",
       ],
     },
     {
@@ -74,7 +74,7 @@ export const privacyPolicy: { title: string; intro: string; sections: LegalSecti
     {
       heading: "Grievances and contact",
       paragraphs: [
-        "If you have a question or complaint about how we handle your personal data, email info@senthilsecuritysolutions.com, call us on +91 44 4380 6837, or write to us at the office address above. We will respond as soon as possible. If you are not satisfied with our response, you may complain to the Data Protection Board of India.",
+        "If you have a question or complaint about how we handle your personal data, email senthilsolutions.sss@gmail.com, call us on +91 98842 96146, or write to us at the office address above. We will respond as soon as possible. If you are not satisfied with our response, you may complain to the Data Protection Board of India.",
       ],
     },
     {
@@ -135,7 +135,7 @@ export const terms: { title: string; intro: string; sections: LegalSection[] } =
     },
     {
       heading: "Contact",
-      paragraphs: ["Questions about these terms: email info@senthilsecuritysolutions.com, call +91 44 4380 6837 or write to us at the address above."],
+      paragraphs: ["Questions about these terms: email senthilsolutions.sss@gmail.com, call +91 98842 96146 or write to us at the address above."],
     },
   ],
 };

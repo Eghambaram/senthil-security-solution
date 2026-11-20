@@ -19,7 +19,8 @@ pnpm dev                     # http://localhost:3000
 | `pnpm dev` | Local dev server |
 | `pnpm lint` | ESLint |
 | `pnpm typecheck` | `tsc --noEmit` |
-| `pnpm test` | Vitest: schemas, form handlers (success + failure paths), content uniqueness |
+| `pnpm test` | Vitest: schemas, form handlers (success + failure paths), SMTP client (against a scripted local mail server), content uniqueness |
+| `pnpm mail:test [to]` | Check the SMTP settings in `.env.local`; with an address, send a test email |
 | `pnpm test:e2e` | Playwright on a production build with in-memory backends (desktop + mobile): forms, navigation, redirects, and the Phase 6 QA suite (axe, link crawl, metadata, breakpoints, keyboard). Report: `docs/QA.md` |
 | `pnpm db:generate` / `pnpm db:migrate` | Drizzle migrations (`drizzle/`) against `DATABASE_URL` |
 | `pnpm cf:build` / `cf:preview` / `cf:deploy` | Cloudflare Workers via OpenNext (run the build on Linux/CI) |
@@ -29,7 +30,24 @@ Before marking work done: `pnpm lint && pnpm typecheck && pnpm test && pnpm buil
 
 ## Forms
 
-`/api/enquiry` and `/api/careers` validate with the same zod schemas as the browser, then check the honeypot, minimum fill time, rate limit (Postgres) and Turnstile, store the submission (Neon), upload CVs privately (R2) and email the team (Resend). With no backend env vars, `pnpm dev` uses in-memory stand-ins and logs emails to the console; a production build without them returns 503. See `.env.example`.
+`/api/enquiry` and `/api/careers` validate with the same zod schemas as the browser, check the honeypot, minimum fill time, rate limit and (if configured) Turnstile, then email the team.
+
+**Only email is required.** Notifications go through the company's own mailbox over SMTP (`lib/email/smtp.ts`, a small built-in client that runs on Cloudflare Workers and Node; no third-party email service). Resend remains an alternative. Everything else is optional:
+
+| Not configured | What happens |
+|---|---|
+| `DATABASE_URL` (Neon) | Nothing is stored; the email is the record. Rate limiting is kept in memory per Worker instance |
+| R2 | CVs are attached to the careers email instead of a private download link |
+| Turnstile | Honeypot, minimum fill time and rate limit still apply |
+
+A form shows success only after the mail server accepts the message. With no email settings, `pnpm dev` uses an in-memory outbox (logged to the console) and a production build returns 503 with the phone number. See `.env.example`.
+
+Check the mailbox settings before going live:
+
+```bash
+pnpm mail:test                  # connect and log in only
+pnpm mail:test you@example.com  # also send a test email
+```
 
 ## Content gating
 

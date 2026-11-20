@@ -3,7 +3,9 @@ import { antiSpam, consent, fullName, optionalEmail, phone } from "./common";
 
 export const ROLES = [
   { value: "security-guard", label: "Security Guard" },
+  { value: "local-security-guard", label: "Local Security Guard (LSG)" },
   { value: "supervisor", label: "Security Supervisor" },
+  { value: "assistant-security-officer", label: "Assistant Security Officer (ASO)" },
   { value: "gunman", label: "Gunman" },
   { value: "other", label: "Other" },
 ] as const;

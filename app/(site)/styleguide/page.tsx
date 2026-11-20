@@ -123,7 +123,7 @@ export default function StyleguidePage() {
             Request a Consultation
           </Button>
           <Button
-            href="tel:+914443806837"
+            href="tel:+919884296146"
             tone="dark"
             variant="secondary"
             icon={<Phone aria-hidden="true" strokeWidth={1.5} className="size-5" />}

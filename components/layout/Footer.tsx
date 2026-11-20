@@ -116,21 +116,14 @@ export function Footer() {
                 <a href={`tel:${phone.value.tel}`} className={linkClass}>
                   {phone.value.display}
                 </a>
-                {isVisible(mobile) ? (
-                  <>
-                    <br />
-                    <a href={`tel:${mobile.value.tel}`} className={linkClass}>
-                      {mobile.value.display}
-                    </a>
-                  </>
-                ) : null}
               </span>
             </p>
             {isVisible(mobile) ? (
               <p className="flex gap-3">
                 <WhatsAppIcon className="mt-0.5 size-5 shrink-0 text-whatsapp" />
                 <a href={`https://wa.me/${mobile.value.whatsapp}`} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                  WhatsApp us<span className="sr-only"> (opens in a new tab)</span>
+                  WhatsApp {mobile.value.display}
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               </p>
             ) : null}

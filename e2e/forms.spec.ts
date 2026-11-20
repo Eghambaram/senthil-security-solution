@@ -66,7 +66,7 @@ test.describe("contact form", () => {
     await page.getByRole("button", { name: "Send Enquiry" }).click();
 
     await expect(formAlert(page)).toContainText("couldn’t send your details");
-    await expect(formAlert(page).getByRole("link", { name: /\+91 44 4380 6837/ })).toHaveAttribute("href", "tel:+914443806837");
+    await expect(formAlert(page).getByRole("link", { name: /\+91 98842 96146/ })).toHaveAttribute("href", "tel:+919884296146");
     await expect(page.getByLabel("Full name")).toHaveValue("Arun K");
     await expect(page.getByText("Your reference")).toHaveCount(0);
   });

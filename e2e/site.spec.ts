@@ -67,9 +67,9 @@ test("no horizontal scrolling", async ({ page }) => {
 
 test("contact details: WhatsApp and email are reachable", async ({ page }) => {
   await page.goto("/contact");
-  await expect(page.locator('main a[href="https://wa.me/919094331333"]').first()).toBeVisible();
-  await expect(page.locator('main a[href="mailto:info@senthilsecuritysolutions.com"]').first()).toBeVisible();
-  await expect(page.locator('main a[href="tel:+914443806837"]').first()).toBeVisible();
+  await expect(page.locator('main a[href="https://wa.me/919094025252"]').first()).toBeVisible();
+  await expect(page.locator('main a[href="mailto:senthilsolutions.sss@gmail.com"]').first()).toBeVisible();
+  await expect(page.locator('main a[href="tel:+919884296146"]').first()).toBeVisible();
 });
 
 test("legacy Team page lands on the leadership section", async ({ page }) => {

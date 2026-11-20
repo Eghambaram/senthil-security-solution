@@ -103,6 +103,8 @@ export type ApplicationEmailData = {
   location: string;
   resumeName?: string;
   resumeUrl?: string;
+  /** The CV is attached to this email (no CV storage configured). */
+  resumeAttached?: boolean;
   receivedAt: Date;
 };
 
@@ -119,7 +121,7 @@ export function applicationEmail(to: string, reference: string, d: ApplicationEm
       ["Experience", d.experience],
       ["Served in forces", d.served],
       ["Lives in", d.location],
-      ["CV", d.resumeName ?? "Not provided"],
+      ["CV", d.resumeName ? (d.resumeAttached ? `${d.resumeName} (attached)` : d.resumeName) : "Not provided"],
       ["Received", fmt(d.receivedAt)],
     ],
     "Applications and CVs are kept for 6 months under our privacy policy. Do not forward CVs outside the recruitment team.",

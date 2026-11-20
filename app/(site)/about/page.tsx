@@ -1,4 +1,4 @@
-import { Check, Eye, HeartHandshake, Scale, ShieldCheck, Target, TrendingUp, Handshake, type LucideIcon } from "lucide-react";
+import { Check, Eye, HeartHandshake, Phone, Scale, ShieldCheck, Target, TrendingUp, Handshake, type LucideIcon } from "lucide-react";
 import { aboutPage } from "@/content/about";
 import { company } from "@/content/company";
 import { ClientLogos } from "@/components/sections/ClientLogos";
@@ -45,7 +45,8 @@ export default function AboutPage() {
     },
     { label: "Managing Director", value: md.value.name, status: md.status },
     { label: "Office phone", value: company.phone.value.display, status: company.phone.status },
-    { label: "Mobile & WhatsApp", value: company.mobile.value.display, status: company.mobile.status },
+    { label: "WhatsApp", value: company.mobile.value.display, status: company.mobile.status },
+    { label: "Managing Director’s mobile", value: company.mdMobile.value.display, status: company.mdMobile.status },
     { label: "Email", value: company.email.value, status: company.email.status },
     {
       label: "Office hours",
@@ -148,6 +149,15 @@ export default function AboutPage() {
                   <p className="mt-1 text-sm font-semibold uppercase tracking-[0.08em] text-gold-ink">
                     {md.value.title}, Senthil Security Solutions
                   </p>
+                  {isVisible(company.mdMobile) ? (
+                    <a
+                      href={`tel:${company.mdMobile.value.tel}`}
+                      className="mt-3 inline-flex items-center gap-2 font-semibold text-navy-900 underline-offset-4 hover:underline"
+                    >
+                      <Phone aria-hidden="true" strokeWidth={1.5} className="size-4 text-gold-ink" />
+                      {company.mdMobile.value.display}
+                    </a>
+                  ) : null}
                   <div className="mt-4 space-y-3 text-ink-muted">
                     {leadership.managingDirector.bio.map((p) => (
                       <p key={p}>{p}</p>

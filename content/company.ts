@@ -50,32 +50,41 @@ export const company = {
       region: "Tamil Nadu",
       postalCode: "600047",
       country: "IN",
-      landmark: "Near G K Restaurant",
+      landmark: "Near Sukkubhai Biryani",
     },
     status: "verified",
-    source: "Legacy website, Google Business Profile (‘2, Station Rd, Kamaraj Nagar’), Justdial",
+    source: "Legacy website, Google Business Profile (‘2, Station Rd, Kamaraj Nagar’), Justdial; landmark from project owner (20 Nov 2026)",
   },
   geo: {
     value: { lat: 12.937477, lng: 80.1287727 },
     status: "verified",
     source: "Legacy site Google Maps embed",
   },
+  /** Office number for calls (the main number across the site). */
   phone: {
-    value: { display: "+91 44 4380 6837", tel: "+914443806837" },
+    value: { display: "+91 98842 96146", tel: "+919884296146" },
     status: "verified",
-    source: "Legacy website, Facebook, ZoomInfo",
+    source: "Project owner (20 Nov 2026): office number",
+    note: "Replaces the legacy landline +91 44 4380 6837.",
   },
+  /** WhatsApp number (chat links). */
   mobile: {
-    value: { display: "+91 90943 31333", tel: "+919094331333", whatsapp: "919094331333" },
+    value: { display: "+91 90940 25252", tel: "+919094025252", whatsapp: "919094025252" },
     status: "verified",
-    source: "Project owner (16 Oct 2026): active for calls and WhatsApp; Google Business Profile",
-    note: "Legacy site also lists +91 90940 25252 and +91 95511 25252; not shown until confirmed.",
+    source: "Project owner (20 Nov 2026): WhatsApp number",
+    note: "Legacy site also lists +91 95511 25252; not shown until confirmed.",
+  },
+  /** The Managing Director's own mobile, shown with his name. */
+  mdMobile: {
+    value: { display: "+91 90943 31333", tel: "+919094331333" },
+    status: "verified",
+    source: "Project owner (20 Nov 2026): Managing Director's mobile",
   },
   email: {
-    value: "info@senthilsecuritysolutions.com",
+    value: "senthilsolutions.sss@gmail.com",
     status: "verified",
-    source: "Company legacy website (supplied by project owner)",
-    note: "Legacy site also lists support@senthilsecuritysolutions.com. Form notifications go to ENQUIRY_TO_EMAIL / CAREERS_TO_EMAIL.",
+    source: "Project owner (20 Nov 2026)",
+    note: "Replaces info@senthilsecuritysolutions.com from the legacy site. Form notifications go to ENQUIRY_TO_EMAIL / CAREERS_TO_EMAIL.",
   },
   hours: {
     value: { days: "Mon–Sat", opens: "09:00", closes: "18:00", closed: "Sunday" },
@@ -89,10 +98,10 @@ export const company = {
     note: "Studio portrait supplied by the project owner (16 Oct 2026); MD to approve before launch.",
   },
   personnelStrength: {
-    value: 500,
+    value: 1000,
     status: "verified",
-    source: "Company legacy website and Facebook (company-reported)",
-    note: "Shown as ‘500+’ with the footnote ‘Company-reported figure, as of October 2026’. A third-party estimate was 185 employees: confirm at client review.",
+    source: "Project owner (20 Nov 2026), company-reported; was ‘around 500’ on the legacy website",
+    note: "Shown as ‘1000+’ with the footnote ‘Company-reported figure, as of November 2026’.",
   },
   personnelBackground: {
     value: ["CISF", "Air Force", "Navy", "Army"],

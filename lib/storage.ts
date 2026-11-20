@@ -67,6 +67,18 @@ export function memoryFileStore(files: MemoryFiles = memoryFiles()): FileStore {
   };
 }
 
+/** "attach" mode: CVs travel with the email, so nothing is ever stored. */
+const noFileStore: FileStore = {
+  async put() {
+    throw new Error("CV storage is not configured; CVs are attached to the email instead.");
+  },
+  async remove() {},
+  async signedUrl() {
+    throw new Error("CV storage is not configured.");
+  },
+};
+
 export function createFileStore(config: Backends["files"]): FileStore {
-  return config.kind === "r2" ? r2Store(config) : memoryFileStore();
+  if (config.kind === "r2") return r2Store(config);
+  return config.kind === "attach" ? noFileStore : memoryFileStore();
 }

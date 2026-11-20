@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { ConfigError, getBackends, type Backends } from "@/lib/config";
-import { memoryStore, type FormStore } from "@/lib/db/store";
+import { mailOnlyStore, memoryStore, type FormStore } from "@/lib/db/store";
 import { outboxMailer, type Email, type Mailer } from "@/lib/email/send";
 import { detectResume } from "@/lib/forms/files";
 import { handleCareers, handleEnquiry, MESSAGES, type Deps } from "@/lib/forms/handlers";
 import { makeReference } from "@/lib/forms/reference";
 import { purgeExpired } from "@/lib/retention";
-import { memoryFileStore, type FileStore } from "@/lib/storage";
+import { createFileStore, memoryFileStore, type FileStore } from "@/lib/storage";
 import { verifyTurnstile } from "@/lib/turnstile";
 
 const NOW = new Date("2026-10-16T06:30:00Z");
@@ -282,6 +282,140 @@ describe("configuration", () => {
     const b = getBackends();
     expect(b.store.kind).toBe("memory");
     expect(b.mail.kind).toBe("outbox");
+  });
+
+  function withEnv<T>(vars: Record<string, string | undefined>, fn: () => T): T {
+    const saved = { ...process.env };
+    try {
+      for (const [k, v] of Object.entries(vars)) {
+        if (v === undefined) delete process.env[k];
+        else process.env[k] = v;
+      }
+      return fn();
+    } finally {
+      process.env = saved;
+    }
+  }
+
+  const productionWithoutServices = {
+    NODE_ENV: "production",
+    E2E_FAKE_BACKENDS: undefined,
+    NEXT_PUBLIC_REVIEW_MODE: undefined,
+    DATABASE_URL: undefined,
+    RESEND_API_KEY: undefined,
+    R2_ACCOUNT_ID: undefined,
+    R2_ACCESS_KEY_ID: undefined,
+    R2_SECRET_ACCESS_KEY: undefined,
+    R2_BUCKET: undefined,
+    TURNSTILE_SECRET_KEY: undefined,
+    IP_HASH_SALT: undefined,
+    ENQUIRY_FROM_EMAIL: undefined,
+    CAREERS_TO_EMAIL: undefined,
+    SMTP_SECURE: undefined,
+  };
+
+  it("runs on the company mailbox alone in production (SMTP, no database, no CV storage)", () => {
+    const b = withEnv(
+      {
+        ...productionWithoutServices,
+        SMTP_HOST: "mail.senthilsecuritysolutions.com",
+        SMTP_PORT: "465",
+        SMTP_USER: "info@senthilsecuritysolutions.com",
+        SMTP_PASS: "app-password",
+        ENQUIRY_TO_EMAIL: "info@senthilsecuritysolutions.com",
+      },
+      getBackends,
+    );
+    expect(b.mail).toMatchObject({
+      kind: "smtp",
+      secure: "tls",
+      from: "info@senthilsecuritysolutions.com",
+      enquiryTo: "info@senthilsecuritysolutions.com",
+      careersTo: "info@senthilsecuritysolutions.com",
+    });
+    expect(b.store.kind).toBe("mail-only");
+    expect(b.files.kind).toBe("attach");
+    expect(b.turnstile.kind).toBe("skip");
+  });
+
+  it("uses STARTTLS on port 587 and never plain text in production", () => {
+    const base = {
+      ...productionWithoutServices,
+      SMTP_HOST: "smtp.office365.com",
+      SMTP_USER: "info@senthilsecuritysolutions.com",
+      SMTP_PASS: "x",
+      ENQUIRY_TO_EMAIL: "info@senthilsecuritysolutions.com",
+    };
+    expect(withEnv({ ...base, SMTP_PORT: "587" }, getBackends).mail).toMatchObject({ kind: "smtp", secure: "starttls" });
+    expect(() => withEnv({ ...base, SMTP_PORT: "25", SMTP_SECURE: "none" }, getBackends)).toThrow(ConfigError);
+  });
+
+  it("fails closed when the SMTP settings are incomplete", () => {
+    expect(() =>
+      withEnv({ ...productionWithoutServices, SMTP_HOST: "mail.example.com", SMTP_USER: "info@example.com", ENQUIRY_TO_EMAIL: "a@b.c" }, getBackends),
+    ).toThrow(/SMTP_USER and SMTP_PASS/);
+  });
+});
+
+describe("mail-only mode (no database, CVs attached)", () => {
+  const mailOnly: Backends = {
+    store: { kind: "mail-only" },
+    mail: {
+      kind: "smtp",
+      host: "mail.example.com",
+      port: 465,
+      secure: "tls",
+      user: "u",
+      pass: "p",
+      from: "info@senthilsecuritysolutions.com",
+      enquiryTo: "info@senthilsecuritysolutions.com",
+      careersTo: "careers@senthilsecuritysolutions.com",
+    },
+    files: { kind: "attach" },
+    turnstile: { kind: "skip" },
+    ipHashSalt: "instance-salt",
+  };
+  const mailOnlyDeps = (overrides: Partial<Deps> = {}) =>
+    deps({ backends: mailOnly, store: mailOnlyStore(state.attempts), files: createFileStore({ kind: "attach" }), ...overrides });
+
+  it("emails the enquiry, stores nothing and reports a real (not demo) success", async () => {
+    const res = await handleEnquiry(enquiryRequest(assessment), mailOnlyDeps());
+    const body = await res.json();
+    expect(res.status).toBe(200);
+    expect(body).toMatchObject({ ok: true });
+    expect(body.demo).toBeUndefined();
+    expect(state.enquiries).toHaveLength(0);
+    expect(box[0]!.to).toBe("info@senthilsecuritysolutions.com");
+  });
+
+  it("still rate-limits without a database", async () => {
+    for (let i = 0; i < 5; i++) expect((await handleEnquiry(enquiryRequest(assessment), mailOnlyDeps())).status).toBe(200);
+    expect((await handleEnquiry(enquiryRequest(assessment), mailOnlyDeps())).status).toBe(429);
+  });
+
+  it("attaches the CV to the careers email instead of storing it", async () => {
+    const res = await handleCareers(
+      careersRequest(application, new File([PDF], "Murugan CV.pdf", { type: "application/pdf" })),
+      mailOnlyDeps(),
+    );
+    const body = await res.json();
+    expect(res.status).toBe(200);
+    const email = box[0]!;
+    expect(email.to).toBe("careers@senthilsecuritysolutions.com");
+    expect(email.attachments).toHaveLength(1);
+    expect(email.attachments![0]).toMatchObject({ filename: `${body.reference} - Murugan CV.pdf`, contentType: "application/pdf" });
+    expect(email.attachments![0]!.content).toEqual(PDF);
+    expect(email.text).toContain("Murugan CV.pdf (attached)");
+    expect(email.html).not.toContain("Download CV");
+    expect(files.size).toBe(0);
+    expect(state.applications).toHaveLength(0);
+  });
+
+  it("does not report success when the mailbox refuses the message", async () => {
+    const refusing: Mailer = { send: async () => ({ ok: false, error: "SMTP mail.example.com:465: Login failed: 535" }) };
+    const res = await handleEnquiry(enquiryRequest(assessment), mailOnlyDeps({ mailer: refusing }));
+    expect(res.status).toBe(502);
+    expect((await res.json()).error).toBe(MESSAGES.notifyFailed);
   });
 });
 

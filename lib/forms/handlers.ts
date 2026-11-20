@@ -255,9 +255,12 @@ export async function handleCareers(request: Request, getDeps: () => Deps = crea
 
   const now = deps.now();
   const reference = makeReference("APP", now);
-  const resumeKey = resume
-    ? `resumes/${now.toISOString().slice(0, 7)}/${reference}-${crypto.randomUUID().slice(0, 8)}.${resume.kind}`
-    : undefined;
+  // Without CV storage the file travels as an email attachment and is never stored.
+  const attachResume = deps.backends.files.kind === "attach";
+  const resumeKey =
+    resume && !attachResume
+      ? `resumes/${now.toISOString().slice(0, 7)}/${reference}-${crypto.randomUUID().slice(0, 8)}.${resume.kind}`
+      : undefined;
 
   if (resume && resumeKey) {
     try {
@@ -296,20 +299,25 @@ export async function handleCareers(request: Request, getDeps: () => Deps = crea
 
   const roleLabel = ROLES.find((r) => r.value === data.preferredRole)?.label ?? data.preferredRole;
   const resumeUrl = resumeKey ? await deps.files.signedUrl(resumeKey, RESUME_LINK_TTL_SECONDS).catch(() => undefined) : undefined;
-  const sent = await deps.mailer.send(
-    applicationEmail(recipients(deps.backends.mail).careers, reference, {
-      fullName: data.fullName,
-      phone: data.phone,
-      email: data.email || undefined,
-      role: roleLabel,
-      experience: EXPERIENCE_RANGES.includes(data.experienceYears) ? data.experienceYears : "",
-      served: data.servedInForces === "yes" ? `Yes${data.forcesBranch ? ` (${data.forcesBranch})` : ""}` : "No",
-      location: data.location,
-      resumeName: resume?.name,
-      resumeUrl,
-      receivedAt: now,
-    }),
-  );
+  const message = applicationEmail(recipients(deps.backends.mail).careers, reference, {
+    fullName: data.fullName,
+    phone: data.phone,
+    email: data.email || undefined,
+    role: roleLabel,
+    experience: EXPERIENCE_RANGES.includes(data.experienceYears) ? data.experienceYears : "",
+    served: data.servedInForces === "yes" ? `Yes${data.forcesBranch ? ` (${data.forcesBranch})` : ""}` : "No",
+    location: data.location,
+    resumeName: resume?.name,
+    resumeUrl,
+    resumeAttached: !!resume && attachResume,
+    receivedAt: now,
+  });
+  if (resume && attachResume) {
+    message.attachments = [
+      { filename: `${reference} - ${resume.name}`, contentType: resumeContentType(resume.kind), content: resume.bytes },
+    ];
+  }
+  const sent = await deps.mailer.send(message);
 
   await deps.store.markNotified("applications", id, sent.ok ? undefined : sent.error).catch(() => undefined);
   if (!sent.ok) {

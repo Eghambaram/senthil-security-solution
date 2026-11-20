@@ -55,7 +55,7 @@ export const aboutPage = {
     eyebrow: "Our people",
     title: "Verified, trained and looked after.",
     status: "verified" as FactStatus,
-    body: "Around 500 security personnel are on our rolls (company figure, October 2026), including ex-servicemen and people who have served in the CISF, Army, Navy and Air Force. Every officer is inducted only after a thorough antecedent verification, and receives PF and ESI benefits. Training covers:",
+    body: "More than 1,000 security personnel are on our rolls (company figure, November 2026), including ex-servicemen and people who have served in the CISF, Army, Navy and Air Force. Every officer is inducted only after a thorough antecedent verification, and receives PF and ESI benefits. Training covers:",
     training: [
       "Security systems and gate procedures",
       "Fire prevention and firefighting",

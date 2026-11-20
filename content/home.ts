@@ -34,8 +34,8 @@ export const trustRow: TrustItem[] = [
   {
     id: "personnel",
     label: "Security staff*",
-    value: "500+",
-    footnote: "*Company-reported figure, as of October 2026.",
+    value: "1000+",
+    footnote: "*Company-reported figure, as of November 2026.",
     status: "verified",
   },
   // Antecedent verification before induction (legacy site, CLAUDE.md §3).

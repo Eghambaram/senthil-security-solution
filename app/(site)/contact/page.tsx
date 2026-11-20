@@ -1,4 +1,4 @@
-import { Clock, ExternalLink, Mail, MapPin, Phone, type LucideIcon } from "lucide-react";
+import { Clock, ExternalLink, Mail, MapPin, Phone, UserRound, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { company } from "@/content/company";
@@ -16,7 +16,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Contact Us",
   description:
-    "Contact Senthil Security Solutions, No. 2 Railway Station Road, Tambaram Sanatorium, Chennai 600047. Call +91 44 4380 6837 or send an enquiry.",
+    "Contact Senthil Security Solutions, No. 2 Railway Station Road, Tambaram Sanatorium, Chennai 600047. Call +91 98842 96146 or send an enquiry.",
   path: "/contact",
 });
 
@@ -51,7 +51,7 @@ function ContactItem({
 }
 
 export default function ContactPage() {
-  const { address, phone, mobile, email, hours, geo } = company;
+  const { address, phone, mobile, mdMobile, managingDirector, email, hours, geo } = company;
   const a = address.value;
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${geo.value.lat},${geo.value.lng}`;
 
@@ -69,18 +69,10 @@ export default function ContactPage() {
           <div className="min-w-0 lg:col-span-5">
             <h2 className="text-h3">Contact details</h2>
             <div className="mt-2 divide-y divide-border">
-              <ContactItem icon={Phone} label="Phone">
+              <ContactItem icon={Phone} label="Office phone">
                 <a href={`tel:${phone.value.tel}`} className="font-semibold text-navy-900 underline-offset-4 hover:underline">
                   {phone.value.display}
                 </a>
-                {isVisible(mobile) ? (
-                  <>
-                    <br />
-                    <a href={`tel:${mobile.value.tel}`} className="font-semibold text-navy-900 underline-offset-4 hover:underline">
-                      {mobile.value.display}
-                    </a>
-                  </>
-                ) : null}
               </ContactItem>
               {isVisible(mobile) ? (
                 <ContactItem whatsapp label="WhatsApp">
@@ -92,6 +84,15 @@ export default function ContactPage() {
                   >
                     Chat on WhatsApp: {mobile.value.display}
                     <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                </ContactItem>
+              ) : null}
+              {isVisible(mdMobile) && isVisible(managingDirector) ? (
+                <ContactItem icon={UserRound} label="Managing Director">
+                  {managingDirector.value.name}
+                  <br />
+                  <a href={`tel:${mdMobile.value.tel}`} className="font-semibold text-navy-900 underline-offset-4 hover:underline">
+                    {mdMobile.value.display}
                   </a>
                 </ContactItem>
               ) : null}

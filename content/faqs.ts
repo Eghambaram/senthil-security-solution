@@ -11,7 +11,7 @@ export const homeFaqs: readonly Faq[] = [
   {
     question: "How do I request a site assessment?",
     answer:
-      "Fill in the site assessment form or call us on +91 44 4380 6837. Tell us about your premises and what concerns you, and our team will contact you to arrange a visit.",
+      "Fill in the site assessment form or call us on +91 98842 96146. Tell us about your premises and what concerns you, and our team will contact you to arrange a visit.",
     status: "verified",
   },
   {
@@ -51,7 +51,7 @@ export const homeFaqs: readonly Faq[] = [
   {
     question: "What are your office hours?",
     answer:
-      "Our office in Tambaram Sanatorium is open Monday to Saturday, 9:00 AM to 6:00 PM, and closed on Sunday. You can call or WhatsApp us on +91 90943 31333.",
+      "Our office in Tambaram Sanatorium is open Monday to Saturday, 9:00 AM to 6:00 PM, and closed on Sunday. You can call us on +91 98842 96146 or WhatsApp us on +91 90940 25252.",
     status: "verified",
   },
   {

@@ -44,9 +44,23 @@ export const careersPage = {
         status: "verified" as FactStatus,
       },
       {
+        // Added at the project owner's request, 20 Nov 2026.
+        id: "local-security-guard",
+        title: "Local Security Guard (LSG)",
+        body: "Guard posts at client sites close to where you live: gate and visitor control, patrols and incident reporting.",
+        status: "verified" as FactStatus,
+      },
+      {
         id: "supervisor",
         title: "Security Supervisor",
         body: "Leads a team across shifts, checks posts, handles client communication and keeps records in order.",
+        status: "verified" as FactStatus,
+      },
+      {
+        // Added at the project owner's request, 20 Nov 2026.
+        id: "assistant-security-officer",
+        title: "Assistant Security Officer (ASO)",
+        body: "Supports the Security Officer at larger sites: plans duty rosters, briefs and checks guards on every shift, and reports to the client.",
         status: "verified" as FactStatus,
       },
       {

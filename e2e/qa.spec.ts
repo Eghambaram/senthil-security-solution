@@ -146,7 +146,7 @@ test.describe("site-wide QA", () => {
         continue;
       }
       if (href.startsWith("mailto:")) {
-        expect(href, where).toMatch(/^mailto:[a-z]+@senthilsecuritysolutions\.com$/);
+        expect(href, where).toMatch(/^mailto:[a-z0-9.]+@(senthilsecuritysolutions\.com|gmail\.com)$/);
         continue;
       }
       if (/^https?:\/\//.test(href)) {
@@ -209,6 +209,8 @@ test.describe("keyboard", () => {
   });
 
   test("every tab stop shows a visible focus ring", async ({ page, isMobile }) => {
+    // Up to 60 tab stops on each of six pages; slow machines need more than the default 30 s.
+    test.setTimeout(180_000);
     for (const path of ["/", "/about", "/services", "/contact", "/careers", "/site-assessment"]) {
       await page.goto(path);
       const stops = isMobile ? 25 : 60;
