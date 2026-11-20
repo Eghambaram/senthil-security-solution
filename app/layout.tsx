@@ -35,7 +35,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>
-      <body>{children}</body>
+      {/* suppressHydrationWarning: browser extensions (Grammarly, ColorZilla…) add attributes to <body>. */}
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

@@ -23,8 +23,10 @@ export type SmtpConfig = {
   pass?: string;
   /** Name sent with EHLO; defaults to the sender's domain. */
   clientName?: string;
-  /** Whole-conversation timeout. */
+  /** Fails when nothing is sent or received for this long (default 20 s). */
   timeoutMs?: number;
+  /** Hard cap on the whole conversation (default 180 s), so a slow CV upload can finish. */
+  maxMs?: number;
 };
 
 export type SmtpAttachment = { filename: string; contentType: string; content: Uint8Array };
@@ -184,12 +186,17 @@ const decoder = new TextDecoder();
 
 type Reply = { code: number; lines: string[] };
 
+/** Large messages are written in pieces so each one counts as progress. */
+const WRITE_CHUNK = 64 * 1024;
+
 class Session {
   private buffer = "";
   private conn: Conn;
+  private progress: () => void;
 
-  constructor(conn: Conn) {
+  constructor(conn: Conn, progress: () => void) {
     this.conn = conn;
+    this.progress = progress;
   }
 
   async reply(): Promise<Reply> {
@@ -204,6 +211,7 @@ class Session {
       }
       const chunk = await this.conn.read();
       if (chunk === null) throw new SmtpError("The mail server closed the connection unexpectedly.");
+      this.progress();
       this.buffer += decoder.decode(chunk, { stream: true });
     }
   }
@@ -222,7 +230,10 @@ class Session {
   }
 
   async send(data: Uint8Array): Promise<void> {
-    await this.conn.write(data);
+    for (let i = 0; i < data.length; i += WRITE_CHUNK) {
+      await this.conn.write(data.subarray(i, i + WRITE_CHUNK));
+      this.progress();
+    }
   }
 
   async upgrade(): Promise<void> {
@@ -266,32 +277,59 @@ function domainOf(address: string): string {
   return address.split("@")[1] ?? "localhost";
 }
 
-async function withTimeout<T>(ms: number, work: (session: () => Session | undefined) => Promise<T>, open: () => Promise<Session>): Promise<T> {
+/**
+ * Runs the conversation with two limits: `idleMs` without any data moving
+ * (a dead server), and `maxMs` overall. An idle-only limit lets a large CV
+ * upload over a slow connection finish instead of failing at a fixed deadline.
+ */
+async function withTimeout<T>(
+  limits: { idleMs: number; maxMs: number },
+  work: (session: () => Session | undefined) => Promise<T>,
+  open: (progress: () => void) => Promise<Session>,
+): Promise<T> {
   let session: Session | undefined;
-  let timer: ReturnType<typeof setTimeout> | undefined;
+  let idle: ReturnType<typeof setTimeout> | undefined;
+  let fail: (err: Error) => void = () => undefined;
   const timeout = new Promise<never>((_, reject) => {
-    timer = setTimeout(() => {
+    fail = (err) => {
       session?.close();
-      reject(new SmtpError(`The mail server did not respond within ${Math.round(ms / 1000)} s.`));
-    }, ms);
+      reject(err);
+    };
   });
+  const progress = () => {
+    clearTimeout(idle);
+    idle = setTimeout(
+      () => fail(new SmtpError(`The mail server did not respond within ${Math.round(limits.idleMs / 1000)} s.`)),
+      limits.idleMs,
+    );
+  };
+  progress();
+  const overall = setTimeout(
+    () => fail(new SmtpError(`Sending took longer than ${Math.round(limits.maxMs / 1000)} s.`)),
+    limits.maxMs,
+  );
   try {
     return await Promise.race([
       (async () => {
-        session = await open();
+        session = await open(progress);
         return work(() => session);
       })(),
       timeout,
     ]);
   } finally {
-    clearTimeout(timer);
+    clearTimeout(idle);
+    clearTimeout(overall);
     session?.close();
   }
 }
 
+function limits(cfg: SmtpConfig) {
+  return { idleMs: cfg.timeoutMs ?? 20_000, maxMs: cfg.maxMs ?? 180_000 };
+}
+
 /** Connects, says hello, upgrades to TLS if asked, and logs in. */
-async function handshake(cfg: SmtpConfig, clientName: string): Promise<Session> {
-  const session = new Session(await (isWorkers() ? workersConnect(cfg) : nodeConnect(cfg)));
+async function handshake(cfg: SmtpConfig, clientName: string, progress: () => void): Promise<Session> {
+  const session = new Session(await (isWorkers() ? workersConnect(cfg) : nodeConnect(cfg)), progress);
   try {
     await session.expect([220], "Connect");
     let caps = capabilities(await session.command(`EHLO ${clientName}`, [250], "EHLO"));
@@ -320,7 +358,7 @@ export async function sendMail(cfg: SmtpConfig, message: SmtpMessage): Promise<S
   const data = dotStuff(buildMessage(message, messageId));
   try {
     await withTimeout(
-      cfg.timeoutMs ?? 20_000,
+      limits(cfg),
       async (current) => {
         const session = current()!;
         await session.command(`MAIL FROM:<${clean(message.from.address)}>`, [250], "Sender");
@@ -330,7 +368,7 @@ export async function sendMail(cfg: SmtpConfig, message: SmtpMessage): Promise<S
         await session.expect([250], "Message");
         await session.command("QUIT", [221]).catch(() => undefined);
       },
-      () => handshake(cfg, clientName),
+      (progress) => handshake(cfg, clientName, progress),
     );
     return { ok: true, messageId };
   } catch (err) {
@@ -342,11 +380,11 @@ export async function sendMail(cfg: SmtpConfig, message: SmtpMessage): Promise<S
 export async function verifySmtp(cfg: SmtpConfig, clientName = "localhost"): Promise<{ ok: true } | { ok: false; error: string }> {
   try {
     await withTimeout(
-      cfg.timeoutMs ?? 20_000,
+      limits(cfg),
       async (current) => {
         await current()!.command("QUIT", [221]).catch(() => undefined);
       },
-      () => handshake(cfg, clientName),
+      (progress) => handshake(cfg, clientName, progress),
     );
     return { ok: true };
   } catch (err) {

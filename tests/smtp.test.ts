@@ -13,6 +13,8 @@ type Script = {
   onData?: (message: string) => string;
   dropAfter?: string;
   silent?: boolean;
+  /** Waits this long before every reply (a slow but working server). */
+  replyDelayMs?: number;
 };
 
 type Server = { port: number; commands: string[]; messages: string[]; close: () => Promise<void> };
@@ -31,6 +33,12 @@ async function fakeServer(script: Script = {}): Promise<Server> {
     sockets.add(socket);
     socket.on("close", () => sockets.delete(socket));
     if (script.silent) return;
+    if (script.replyDelayMs) {
+      const write = socket.write.bind(socket) as (data: string) => boolean;
+      const end = socket.end.bind(socket) as (data: string) => void;
+      socket.write = ((data: string) => (setTimeout(() => socket.writable && write(data), script.replyDelayMs), true)) as typeof socket.write;
+      socket.end = ((data: string) => (setTimeout(() => socket.writable && end(data), script.replyDelayMs), socket)) as typeof socket.end;
+    }
     let buffer = "";
     let inData = false;
     let loginStep = 0;
@@ -212,6 +220,21 @@ describe("SMTP client", () => {
     const result = await sendMail(config(server.port, { timeoutMs: 300 }), message);
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error).toContain("did not respond");
+  });
+
+  it("keeps going past the idle limit while the conversation makes progress", async () => {
+    // 8 replies x 150 ms = 1.2 s in total, but never 400 ms without data.
+    const server = await fakeServer({ replyDelayMs: 150 });
+    const result = await sendMail(config(server.port, { timeoutMs: 400 }), message);
+    expect(result.ok).toBe(true);
+    expect(server.messages).toHaveLength(1);
+  });
+
+  it("stops at the overall limit", async () => {
+    const server = await fakeServer({ replyDelayMs: 150 });
+    const result = await sendMail(config(server.port, { timeoutMs: 400, maxMs: 500 }), message);
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error).toContain("took longer than");
   });
 
   it("refuses to continue in plain text when STARTTLS is required but not offered", async () => {
