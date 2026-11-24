@@ -12,7 +12,7 @@ const sharp = require(require.resolve("sharp", { paths: [require.resolve("next")
 const SRC = "assets/source-images";
 const OUT = "public/images/site";
 
-/** @type {{ src: string; out: string; crop?: { left: number; top: number; width: number; height: number }; width?: number; enlarge?: boolean; quality?: number }[]} */
+/** @type {{ src: string; out: string; crop?: { left: number; top: number; width: number; height: number }; width?: number; enlarge?: boolean; quality?: number; turn?: number }[]} */
 const JOBS = [
   // The hero is shown cover-cropped at up to ~1400 CSS px wide, so it is enlarged
   // with Lanczos resampling and lightly sharpened, at higher quality.
@@ -33,6 +33,27 @@ const JOBS = [
   // Studio portrait (replaces ManagingDirector.png, whose background sign showed a
   // logo that is not the company's crest). 4:5 crop of the square original.
   { src: "ManagingDirector-studio.png", out: "managing-director-studio.webp", crop: { left: 100, top: 0, width: 1003, height: 1254 }, width: 800, quality: 84 },
+  // Authentic training and parade photos supplied by the client (24 Nov 2026).
+  // DSC_8843 carries a wrong EXIF orientation, so it gets an extra quarter turn.
+  { src: "training/DSC_0051.JPG", out: "training-cpr-demo.webp" },
+  { src: "training/DSC_0068.JPG", out: "training-first-aid.webp" },
+  { src: "training/DSC_0079.JPG", out: "training-casualty-carry.webp" },
+  { src: "training/DSC_0099.JPG", out: "training-fire-extinguisher.webp", width: 1100 },
+  { src: "training/DSC_0038.JPG", out: "parade-briefing.webp" },
+  { src: "training/DSC_0103.JPG", out: "parade-lineup-navy.webp" },
+  { src: "training/DSC_0111.JPG", out: "parade-inspection-navy.webp" },
+  { src: "training/DSC_0125.JPG", out: "parade-officer.webp" },
+  { src: "training/DSC_0143.JPG", out: "parade-salute.webp", width: 1100 },
+  { src: "training/DSC_8745.JPG", out: "parade-uniform-check.webp" },
+  { src: "training/DSC_2509.JPG", out: "parade-lineup-site.webp" },
+  { src: "training/DSC_2516.JPG", out: "parade-guard-commander.webp" },
+  { src: "training/DSC_2580.JPG", out: "parade-march.webp" },
+  { src: "training/SS (4).JPG", out: "parade-assembly.webp" },
+  { src: "training/DSC_2559.JPG", out: "ceremonial-salute.webp" },
+  { src: "training/DSC_2588.JPG", out: "ceremonial-guard.webp" },
+  { src: "training/SS (7).JPG", out: "ceremonial-flag-salute.webp" },
+  { src: "training/DSC_8839.JPG", out: "lady-guards-screening.webp" },
+  { src: "training/DSC_8843.JPG", out: "lady-guards-control-desk.webp", turn: 90, width: 1100 },
 ];
 
 // `node scripts/process-images.mjs managing-director-studio.webp` processes only the named outputs.
@@ -42,6 +63,7 @@ await mkdir(OUT, { recursive: true });
 
 for (const job of JOBS.filter((j) => only.length === 0 || only.includes(j.out))) {
   let img = sharp(path.join(SRC, job.src)).rotate();
+  if (job.turn) img = sharp(await img.toBuffer()).rotate(job.turn);
   if (job.crop) img = img.extract(job.crop);
   img = img.resize({ width: job.width ?? 1600, withoutEnlargement: !job.enlarge, kernel: "lanczos3" });
   if (job.enlarge) img = img.sharpen({ sigma: 0.7, m1: 0.5, m2: 2 });

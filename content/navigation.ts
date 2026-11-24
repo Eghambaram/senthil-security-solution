@@ -8,11 +8,13 @@ export type NavItem = {
   label: string;
   href: string;
   children?: NavChild[];
+  /** Shown in the desktop bar only from 1280 px (the logo also links home); always in the mobile menu. */
+  wideOnly?: boolean;
 };
 
 export function getMainNav(): NavItem[] {
   return [
-    { label: "Home", href: "/" },
+    { label: "Home", href: "/", wideOnly: true },
     { label: "About", href: "/about" },
     {
       label: "Services",
@@ -32,6 +34,7 @@ export function getMainNav(): NavItem[] {
         pending: isPending(i),
       })),
     },
+    { label: "Gallery", href: "/gallery" },
     { label: "Careers", href: "/careers" },
     { label: "Contact", href: "/contact" },
   ];

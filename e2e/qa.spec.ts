@@ -32,7 +32,7 @@ test.describe("site-wide QA", () => {
       expect((await request.get(path, { maxRedirects: 0 })).status(), path).toBe(200);
     }
     // Gated and dev-only routes stay out of the sitemap.
-    for (const hidden of ["/styleguide", "/services/armed-ex-servicemen", "/services/event-security", "/gallery"]) {
+    for (const hidden of ["/styleguide", "/services/armed-ex-servicemen", "/services/event-security"]) {
       expect(paths, hidden).not.toContain(hidden);
     }
   });

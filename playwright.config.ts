@@ -28,6 +28,32 @@ export default defineConfig({
     url: `http://localhost:${PORT}`,
     timeout: 300_000,
     reuseExistingServer: false,
-    env: { E2E_FAKE_BACKENDS: "1" },
+    // Blank values win over .env.local (Next never overrides a variable that is
+    // already set), so a developer's real mail/DB/storage settings are never
+    // used by the tests and the build gets the production site URL.
+    env: {
+      E2E_FAKE_BACKENDS: "1",
+      NEXT_PUBLIC_SITE_URL: "https://senthilsecuritysolutions.com",
+      NEXT_PUBLIC_REVIEW_MODE: "",
+      ...Object.fromEntries(
+        [
+          "SMTP_HOST",
+          "SMTP_USER",
+          "SMTP_PASS",
+          "ENQUIRY_FROM_EMAIL",
+          "ENQUIRY_TO_EMAIL",
+          "CAREERS_TO_EMAIL",
+          "RESEND_API_KEY",
+          "DATABASE_URL",
+          "R2_ACCOUNT_ID",
+          "R2_ACCESS_KEY_ID",
+          "R2_SECRET_ACCESS_KEY",
+          "R2_BUCKET",
+          "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
+          "TURNSTILE_SECRET_KEY",
+          "NEXT_PUBLIC_CF_ANALYTICS_TOKEN",
+        ].map((name) => [name, ""]),
+      ),
+    },
   },
 });

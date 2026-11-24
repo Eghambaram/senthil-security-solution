@@ -1,6 +1,7 @@
 import { Check, Eye, HeartHandshake, Phone, Scale, ShieldCheck, Target, TrendingUp, Handshake, type LucideIcon } from "lucide-react";
 import { aboutPage } from "@/content/about";
 import { company } from "@/content/company";
+import type { ImageKey } from "@/content/images";
 import { ClientLogos } from "@/components/sections/ClientLogos";
 import { CTASection } from "@/components/sections/CTASection";
 import { PageHero } from "@/components/sections/PageHero";
@@ -29,6 +30,9 @@ const valueIcons: Record<string, LucideIcon> = {
 };
 
 const visionIcons: LucideIcon[] = [Target, Handshake, TrendingUp];
+
+/** Authentic training photos under the training list (full set on /gallery). */
+const TRAINING_PHOTOS: ImageKey[] = ["trainingCpr", "trainingFireExtinguisher", "trainingCasualtyCarry", "paradeMarch"];
 
 export default function AboutPage() {
   const { story, vision, values, leadership, people, details } = aboutPage;
@@ -201,6 +205,20 @@ export default function AboutPage() {
                 Join our team
               </Button>
             </Reveal>
+          </div>
+          <div className="container-site mt-12">
+            <ul aria-label="Training photos" className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+              {TRAINING_PHOTOS.map((image, index) => (
+                <li key={image}>
+                  <Reveal delay={index * 0.06} className="relative aspect-[4/3] overflow-hidden rounded-lg">
+                    <ImageFrame image={image} sizes="(min-width: 1024px) 300px, 50vw" />
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+            <Button href="/gallery" variant="tertiary" arrow className="mt-6">
+              See our training and parade photos
+            </Button>
           </div>
         </section>
       ) : null}

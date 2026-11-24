@@ -45,7 +45,7 @@ export function NavigationMenu({ items, className }: Props) {
               <Dropdown item={item} active={isActive(pathname, item.href)} pathname={pathname} />
             </li>
           ) : (
-            <li key={item.href}>
+            <li key={item.href} className={item.wideOnly ? "hidden xl:block" : undefined}>
               <Link
                 href={item.href}
                 className={linkBase}

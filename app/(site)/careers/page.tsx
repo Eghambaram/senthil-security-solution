@@ -36,6 +36,7 @@ export default function CareersPage() {
         eyebrow={careersPage.eyebrow}
         title={careersPage.title}
         intro={careersPage.intro}
+        image="careersHero"
         actions={
           <>
             <Button href="#apply" arrow>

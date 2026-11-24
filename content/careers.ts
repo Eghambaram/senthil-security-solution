@@ -44,10 +44,10 @@ export const careersPage = {
         status: "verified" as FactStatus,
       },
       {
-        // Added at the project owner's request, 20 Nov 2026.
-        id: "local-security-guard",
-        title: "Local Security Guard (LSG)",
-        body: "Guard posts at client sites close to where you live: gate and visitor control, patrols and incident reporting.",
+        // Added at the project owner's request, 20 Nov 2026 (LSG = Lady Security Guard, corrected 24 Nov 2026).
+        id: "lady-security-guard",
+        title: "Lady Security Guard (LSG)",
+        body: "Women security guards for reception and visitor desks, frisking and screening of women visitors, and gate duty at client sites.",
         status: "verified" as FactStatus,
       },
       {
